@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "WD8ya9+E3yrsxcu7Vy4a9AgWBq7/WuW6Fpmgu5G/jhRPGvC4g7mA1NCVKf79qZ+8lDp7eiuBTPYax6R05NzjMQ==",
+  "success": true,
+  "projectFilePath": "C:\\Git\\Ucl\\CarSparePartStore\\CustomerService\\CustomerService.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ap\\.nuget\\packages\\microsoft.toolkit.mvvm\\7.1.2\\microsoft.toolkit.mvvm.7.1.2.nupkg.sha512"
+  ],
+  "logs": []
+}

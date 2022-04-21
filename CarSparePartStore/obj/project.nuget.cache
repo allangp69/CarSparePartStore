@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "mdaFy7bVX6zrqYKoTSZ2SQzfU5mv+kgz1Du0nIXtNxF37AmOHmcCbmNUqd6v3Vm0RyJanD/m9gotdIKpPBSAFA==",
+  "success": true,
+  "projectFilePath": "C:\\Git\\Ucl\\CarSparePartStore\\CarSparePartStore\\CarSparePartStore.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ap\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\7.0.0-preview.3.22175.4\\microsoft.extensions.dependencyinjection.7.0.0-preview.3.22175.4.nupkg.sha512",
+    "C:\\Users\\ap\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0-preview.3.22175.4\\microsoft.extensions.dependencyinjection.abstractions.7.0.0-preview.3.22175.4.nupkg.sha512",
+    "C:\\Users\\ap\\.nuget\\packages\\microsoft.toolkit.mvvm\\7.1.2\\microsoft.toolkit.mvvm.7.1.2.nupkg.sha512"
+  ],
+  "logs": []
+}

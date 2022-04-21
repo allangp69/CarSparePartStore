@@ -1,0 +1,16 @@
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulator\bin\Debug\net6.0\OnlineStoreEmulator.deps.json
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulator\bin\Debug\net6.0\OnlineStoreEmulator.dll
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulator\bin\Debug\net6.0\OnlineStoreEmulator.pdb
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulator\bin\Debug\net6.0\CarSparePartService.dll
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulator\bin\Debug\net6.0\CarSparePartService.pdb
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulator\obj\Debug\net6.0\OnlineStoreEmulator.csproj.AssemblyReference.cache
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulator\obj\Debug\net6.0\OnlineStoreEmulator.GeneratedMSBuildEditorConfig.editorconfig
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulator\obj\Debug\net6.0\OnlineStoreEmulator.AssemblyInfoInputs.cache
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulator\obj\Debug\net6.0\OnlineStoreEmulator.AssemblyInfo.cs
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulator\obj\Debug\net6.0\OnlineStoreEmulator.csproj.CoreCompileInputs.cache
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulator\obj\Debug\net6.0\OnlineStoreEmulator.csproj.CopyComplete
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulator\obj\Debug\net6.0\OnlineStoreEmulator.dll
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulator\obj\Debug\net6.0\refint\OnlineStoreEmulator.dll
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulator\obj\Debug\net6.0\OnlineStoreEmulator.pdb
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulator\obj\Debug\net6.0\ref\OnlineStoreEmulator.dll
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulator\bin\Debug\net6.0\Resources\SpareParts.xml

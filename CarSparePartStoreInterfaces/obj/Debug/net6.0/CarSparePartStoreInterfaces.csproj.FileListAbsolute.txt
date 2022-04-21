@@ -1,0 +1,12 @@
+C:\Git\Ucl\CarSparePartStore\CarSparePartStoreInterfaces\bin\Debug\net6.0\CarSparePartStoreInterfaces.deps.json
+C:\Git\Ucl\CarSparePartStore\CarSparePartStoreInterfaces\bin\Debug\net6.0\CarSparePartStoreInterfaces.dll
+C:\Git\Ucl\CarSparePartStore\CarSparePartStoreInterfaces\bin\Debug\net6.0\CarSparePartStoreInterfaces.pdb
+C:\Git\Ucl\CarSparePartStore\CarSparePartStoreInterfaces\obj\Debug\net6.0\CarSparePartStoreInterfaces.csproj.AssemblyReference.cache
+C:\Git\Ucl\CarSparePartStore\CarSparePartStoreInterfaces\obj\Debug\net6.0\CarSparePartStoreInterfaces.GeneratedMSBuildEditorConfig.editorconfig
+C:\Git\Ucl\CarSparePartStore\CarSparePartStoreInterfaces\obj\Debug\net6.0\CarSparePartStoreInterfaces.AssemblyInfoInputs.cache
+C:\Git\Ucl\CarSparePartStore\CarSparePartStoreInterfaces\obj\Debug\net6.0\CarSparePartStoreInterfaces.AssemblyInfo.cs
+C:\Git\Ucl\CarSparePartStore\CarSparePartStoreInterfaces\obj\Debug\net6.0\CarSparePartStoreInterfaces.csproj.CoreCompileInputs.cache
+C:\Git\Ucl\CarSparePartStore\CarSparePartStoreInterfaces\obj\Debug\net6.0\CarSparePartStoreInterfaces.dll
+C:\Git\Ucl\CarSparePartStore\CarSparePartStoreInterfaces\obj\Debug\net6.0\refint\CarSparePartStoreInterfaces.dll
+C:\Git\Ucl\CarSparePartStore\CarSparePartStoreInterfaces\obj\Debug\net6.0\CarSparePartStoreInterfaces.pdb
+C:\Git\Ucl\CarSparePartStore\CarSparePartStoreInterfaces\obj\Debug\net6.0\ref\CarSparePartStoreInterfaces.dll

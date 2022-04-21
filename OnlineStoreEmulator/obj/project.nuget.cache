@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "DXv0lHOTXriiUs0KUyTy0M2DTJP1ZQ3QLSTrkgpDN/gim3vAdeysS5gq3Le5ikb7mur2/32I05q/Va/ffnHP1Q==",
+  "success": true,
+  "projectFilePath": "C:\\Git\\Ucl\\CarSparePartStore\\OnlineStoreEmulator\\OnlineStoreEmulator.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ap\\.nuget\\packages\\microsoft.toolkit.mvvm\\7.1.2\\microsoft.toolkit.mvvm.7.1.2.nupkg.sha512"
+  ],
+  "logs": []
+}
