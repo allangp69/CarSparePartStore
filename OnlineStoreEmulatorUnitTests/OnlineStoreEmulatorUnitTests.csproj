@@ -18,6 +18,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\OnlineStoreEmulator\OnlineStoreEmulator.csproj" />
+      <ProjectReference Include="..\SetupTestServices\SetupTestServices.csproj" />
     </ItemGroup>
 
     <ItemGroup>

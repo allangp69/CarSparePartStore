@@ -944,6 +944,22 @@
         "runtime": {
           "bin/placeholder/OnlineStoreEmulator.dll": {}
         }
+      },
+      "SetupTestServices/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "CarSparePartService": "1.0.0",
+          "Microsoft.Extensions.DependencyInjection": "7.0.0-preview.3.22175.4",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "7.0.0-preview.3.22175.4",
+          "Microsoft.Toolkit.Mvvm": "7.1.2"
+        },
+        "compile": {
+          "bin/placeholder/SetupTestServices.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SetupTestServices.dll": {}
+        }
       }
     }
   },
@@ -3999,6 +4015,11 @@
       "type": "project",
       "path": "../OnlineStoreEmulator/OnlineStoreEmulator.csproj",
       "msbuildProject": "../OnlineStoreEmulator/OnlineStoreEmulator.csproj"
+    },
+    "SetupTestServices/1.0.0": {
+      "type": "project",
+      "path": "../SetupTestServices/SetupTestServices.csproj",
+      "msbuildProject": "../SetupTestServices/SetupTestServices.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -4009,6 +4030,7 @@
       "NUnit >= 3.13.2",
       "NUnit3TestAdapter >= 4.0.0",
       "OnlineStoreEmulator >= 1.0.0",
+      "SetupTestServices >= 1.0.0",
       "coverlet.collector >= 3.1.0"
     ]
   },
@@ -4050,6 +4072,9 @@
           "projectReferences": {
             "C:\\Git\\Ucl\\CarSparePartStore\\OnlineStoreEmulator\\OnlineStoreEmulator.csproj": {
               "projectPath": "C:\\Git\\Ucl\\CarSparePartStore\\OnlineStoreEmulator\\OnlineStoreEmulator.csproj"
+            },
+            "C:\\Git\\Ucl\\CarSparePartStore\\SetupTestServices\\SetupTestServices.csproj": {
+              "projectPath": "C:\\Git\\Ucl\\CarSparePartStore\\SetupTestServices\\SetupTestServices.csproj"
             }
           }
         }

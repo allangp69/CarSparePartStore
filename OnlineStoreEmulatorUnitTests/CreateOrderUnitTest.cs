@@ -4,6 +4,7 @@ using CarSparePartService.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using NUnit.Framework;
+using TestConfiguration;
 
 namespace OnlineStoreEmulatorUnitTests;
 

@@ -4,9 +4,37 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CarSparePartStore"
+        xmlns:viewModels="clr-namespace:CarSparePartStore.ViewModels"
         mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=viewModels:CarSparePartViewModel, IsDesignTimeCreatable=False}"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ListView Grid.Row="0" ItemsSource="{Binding ProductsWithOrders}">
+            <ListView.View>
+                <GridView AllowsColumnReorder="true"
+                          ColumnHeaderToolTip="ProductsWithOrders">
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=ProductName}"
+                                    Header="Name" Width="100" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=ProductType}"
+                                    Header="Type" Width="100" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Description}"
+                                    Header="Description" Width="300" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Price}"
+                                    Header="Price" Width="100" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=NumberOfItemsSold}"
+                                    Header="Items Sold" Width="100" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=TotalPrice}"
+                                    Header="Total price" Width="100" />
+                </GridView>
 
+            </ListView.View>
+        </ListView>
+        <Grid Grid.Row="1">
+
+        </Grid>
     </Grid>
 </Window>

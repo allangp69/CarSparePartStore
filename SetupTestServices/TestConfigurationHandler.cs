@@ -1,16 +1,15 @@
-﻿using System.IO;
-using CarSparePartService;
+﻿using CarSparePartService;
 using CarSparePartService.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 
-namespace OnlineStoreEmulatorUnitTests;
+namespace TestConfiguration;
 
 public class SetupTestServices
 {
     private static object _configureServicesLockObject = new object();
     private static bool HaveServicesBeenSetup;
-    
+
     public static void ConfigureServices()
     {
         lock (_configureServicesLockObject)
@@ -19,6 +18,7 @@ public class SetupTestServices
             {
                 return;
             }
+
             Ioc.Default.ConfigureServices(
                 new ServiceCollection()
                     .AddSingleton<ICustomerService, CustomerService>()

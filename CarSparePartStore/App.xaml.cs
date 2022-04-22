@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
+using CarSparePartService;
 using CarSparePartService.Interfaces;
 using CarSparePartStore.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,7 +26,9 @@ namespace CarSparePartStore
         {
             Ioc.Default.ConfigureServices(
                 new ServiceCollection()
+                    .AddSingleton<ICustomerService, CustomerService>()
                     .AddSingleton<ICarSparePartService, CarSparePartService.CarSparePartService>()
+                    .AddSingleton<IProductFetcher, ProductFetcher>()
                     .AddTransient<CarSparePartViewModel>()
                     .BuildServiceProvider());
         }

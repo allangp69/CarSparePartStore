@@ -2,6 +2,10 @@ namespace CarSparePartService;
 
 public class Order 
 {
+    private Order()
+    {
+        
+    }
     public IEnumerable<OrderItem> OrderItems { get; set; }
     
     public void AddItem(OrderItem item)

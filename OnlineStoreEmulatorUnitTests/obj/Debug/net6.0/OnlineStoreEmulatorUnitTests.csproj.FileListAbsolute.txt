@@ -106,3 +106,5 @@ C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulatorUnitTests\obj\Debug\net6.0\ref\O
 C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulatorUnitTests\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
 C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulatorUnitTests\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulatorUnitTests\bin\Debug\net6.0\Resources\SpareParts.xml
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulatorUnitTests\bin\Debug\net6.0\SetupTestServices.dll
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulatorUnitTests\bin\Debug\net6.0\SetupTestServices.pdb
