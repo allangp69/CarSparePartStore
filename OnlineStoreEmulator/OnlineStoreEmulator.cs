@@ -10,33 +10,21 @@ public class OnlineStoreEmulator
     private IProductFetcher ProductFetcher { get; }
     private static readonly Random _random = new Random();
     private int _intervalSeconds = 15;
+    CancellationTokenSource cts = new CancellationTokenSource();
         
     public OnlineStoreEmulator(ICarSparePartService carSparePartService, ICustomerService customerService, IProductFetcher productFetcher)
     {
         CarSparePartService = carSparePartService;
         CustomerService = customerService;
         ProductFetcher = productFetcher;
-        var onlineSaleThread = new Thread(() =>
-        {
-            while (true)
-            {
-                CreateOrder();
-                Thread.Sleep(TimeSpan.FromSeconds(_intervalSeconds));
-            }
-        });
-        onlineSaleThread.Start();
     }
 
     public void Start()
     {
         var onlineSaleThread = new Thread(() =>
         {
-            while (true)
+            while (!cts.IsCancellationRequested)
             {
-                if (IsStopRequested)
-                {
-                    break;
-                }
                 Console.WriteLine("Creating order");
                 CreateOrder();
                 Thread.Sleep(TimeSpan.FromSeconds(_intervalSeconds));
@@ -44,12 +32,10 @@ public class OnlineStoreEmulator
         });
         onlineSaleThread.Start();
     }
-
-    private bool IsStopRequested { get; set; }
-
+    
     public void Stop()
     {
-        IsStopRequested = true;
+        cts.Cancel();
     }
     
     internal void CreateOrder()
