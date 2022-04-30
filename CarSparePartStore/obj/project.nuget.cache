@@ -1,12 +1,23 @@
 {
   "version": 2,
-  "dgSpecHash": "mdaFy7bVX6zrqYKoTSZ2SQzfU5mv+kgz1Du0nIXtNxF37AmOHmcCbmNUqd6v3Vm0RyJanD/m9gotdIKpPBSAFA==",
+  "dgSpecHash": "tGtg8ooTnriq0MRhNka7fcJdI5JgtHL3K2tFXpq/QnHjM8+uwaVDlyI8GVzSLIc5D6txmQ8lCZTDrAWkMiZ+Rg==",
   "success": true,
   "projectFilePath": "C:\\Git\\Ucl\\CarSparePartStore\\CarSparePartStore\\CarSparePartStore.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\ap\\.nuget\\packages\\microsoft.extensions.configuration\\7.0.0-preview.3.22175.4\\microsoft.extensions.configuration.7.0.0-preview.3.22175.4.nupkg.sha512",
+    "C:\\Users\\ap\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\7.0.0-preview.3.22175.4\\microsoft.extensions.configuration.abstractions.7.0.0-preview.3.22175.4.nupkg.sha512",
+    "C:\\Users\\ap\\.nuget\\packages\\microsoft.extensions.configuration.fileextensions\\7.0.0-preview.3.22175.4\\microsoft.extensions.configuration.fileextensions.7.0.0-preview.3.22175.4.nupkg.sha512",
+    "C:\\Users\\ap\\.nuget\\packages\\microsoft.extensions.configuration.json\\7.0.0-preview.3.22175.4\\microsoft.extensions.configuration.json.7.0.0-preview.3.22175.4.nupkg.sha512",
     "C:\\Users\\ap\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\7.0.0-preview.3.22175.4\\microsoft.extensions.dependencyinjection.7.0.0-preview.3.22175.4.nupkg.sha512",
     "C:\\Users\\ap\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0-preview.3.22175.4\\microsoft.extensions.dependencyinjection.abstractions.7.0.0-preview.3.22175.4.nupkg.sha512",
-    "C:\\Users\\ap\\.nuget\\packages\\microsoft.toolkit.mvvm\\7.1.2\\microsoft.toolkit.mvvm.7.1.2.nupkg.sha512"
+    "C:\\Users\\ap\\.nuget\\packages\\microsoft.extensions.fileproviders.abstractions\\7.0.0-preview.3.22175.4\\microsoft.extensions.fileproviders.abstractions.7.0.0-preview.3.22175.4.nupkg.sha512",
+    "C:\\Users\\ap\\.nuget\\packages\\microsoft.extensions.fileproviders.physical\\7.0.0-preview.3.22175.4\\microsoft.extensions.fileproviders.physical.7.0.0-preview.3.22175.4.nupkg.sha512",
+    "C:\\Users\\ap\\.nuget\\packages\\microsoft.extensions.filesystemglobbing\\7.0.0-preview.3.22175.4\\microsoft.extensions.filesystemglobbing.7.0.0-preview.3.22175.4.nupkg.sha512",
+    "C:\\Users\\ap\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0-preview.3.22175.4\\microsoft.extensions.primitives.7.0.0-preview.3.22175.4.nupkg.sha512",
+    "C:\\Users\\ap\\.nuget\\packages\\microsoft.toolkit.mvvm\\7.1.2\\microsoft.toolkit.mvvm.7.1.2.nupkg.sha512",
+    "C:\\Users\\ap\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+    "C:\\Users\\ap\\.nuget\\packages\\system.text.encodings.web\\7.0.0-preview.3.22175.4\\system.text.encodings.web.7.0.0-preview.3.22175.4.nupkg.sha512",
+    "C:\\Users\\ap\\.nuget\\packages\\system.text.json\\7.0.0-preview.3.22175.4\\system.text.json.7.0.0-preview.3.22175.4.nupkg.sha512"
   ],
   "logs": []
 }

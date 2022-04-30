@@ -1,5 +1,7 @@
 ﻿using System.Data;
 using CarSparePartService.Interfaces;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 
 namespace CarSparePartService;
 
@@ -11,12 +13,18 @@ public class ProductFetcher
     {
         Products = ReadProductsFromXML(fileName);
     }
-    
+
+    public void LoadProductsFromBackup()
+    {
+        var configuration = Ioc.Default.GetRequiredService<IConfiguration>();
+        var productsBackupFile = new FileInfo(configuration.GetSection("ApplicationSettings").GetSection("ProductsBackup").Value);
+        LoadProducts(productsBackupFile.FullName);
+    }
+
     private IEnumerable<Product> Products { get;  set; }
 
     private IEnumerable<Product> ReadProductsFromXML(string fileName)
     {
-        //var file = new FileInfo(@".\Resources\
         var file = new FileInfo(fileName);
         var dataset = new DataSet();
         dataset.ReadXml(file.FullName);

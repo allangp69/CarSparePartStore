@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CarSparePartStore.ViewModels;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using OnlineStoreEmulator;
 
 namespace CarSparePartStore
 {
@@ -23,6 +26,7 @@ namespace CarSparePartStore
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = Ioc.Default.GetService<CarSparePartViewModel>();
         }
     }
 }

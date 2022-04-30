@@ -106,3 +106,5 @@ C:\Git\Ucl\CarSparePartStore\CarSparePartServiceUnitTests\obj\Debug\net6.0\refin
 C:\Git\Ucl\CarSparePartStore\CarSparePartServiceUnitTests\obj\Debug\net6.0\CarSparePartServiceUnitTests.pdb
 C:\Git\Ucl\CarSparePartStore\CarSparePartServiceUnitTests\obj\Debug\net6.0\CarSparePartServiceUnitTests.genruntimeconfig.cache
 C:\Git\Ucl\CarSparePartStore\CarSparePartServiceUnitTests\obj\Debug\net6.0\ref\CarSparePartServiceUnitTests.dll
+C:\Git\Ucl\CarSparePartStore\CarSparePartServiceUnitTests\bin\Debug\net6.0\OnlineStoreEmulator.dll
+C:\Git\Ucl\CarSparePartStore\CarSparePartServiceUnitTests\bin\Debug\net6.0\OnlineStoreEmulator.pdb

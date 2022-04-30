@@ -2,6 +2,7 @@
 using CarSparePartService.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using OnlineStoreEmulator;
 
 namespace TestConfiguration;
 
@@ -24,6 +25,7 @@ public class SetupTestServices
                     .AddSingleton<ICustomerService, CustomerService>()
                     .AddSingleton<ICarSparePartService, CarSparePartService.CarSparePartService>()
                     .AddSingleton<IProductFetcher, ProductFetcher>()
+                    .AddSingleton<IOnlineStoreEmulator, OnlineStoreEmulator.OnlineStoreEmulator>()
                     .BuildServiceProvider());
             var file = new FileInfo(@".\Resources\SpareParts.xml");
             var productFetcher = Ioc.Default.GetRequiredService<IProductFetcher>();

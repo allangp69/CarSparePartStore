@@ -1,25 +1,21 @@
 using System.Linq;
-using CarSparePartService;
 using CarSparePartService.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using NUnit.Framework;
+using OnlineStoreEmulator;
 using TestConfiguration;
 
 namespace OnlineStoreEmulatorUnitTests;
 
 public class CreateOrderUnitTests
 {
-    private global::OnlineStoreEmulator.OnlineStoreEmulator _emulator;
+    private IOnlineStoreEmulator _emulator;
 
     [OneTimeSetUp]
     public void Setup()
     {
         ConfigureServices();
-        var customerService = Ioc.Default.GetRequiredService<ICustomerService>();
-        var carSparepartService = Ioc.Default.GetRequiredService<ICarSparePartService>();
-        var productFetcher = Ioc.Default.GetRequiredService<IProductFetcher>();
-        _emulator = new global::OnlineStoreEmulator.OnlineStoreEmulator(carSparepartService, customerService, productFetcher);
+        _emulator = Ioc.Default.GetRequiredService<IOnlineStoreEmulator>();
     }
 
     [Test]

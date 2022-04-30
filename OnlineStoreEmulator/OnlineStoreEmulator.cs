@@ -4,6 +4,7 @@ using CarSparePartService.Interfaces;
 namespace OnlineStoreEmulator;
 
 public class OnlineStoreEmulator
+    : IOnlineStoreEmulator
 {
     private ICarSparePartService CarSparePartService { get; }
     private ICustomerService CustomerService { get; }
@@ -38,7 +39,7 @@ public class OnlineStoreEmulator
         cts.Cancel();
     }
     
-    internal void CreateOrder()
+    public void CreateOrder()
     {
         var customer = GetRandomCustomer();
         var product = GetRandomProduct();

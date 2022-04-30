@@ -1,14 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "JZ5o+GbGElio7EPIqUM9uxEb3z/YdGXYVQzqWLk9Ls/nlzC0DVcpwhAPjwBdNRH8A4E5iLvp/T8VC7SDGFPLDw==",
+  "dgSpecHash": "XpYTrmBfFXJQHKFXDp/FCKcom+znCvn81d9+pi5DsdCdlAuwZMWECgyTPXswwfpWCMtoNBVFcJw7ygErDi9ccA==",
   "success": true,
   "projectFilePath": "C:\\Git\\Ucl\\CarSparePartStore\\OnlineStoreEmulatorUnitTests\\OnlineStoreEmulatorUnitTests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ap\\.nuget\\packages\\coverlet.collector\\3.1.0\\coverlet.collector.3.1.0.nupkg.sha512",
     "C:\\Users\\ap\\.nuget\\packages\\microsoft.codecoverage\\16.11.0\\microsoft.codecoverage.16.11.0.nupkg.sha512",
     "C:\\Users\\ap\\.nuget\\packages\\microsoft.csharp\\4.0.1\\microsoft.csharp.4.0.1.nupkg.sha512",
+    "C:\\Users\\ap\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\7.0.0-preview.3.22175.4\\microsoft.extensions.configuration.abstractions.7.0.0-preview.3.22175.4.nupkg.sha512",
     "C:\\Users\\ap\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\7.0.0-preview.3.22175.4\\microsoft.extensions.dependencyinjection.7.0.0-preview.3.22175.4.nupkg.sha512",
     "C:\\Users\\ap\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0-preview.3.22175.4\\microsoft.extensions.dependencyinjection.abstractions.7.0.0-preview.3.22175.4.nupkg.sha512",
+    "C:\\Users\\ap\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0-preview.3.22175.4\\microsoft.extensions.primitives.7.0.0-preview.3.22175.4.nupkg.sha512",
     "C:\\Users\\ap\\.nuget\\packages\\microsoft.net.test.sdk\\16.11.0\\microsoft.net.test.sdk.16.11.0.nupkg.sha512",
     "C:\\Users\\ap\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\ap\\.nuget\\packages\\microsoft.netcore.targets\\1.0.1\\microsoft.netcore.targets.1.0.1.nupkg.sha512",

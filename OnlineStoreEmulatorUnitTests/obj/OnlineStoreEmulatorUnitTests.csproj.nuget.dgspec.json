@@ -47,6 +47,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[7.0.0-preview.3.22175.4, )"
+            },
             "Microsoft.Toolkit.Mvvm": {
               "target": "Package",
               "version": "[7.1.2, )"
@@ -263,6 +267,9 @@
             "projectReferences": {
               "C:\\Git\\Ucl\\CarSparePartStore\\CarSparePartService\\CarSparePartService.csproj": {
                 "projectPath": "C:\\Git\\Ucl\\CarSparePartStore\\CarSparePartService\\CarSparePartService.csproj"
+              },
+              "C:\\Git\\Ucl\\CarSparePartStore\\OnlineStoreEmulator\\OnlineStoreEmulator.csproj": {
+                "projectPath": "C:\\Git\\Ucl\\CarSparePartStore\\OnlineStoreEmulator\\OnlineStoreEmulator.csproj"
               }
             }
           }

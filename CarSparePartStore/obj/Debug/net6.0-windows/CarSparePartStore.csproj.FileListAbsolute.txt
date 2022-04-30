@@ -26,3 +26,17 @@ C:\Git\Ucl\CarSparePartStore\CarSparePartStore\obj\Debug\net6.0-windows\CarSpare
 C:\Git\Ucl\CarSparePartStore\CarSparePartStore\obj\Debug\net6.0-windows\CarSparePartStore.genruntimeconfig.cache
 C:\Git\Ucl\CarSparePartStore\CarSparePartStore\obj\Debug\net6.0-windows\ref\CarSparePartStore.dll
 C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\Resources\SpareParts.xml
+C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\OnlineStoreEmulator.dll
+C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\OnlineStoreEmulator.pdb
+C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\Microsoft.Extensions.Configuration.dll
+C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\Microsoft.Extensions.Configuration.Json.dll
+C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\Microsoft.Extensions.FileProviders.Physical.dll
+C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\Microsoft.Extensions.Primitives.dll
+C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\System.Text.Encodings.Web.dll
+C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\System.Text.Json.dll
+C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
+C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\appsettings.json

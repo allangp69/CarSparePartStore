@@ -15,6 +15,11 @@
 
     <ItemGroup>
       <ProjectReference Include="..\CarSparePartService\CarSparePartService.csproj" />
+      <ProjectReference Include="..\OnlineStoreEmulator\OnlineStoreEmulator.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="obj\Debug\net6.0" />
     </ItemGroup>
 
 </Project>

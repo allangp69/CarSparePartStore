@@ -9,12 +9,68 @@
       "CarSparePartStore/1.0.0": {
         "dependencies": {
           "CarSparePartService": "1.0.0",
+          "Microsoft.Extensions.Configuration": "7.0.0-preview.3.22175.4",
+          "Microsoft.Extensions.Configuration.Json": "7.0.0-preview.3.22175.4",
           "Microsoft.Extensions.DependencyInjection": "7.0.0-preview.3.22175.4",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "7.0.0-preview.3.22175.4",
-          "Microsoft.Toolkit.Mvvm": "7.1.2"
+          "Microsoft.Toolkit.Mvvm": "7.1.2",
+          "OnlineStoreEmulator": "1.0.0"
         },
         "runtime": {
           "CarSparePartStore.dll": {}
+        }
+      },
+      "Microsoft.Extensions.Configuration/7.0.0-preview.3.22175.4": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "7.0.0-preview.3.22175.4",
+          "Microsoft.Extensions.Primitives": "7.0.0-preview.3.22175.4"
+        },
+        "runtime": {
+          "lib/net6.0/Microsoft.Extensions.Configuration.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.17504"
+          }
+        }
+      },
+      "Microsoft.Extensions.Configuration.Abstractions/7.0.0-preview.3.22175.4": {
+        "dependencies": {
+          "Microsoft.Extensions.Primitives": "7.0.0-preview.3.22175.4"
+        },
+        "runtime": {
+          "lib/net6.0/Microsoft.Extensions.Configuration.Abstractions.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.17504"
+          }
+        }
+      },
+      "Microsoft.Extensions.Configuration.FileExtensions/7.0.0-preview.3.22175.4": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration": "7.0.0-preview.3.22175.4",
+          "Microsoft.Extensions.Configuration.Abstractions": "7.0.0-preview.3.22175.4",
+          "Microsoft.Extensions.FileProviders.Abstractions": "7.0.0-preview.3.22175.4",
+          "Microsoft.Extensions.FileProviders.Physical": "7.0.0-preview.3.22175.4",
+          "Microsoft.Extensions.Primitives": "7.0.0-preview.3.22175.4"
+        },
+        "runtime": {
+          "lib/net6.0/Microsoft.Extensions.Configuration.FileExtensions.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.17504"
+          }
+        }
+      },
+      "Microsoft.Extensions.Configuration.Json/7.0.0-preview.3.22175.4": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration": "7.0.0-preview.3.22175.4",
+          "Microsoft.Extensions.Configuration.Abstractions": "7.0.0-preview.3.22175.4",
+          "Microsoft.Extensions.Configuration.FileExtensions": "7.0.0-preview.3.22175.4",
+          "Microsoft.Extensions.FileProviders.Abstractions": "7.0.0-preview.3.22175.4",
+          "System.Text.Json": "7.0.0-preview.3.22175.4"
+        },
+        "runtime": {
+          "lib/net6.0/Microsoft.Extensions.Configuration.Json.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.17504"
+          }
         }
       },
       "Microsoft.Extensions.DependencyInjection/7.0.0-preview.3.22175.4": {
@@ -36,6 +92,46 @@
           }
         }
       },
+      "Microsoft.Extensions.FileProviders.Abstractions/7.0.0-preview.3.22175.4": {
+        "dependencies": {
+          "Microsoft.Extensions.Primitives": "7.0.0-preview.3.22175.4"
+        },
+        "runtime": {
+          "lib/net6.0/Microsoft.Extensions.FileProviders.Abstractions.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.17504"
+          }
+        }
+      },
+      "Microsoft.Extensions.FileProviders.Physical/7.0.0-preview.3.22175.4": {
+        "dependencies": {
+          "Microsoft.Extensions.FileProviders.Abstractions": "7.0.0-preview.3.22175.4",
+          "Microsoft.Extensions.FileSystemGlobbing": "7.0.0-preview.3.22175.4",
+          "Microsoft.Extensions.Primitives": "7.0.0-preview.3.22175.4"
+        },
+        "runtime": {
+          "lib/net6.0/Microsoft.Extensions.FileProviders.Physical.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.17504"
+          }
+        }
+      },
+      "Microsoft.Extensions.FileSystemGlobbing/7.0.0-preview.3.22175.4": {
+        "runtime": {
+          "lib/net6.0/Microsoft.Extensions.FileSystemGlobbing.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.17504"
+          }
+        }
+      },
+      "Microsoft.Extensions.Primitives/7.0.0-preview.3.22175.4": {
+        "runtime": {
+          "lib/net6.0/Microsoft.Extensions.Primitives.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.17504"
+          }
+        }
+      },
       "Microsoft.Toolkit.Mvvm/7.1.2": {
         "runtime": {
           "lib/net5.0/Microsoft.Toolkit.Mvvm.dll": {
@@ -44,12 +140,52 @@
           }
         }
       },
+      "System.Runtime.CompilerServices.Unsafe/6.0.0": {},
+      "System.Text.Encodings.Web/7.0.0-preview.3.22175.4": {
+        "dependencies": {
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0"
+        },
+        "runtime": {
+          "lib/net6.0/System.Text.Encodings.Web.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.17504"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/browser/lib/net6.0/System.Text.Encodings.Web.dll": {
+            "rid": "browser",
+            "assetType": "runtime",
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.17504"
+          }
+        }
+      },
+      "System.Text.Json/7.0.0-preview.3.22175.4": {
+        "dependencies": {
+          "System.Text.Encodings.Web": "7.0.0-preview.3.22175.4"
+        },
+        "runtime": {
+          "lib/net6.0/System.Text.Json.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.17504"
+          }
+        }
+      },
       "CarSparePartService/1.0.0": {
         "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "7.0.0-preview.3.22175.4",
           "Microsoft.Toolkit.Mvvm": "7.1.2"
         },
         "runtime": {
           "CarSparePartService.dll": {}
+        }
+      },
+      "OnlineStoreEmulator/1.0.0": {
+        "dependencies": {
+          "CarSparePartService": "1.0.0"
+        },
+        "runtime": {
+          "OnlineStoreEmulator.dll": {}
         }
       }
     }
@@ -59,6 +195,34 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "Microsoft.Extensions.Configuration/7.0.0-preview.3.22175.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-jEA7RF0C00nSHNjdYxWwl82QXfKPlKiDhIIjKwxHHcOnhyPKL53sR2ryu/xyoCrLCmIZh6FmmHKtMkdGIhvuSw==",
+      "path": "microsoft.extensions.configuration/7.0.0-preview.3.22175.4",
+      "hashPath": "microsoft.extensions.configuration.7.0.0-preview.3.22175.4.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Configuration.Abstractions/7.0.0-preview.3.22175.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-imgbRcyA2bRRxKjJh0V8TMGZT3reeHt8Spahs6y0J4LmIx5AvTzm136qg37SGF+rIlaNOk2fKAwhY3bggsSjQQ==",
+      "path": "microsoft.extensions.configuration.abstractions/7.0.0-preview.3.22175.4",
+      "hashPath": "microsoft.extensions.configuration.abstractions.7.0.0-preview.3.22175.4.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Configuration.FileExtensions/7.0.0-preview.3.22175.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-EPmQKPILhr88mkuBO59A9XQS+bVHIQxi2IK4ClhUQmwTF/uWvB0W5xAUVnIn/te/ALcEyQtVVd9NKObZmUDMYw==",
+      "path": "microsoft.extensions.configuration.fileextensions/7.0.0-preview.3.22175.4",
+      "hashPath": "microsoft.extensions.configuration.fileextensions.7.0.0-preview.3.22175.4.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Configuration.Json/7.0.0-preview.3.22175.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KTr+OaCiIxKMN9xICoEm0Y+JYffSb0niu6m5ixEP+v1GF8bMqIXG/RU19XxGxFzkXiXuVsIrPAdP0UxRh5cv+w==",
+      "path": "microsoft.extensions.configuration.json/7.0.0-preview.3.22175.4",
+      "hashPath": "microsoft.extensions.configuration.json.7.0.0-preview.3.22175.4.nupkg.sha512"
     },
     "Microsoft.Extensions.DependencyInjection/7.0.0-preview.3.22175.4": {
       "type": "package",
@@ -74,6 +238,34 @@
       "path": "microsoft.extensions.dependencyinjection.abstractions/7.0.0-preview.3.22175.4",
       "hashPath": "microsoft.extensions.dependencyinjection.abstractions.7.0.0-preview.3.22175.4.nupkg.sha512"
     },
+    "Microsoft.Extensions.FileProviders.Abstractions/7.0.0-preview.3.22175.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-f+HaLHWaxjLRoth0Ce6FSKFSolwGICHHfFtSSrwD4DtTlLapPiP/nD01WEvklLV8BPfpTcMYftyWmo9/eI5Vww==",
+      "path": "microsoft.extensions.fileproviders.abstractions/7.0.0-preview.3.22175.4",
+      "hashPath": "microsoft.extensions.fileproviders.abstractions.7.0.0-preview.3.22175.4.nupkg.sha512"
+    },
+    "Microsoft.Extensions.FileProviders.Physical/7.0.0-preview.3.22175.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-UiYeZrHUwe4kyIp4MXfuEV+J/0IchSQLAj6ZdCW4dC++5jCX85UpEgidlsPHC3YiJuT/Tf8K5KWqKBoVktcTQQ==",
+      "path": "microsoft.extensions.fileproviders.physical/7.0.0-preview.3.22175.4",
+      "hashPath": "microsoft.extensions.fileproviders.physical.7.0.0-preview.3.22175.4.nupkg.sha512"
+    },
+    "Microsoft.Extensions.FileSystemGlobbing/7.0.0-preview.3.22175.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-fp1+LQp8d1dB2S098vAoiIcQSRD87uRLZEzmhuesDuJcHvpjIvmMgXE0FmytznG3q3Av62Sl91Pd7KuM8ITbNA==",
+      "path": "microsoft.extensions.filesystemglobbing/7.0.0-preview.3.22175.4",
+      "hashPath": "microsoft.extensions.filesystemglobbing.7.0.0-preview.3.22175.4.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Primitives/7.0.0-preview.3.22175.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-IkANgvqx4Kxfqruz8aIVH7KsCOIWDz/TJw8q15J3bndp8pm2Mgaw1b+khjpSYJ54V23mO7gKY53579YFl0jJiQ==",
+      "path": "microsoft.extensions.primitives/7.0.0-preview.3.22175.4",
+      "hashPath": "microsoft.extensions.primitives.7.0.0-preview.3.22175.4.nupkg.sha512"
+    },
     "Microsoft.Toolkit.Mvvm/7.1.2": {
       "type": "package",
       "serviceable": true,
@@ -81,7 +273,33 @@
       "path": "microsoft.toolkit.mvvm/7.1.2",
       "hashPath": "microsoft.toolkit.mvvm.7.1.2.nupkg.sha512"
     },
+    "System.Runtime.CompilerServices.Unsafe/6.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/iUeP3tq1S0XdNNoMz5C9twLSrM/TH+qElHkXWaPvuNOt+99G75NrV0OS2EqHx5wMN7popYjpc8oTjC1y16DLg==",
+      "path": "system.runtime.compilerservices.unsafe/6.0.0",
+      "hashPath": "system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+    },
+    "System.Text.Encodings.Web/7.0.0-preview.3.22175.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-L3SUOGn7wkA7bERR8TvzoArdgh4HLP7oj4hHfbK03GPpYcsU6yITcUSYp5mUniJe0dPJo+amMyjTeZDIwu7qdA==",
+      "path": "system.text.encodings.web/7.0.0-preview.3.22175.4",
+      "hashPath": "system.text.encodings.web.7.0.0-preview.3.22175.4.nupkg.sha512"
+    },
+    "System.Text.Json/7.0.0-preview.3.22175.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6fdni/xzDHc/nisWMMMAsZYzEQ4ajRwxUbBfHFU7WhgZ6XoRR4RqC7rDfTmTXOB/et3zaqfADu6LXQocxSW5AA==",
+      "path": "system.text.json/7.0.0-preview.3.22175.4",
+      "hashPath": "system.text.json.7.0.0-preview.3.22175.4.nupkg.sha512"
+    },
     "CarSparePartService/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "OnlineStoreEmulator/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

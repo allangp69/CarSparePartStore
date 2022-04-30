@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "DXv0lHOTXriiUs0KUyTy0M2DTJP1ZQ3QLSTrkgpDN/gim3vAdeysS5gq3Le5ikb7mur2/32I05q/Va/ffnHP1Q==",
+  "dgSpecHash": "MB2s4voWagQ9w2x1kn9rNowFXNcrplMpS2peuLzn3gTzM9qnuuCp9ZFG++w+aqa86gGIF5JxaF4uMr0NT4LoeA==",
   "success": true,
   "projectFilePath": "C:\\Git\\Ucl\\CarSparePartStore\\OnlineStoreEmulator\\OnlineStoreEmulator.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\ap\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\7.0.0-preview.3.22175.4\\microsoft.extensions.configuration.abstractions.7.0.0-preview.3.22175.4.nupkg.sha512",
+    "C:\\Users\\ap\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0-preview.3.22175.4\\microsoft.extensions.primitives.7.0.0-preview.3.22175.4.nupkg.sha512",
     "C:\\Users\\ap\\.nuget\\packages\\microsoft.toolkit.mvvm\\7.1.2\\microsoft.toolkit.mvvm.7.1.2.nupkg.sha512"
   ],
   "logs": []
