@@ -15,7 +15,7 @@ public class OnlineStoreEmulator
     private readonly IRandomCustomerGenerator _randomCustomerGenerator;
     private readonly IRandomProductGenerator _randomProductGenerator;
     private int _intervalSeconds = 15;
-    CancellationTokenSource cts = new CancellationTokenSource();
+    CancellationTokenSource _cts;
         
     public OnlineStoreEmulator(ICarSparePartService carSparePartService, ICustomerService customerService, IRandomCustomerGenerator randomCustomerGenerator, IProductFetcher productFetcher, IRandomProductGenerator randomProductGenerator)
     {
@@ -43,9 +43,10 @@ public class OnlineStoreEmulator
 
     public void Start()
     {
+        _cts = new CancellationTokenSource();
         var onlineSaleThread = new Thread(() =>
         {
-            while (!cts.IsCancellationRequested)
+            while (!_cts.IsCancellationRequested)
             {
                 Console.WriteLine("Creating order");
                 CreateOrder();
@@ -57,7 +58,7 @@ public class OnlineStoreEmulator
     
     public void Stop()
     {
-        cts.Cancel();
+        _cts.Cancel();
     }
     
     public void CreateOrder()

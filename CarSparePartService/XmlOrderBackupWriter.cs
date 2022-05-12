@@ -1,12 +1,20 @@
-﻿using CarSparePartService.Interfaces;
+﻿using System.Xml.Serialization;
+using CarSparePartService.Interfaces;
 
 namespace CarSparePartService;
 
 public class XmlOrderBackupWriter
-        : IOrderBackupWriter
+    : IOrderBackupWriter
 {
-        public bool WriteBackup(IEnumerable<Order> orders, string backupFile)
+    public bool WriteBackup(IEnumerable<Order> orders, string backupFile)
+    {
+        var serializer = new XmlSerializer(typeof(List<Order>));
+        using (var fileStream = File.Create(backupFile))
         {
-                throw new NotImplementedException();
+            { 
+                serializer.Serialize(fileStream, orders.ToList());
+            }
         }
+        return true;
+    }
 }

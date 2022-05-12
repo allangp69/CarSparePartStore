@@ -37,6 +37,12 @@ public class ProductWithOrders
             return Product.Description;
         }
     }
+    public string ShortDescription {
+        get
+        {
+            return $"{Product.Description.Substring(0, 50)} ...";
+        }
+    }
     public decimal Price {
         get
         {

@@ -1,4 +1,6 @@
-﻿namespace CarSparePartService.Interfaces;
+﻿using System.Collections.ObjectModel;
+
+namespace CarSparePartService.Interfaces;
 
 public interface ICarSparePartService
 {

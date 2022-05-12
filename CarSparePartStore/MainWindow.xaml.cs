@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +28,15 @@ namespace CarSparePartStore
         {
             InitializeComponent();
             this.DataContext = Ioc.Default.GetService<CarSparePartViewModel>();
+        }
+
+        private void Window_Closing(object? sender, CancelEventArgs e)
+        {
+            var dc = DataContext as CarSparePartViewModel;
+            if (dc is not null)
+            {
+                dc.CancelOrderUpdates();
+            }
         }
     }
 }

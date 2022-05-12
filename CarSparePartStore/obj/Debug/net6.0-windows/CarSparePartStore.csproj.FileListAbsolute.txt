@@ -43,3 +43,8 @@ C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\appsetti
 C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\Microsoft.Extensions.Configuration.EnvironmentVariables.dll
 C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\TestServicesConfigurator.dll
 C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\TestServicesConfigurator.pdb
+C:\Git\Ucl\CarSparePartStore\CarSparePartStore\obj\Debug\net6.0-windows\Views\CarSparePartListView.g.cs
+C:\Git\Ucl\CarSparePartStore\CarSparePartStore\obj\Debug\net6.0-windows\Views\CarSparePartNewOrder.g.cs
+C:\Git\Ucl\CarSparePartStore\CarSparePartStore\obj\Debug\net6.0-windows\Views\CarSparePartListView.baml
+C:\Git\Ucl\CarSparePartStore\CarSparePartStore\obj\Debug\net6.0-windows\Views\CarSparePartNewOrder.baml
+C:\Git\Ucl\CarSparePartStore\CarSparePartStore\obj\Debug\net6.0-windows\GeneratedInternalTypeHelper.g.cs

@@ -3,38 +3,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CarSparePartStore"
         xmlns:viewModels="clr-namespace:CarSparePartStore.ViewModels"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModels:CarSparePartViewModel, IsDesignTimeCreatable=False}"
+        Closing="Window_Closing" 
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <ListView Grid.Row="0" ItemsSource="{Binding ProductsWithOrders}">
-            <ListView.View>
-                <GridView AllowsColumnReorder="true"
-                          ColumnHeaderToolTip="ProductsWithOrders">
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=ProductName}"
-                                    Header="Name" Width="100" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=ProductType}"
-                                    Header="Type" Width="100" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Description}"
-                                    Header="Description" Width="300" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Price}"
-                                    Header="Price" Width="100" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=NumberOfItemsSold}"
-                                    Header="Items Sold" Width="100" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=TotalPrice}"
-                                    Header="Total price" Width="100" />
-                </GridView>
-
-            </ListView.View>
-        </ListView>
-        <Grid Grid.Row="1">
-
-        </Grid>
+        <DockPanel LastChildFill="True">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right">
+                <Button Content="Create Order" Width="80" Height="35" Margin="10"
+                        Command="{Binding CreateOrderCommand}"/>
+                <Button Content="Backup orders" Width="80" Height="35" Margin="10"
+                        Command="{Binding BackupOrdersCommand}"/>
+                <Button Content="Restore orders from backup" Width="80" Height="35" Margin="10"
+                        Command="{Binding RestoreOrdersFromBackupCommand}"/>
+            </StackPanel>
+            <ContentControl Content="{Binding Content}" />
+        </DockPanel>
     </Grid>
 </Window>
