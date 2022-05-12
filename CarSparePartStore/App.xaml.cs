@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using OnlineStoreEmulator;
+using TestServicesConfigurator;
 
 namespace CarSparePartStore
 {
@@ -52,11 +53,16 @@ namespace CarSparePartStore
         {
             Ioc.Default.ConfigureServices(
                 new ServiceCollection()
+                    .AddSingleton<IConfiguration>(Configuration)
                     .AddSingleton<ICustomerService, CustomerService>()
+                    .AddSingleton<IRandomCustomerGenerator, RandomCustomerGenerator>()
                     .AddSingleton<ICarSparePartService, CarSparePartService.CarSparePartService>()
                     .AddSingleton<IProductFetcher, ProductFetcher>()
+                    .AddSingleton<IRandomProductGenerator, RandomProductGenerator>()
                     .AddSingleton<IOnlineStoreEmulator, OnlineStoreEmulator.OnlineStoreEmulator>()
-                    .AddSingleton<IConfiguration>(Configuration)
+                    .AddSingleton<IOrderBackupManager, OrderBackupManager>()
+                    .AddSingleton<IOrderBackupWriter, XmlOrderBackupWriter>()
+                    .AddSingleton<IOrderBackupReader, XmlOrderBackupReader>()
                     .AddTransient<CarSparePartViewModel>()
                     .BuildServiceProvider());
         }

@@ -40,3 +40,6 @@ C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\System.T
 C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\System.Text.Json.dll
 C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
 C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\appsettings.json
+C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\Microsoft.Extensions.Configuration.EnvironmentVariables.dll
+C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\TestServicesConfigurator.dll
+C:\Git\Ucl\CarSparePartStore\CarSparePartStore\bin\Debug\net6.0-windows\TestServicesConfigurator.pdb

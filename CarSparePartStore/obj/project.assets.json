@@ -33,6 +33,19 @@
           "buildTransitive/net6.0/_._": {}
         }
       },
+      "Microsoft.Extensions.Configuration.EnvironmentVariables/6.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration": "6.0.0",
+          "Microsoft.Extensions.Configuration.Abstractions": "6.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Extensions.Configuration.EnvironmentVariables.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Configuration.EnvironmentVariables.dll": {}
+        }
+      },
       "Microsoft.Extensions.Configuration.FileExtensions/7.0.0-preview.3.22175.4": {
         "type": "package",
         "dependencies": {
@@ -237,6 +250,26 @@
         "runtime": {
           "bin/placeholder/OnlineStoreEmulator.dll": {}
         }
+      },
+      "TestServicesConfigurator/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "CarSparePartService": "1.0.0",
+          "Microsoft.Extensions.Configuration": "7.0.0-preview.3.22175.4",
+          "Microsoft.Extensions.Configuration.EnvironmentVariables": "6.0.1",
+          "Microsoft.Extensions.Configuration.Json": "6.0.0",
+          "Microsoft.Extensions.DependencyInjection": "7.0.0-preview.3.22175.4",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "7.0.0-preview.3.22175.4",
+          "Microsoft.Toolkit.Mvvm": "7.1.2",
+          "OnlineStoreEmulator": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/TestServicesConfigurator.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/TestServicesConfigurator.dll": {}
+        }
       }
     }
   },
@@ -292,6 +325,25 @@
         "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.xml",
         "microsoft.extensions.configuration.abstractions.7.0.0-preview.3.22175.4.nupkg.sha512",
         "microsoft.extensions.configuration.abstractions.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
+    "Microsoft.Extensions.Configuration.EnvironmentVariables/6.0.1": {
+      "sha512": "pnyXV1LFOsYjGveuC07xp0YHIyGq7jRq5Ncb5zrrIieMLWVwgMyYxcOH0jTnBedDT4Gh1QinSqsjqzcieHk1og==",
+      "type": "package",
+      "path": "microsoft.extensions.configuration.environmentvariables/6.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/Microsoft.Extensions.Configuration.EnvironmentVariables.dll",
+        "lib/net461/Microsoft.Extensions.Configuration.EnvironmentVariables.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.Configuration.EnvironmentVariables.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Configuration.EnvironmentVariables.xml",
+        "microsoft.extensions.configuration.environmentvariables.6.0.1.nupkg.sha512",
+        "microsoft.extensions.configuration.environmentvariables.nuspec",
         "useSharedDesignerContext.txt"
       ]
     },
@@ -664,6 +716,11 @@
       "type": "project",
       "path": "../OnlineStoreEmulator/OnlineStoreEmulator.csproj",
       "msbuildProject": "../OnlineStoreEmulator/OnlineStoreEmulator.csproj"
+    },
+    "TestServicesConfigurator/1.0.0": {
+      "type": "project",
+      "path": "../TestServicesConfigurator/TestServicesConfigurator.csproj",
+      "msbuildProject": "../TestServicesConfigurator/TestServicesConfigurator.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -674,7 +731,8 @@
       "Microsoft.Extensions.DependencyInjection >= 7.0.0-preview.3.22175.4",
       "Microsoft.Extensions.DependencyInjection.Abstractions >= 7.0.0-preview.3.22175.4",
       "Microsoft.Toolkit.Mvvm >= 7.1.2",
-      "OnlineStoreEmulator >= 1.0.0"
+      "OnlineStoreEmulator >= 1.0.0",
+      "TestServicesConfigurator >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -718,6 +776,9 @@
             },
             "C:\\Git\\Ucl\\CarSparePartStore\\OnlineStoreEmulator\\OnlineStoreEmulator.csproj": {
               "projectPath": "C:\\Git\\Ucl\\CarSparePartStore\\OnlineStoreEmulator\\OnlineStoreEmulator.csproj"
+            },
+            "C:\\Git\\Ucl\\CarSparePartStore\\TestServicesConfigurator\\TestServicesConfigurator.csproj": {
+              "projectPath": "C:\\Git\\Ucl\\CarSparePartStore\\TestServicesConfigurator\\TestServicesConfigurator.csproj"
             }
           }
         }

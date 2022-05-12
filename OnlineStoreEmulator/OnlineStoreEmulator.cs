@@ -1,23 +1,44 @@
 ﻿using CarSparePartService;
 using CarSparePartService.Interfaces;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 
 namespace OnlineStoreEmulator;
 
 public class OnlineStoreEmulator
     : IOnlineStoreEmulator
 {
-    private ICarSparePartService CarSparePartService { get; }
-    private ICustomerService CustomerService { get; }
-    private IProductFetcher ProductFetcher { get; }
     private static readonly Random _random = new Random();
+    private ICarSparePartService _carSparePartService { get; }
+    private ICustomerService _customerService { get; }
+    private IProductFetcher _productFetcher { get; }
+    private readonly IRandomCustomerGenerator _randomCustomerGenerator;
+    private readonly IRandomProductGenerator _randomProductGenerator;
     private int _intervalSeconds = 15;
     CancellationTokenSource cts = new CancellationTokenSource();
         
-    public OnlineStoreEmulator(ICarSparePartService carSparePartService, ICustomerService customerService, IProductFetcher productFetcher)
+    public OnlineStoreEmulator(ICarSparePartService carSparePartService, ICustomerService customerService, IRandomCustomerGenerator randomCustomerGenerator, IProductFetcher productFetcher, IRandomProductGenerator randomProductGenerator)
     {
-        CarSparePartService = carSparePartService;
-        CustomerService = customerService;
-        ProductFetcher = productFetcher;
+        _randomCustomerGenerator = randomCustomerGenerator;
+        _randomProductGenerator = randomProductGenerator;
+        _carSparePartService = carSparePartService;
+        _customerService = customerService;
+        _productFetcher = productFetcher;
+        SetOrderIntervalFromConfiguration();
+    }
+
+    private void SetOrderIntervalFromConfiguration()
+    {
+        var configuration = Ioc.Default.GetRequiredService<IConfiguration>();
+        var interval = configuration.GetSection("OnlineStorEmulator").GetSection("CreateOrdersIntervalSeconds").Value;
+        if (interval is null) 
+            return;
+        if (!int.TryParse(interval, out var intervalSeconds)) 
+            return;
+        if (intervalSeconds > 0)
+        {
+            _intervalSeconds = intervalSeconds;    
+        }
     }
 
     public void Start()
@@ -41,23 +62,9 @@ public class OnlineStoreEmulator
     
     public void CreateOrder()
     {
-        var customer = GetRandomCustomer();
-        var product = GetRandomProduct();
+        var customer = _randomCustomerGenerator.GenerateCustomer();
+        var product = _randomProductGenerator.GenerateProduct();
         var orderItems = new List<OrderItem>{new OrderItem{Product = product, NumberOfItems = _random.Next(1, 11)}};
-        CarSparePartService.PlaceOrder(customer, Order.Create(orderItems));
-    }
-
-    internal Customer GetRandomCustomer()
-    {
-        var allCustomers = CustomerService.GetAllCustomers().ToList();
-        var i = _random.Next(0, allCustomers.Count());
-        return allCustomers[i];
-    }
-    
-    internal Product GetRandomProduct()
-    {
-        var allCProducts = ProductFetcher.GetAllProducts().ToList();
-        var i = _random.Next(0, allCProducts.Count());
-        return allCProducts[i];
+        _carSparePartService.PlaceOrder(Order.Create(customer.CustomerId, orderItems));
     }
 }

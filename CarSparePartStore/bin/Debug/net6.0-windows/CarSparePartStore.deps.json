@@ -14,7 +14,8 @@
           "Microsoft.Extensions.DependencyInjection": "7.0.0-preview.3.22175.4",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "7.0.0-preview.3.22175.4",
           "Microsoft.Toolkit.Mvvm": "7.1.2",
-          "OnlineStoreEmulator": "1.0.0"
+          "OnlineStoreEmulator": "1.0.0",
+          "TestServicesConfigurator": "1.0.0"
         },
         "runtime": {
           "CarSparePartStore.dll": {}
@@ -40,6 +41,18 @@
           "lib/net6.0/Microsoft.Extensions.Configuration.Abstractions.dll": {
             "assemblyVersion": "7.0.0.0",
             "fileVersion": "7.0.22.17504"
+          }
+        }
+      },
+      "Microsoft.Extensions.Configuration.EnvironmentVariables/6.0.1": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration": "7.0.0-preview.3.22175.4",
+          "Microsoft.Extensions.Configuration.Abstractions": "7.0.0-preview.3.22175.4"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Configuration.EnvironmentVariables.dll": {
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.0.222.6406"
           }
         }
       },
@@ -187,6 +200,21 @@
         "runtime": {
           "OnlineStoreEmulator.dll": {}
         }
+      },
+      "TestServicesConfigurator/1.0.0": {
+        "dependencies": {
+          "CarSparePartService": "1.0.0",
+          "Microsoft.Extensions.Configuration": "7.0.0-preview.3.22175.4",
+          "Microsoft.Extensions.Configuration.EnvironmentVariables": "6.0.1",
+          "Microsoft.Extensions.Configuration.Json": "7.0.0-preview.3.22175.4",
+          "Microsoft.Extensions.DependencyInjection": "7.0.0-preview.3.22175.4",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "7.0.0-preview.3.22175.4",
+          "Microsoft.Toolkit.Mvvm": "7.1.2",
+          "OnlineStoreEmulator": "1.0.0"
+        },
+        "runtime": {
+          "TestServicesConfigurator.dll": {}
+        }
       }
     }
   },
@@ -209,6 +237,13 @@
       "sha512": "sha512-imgbRcyA2bRRxKjJh0V8TMGZT3reeHt8Spahs6y0J4LmIx5AvTzm136qg37SGF+rIlaNOk2fKAwhY3bggsSjQQ==",
       "path": "microsoft.extensions.configuration.abstractions/7.0.0-preview.3.22175.4",
       "hashPath": "microsoft.extensions.configuration.abstractions.7.0.0-preview.3.22175.4.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Configuration.EnvironmentVariables/6.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-pnyXV1LFOsYjGveuC07xp0YHIyGq7jRq5Ncb5zrrIieMLWVwgMyYxcOH0jTnBedDT4Gh1QinSqsjqzcieHk1og==",
+      "path": "microsoft.extensions.configuration.environmentvariables/6.0.1",
+      "hashPath": "microsoft.extensions.configuration.environmentvariables.6.0.1.nupkg.sha512"
     },
     "Microsoft.Extensions.Configuration.FileExtensions/7.0.0-preview.3.22175.4": {
       "type": "package",
@@ -300,6 +335,11 @@
       "sha512": ""
     },
     "OnlineStoreEmulator/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "TestServicesConfigurator/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

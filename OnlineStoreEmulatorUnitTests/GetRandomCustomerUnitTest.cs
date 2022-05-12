@@ -1,28 +1,25 @@
-using CarSparePartService.Interfaces;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using NUnit.Framework;
-using TestConfiguration;
+using OnlineStoreEmulator;
 
 namespace OnlineStoreEmulatorUnitTests;
 
 public class GetRandomCustomerUnitTests
 {
-    private global::OnlineStoreEmulator.OnlineStoreEmulator _emulator;
+    private IRandomCustomerGenerator _generator;
 
     [OneTimeSetUp]
     public void Setup()
     {
         ConfigureServices();
-        var customerService = Ioc.Default.GetRequiredService<ICustomerService>();
-        var carSparepartService = Ioc.Default.GetRequiredService<ICarSparePartService>();
-        var productFetcher = Ioc.Default.GetRequiredService<IProductFetcher>();
-        _emulator = new global::OnlineStoreEmulator.OnlineStoreEmulator(carSparepartService, customerService, productFetcher);
+        ConfigureServices();
+        _generator = Ioc.Default.GetRequiredService<IRandomCustomerGenerator>();
     }
 
     [Test]
     public void TestGetRandomCustomer()
     {
-        var customer = _emulator.GetRandomCustomer();
+        var customer = _generator.GenerateCustomer();
         Assert.IsNotNull(customer);
         Assert.IsFalse(string.IsNullOrEmpty(customer.FirstName));
         Assert.IsFalse(string.IsNullOrEmpty(customer.LastName));
@@ -34,6 +31,6 @@ public class GetRandomCustomerUnitTests
     /// </summary>
     private static void ConfigureServices()
     {
-        SetupTestServices.ConfigureServices();
+        TestServicesConfigurator.TestServicesConfigurator.ConfigureServices();
     }
 }

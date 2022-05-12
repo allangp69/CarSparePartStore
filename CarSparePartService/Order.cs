@@ -6,6 +6,8 @@ public class Order
     {
         
     }
+    
+    public int CustomerId { get; set; }
     public IEnumerable<OrderItem> OrderItems { get; set; }
     
     public void AddItem(OrderItem item)
@@ -13,8 +15,8 @@ public class Order
         throw new NotImplementedException();
     }
 
-    public static Order Create(IEnumerable<OrderItem> orderItems)
+    public static Order Create(int customerId, IEnumerable<OrderItem> orderItems)
     {
-        return new Order {OrderItems = orderItems};
+        return new Order { CustomerId = customerId, OrderItems = orderItems};
     }
 }

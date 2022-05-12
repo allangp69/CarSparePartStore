@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "tGtg8ooTnriq0MRhNka7fcJdI5JgtHL3K2tFXpq/QnHjM8+uwaVDlyI8GVzSLIc5D6txmQ8lCZTDrAWkMiZ+Rg==",
+  "dgSpecHash": "/VSN3d/r0rdJ5PjBvhDyA0MJngmhmPG7HSL0+BQnbr2+JaN0JPZVE3/XkXZJOA0Ki6QjVJZDZ1+w51T3x1RDxA==",
   "success": true,
   "projectFilePath": "C:\\Git\\Ucl\\CarSparePartStore\\CarSparePartStore\\CarSparePartStore.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ap\\.nuget\\packages\\microsoft.extensions.configuration\\7.0.0-preview.3.22175.4\\microsoft.extensions.configuration.7.0.0-preview.3.22175.4.nupkg.sha512",
     "C:\\Users\\ap\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\7.0.0-preview.3.22175.4\\microsoft.extensions.configuration.abstractions.7.0.0-preview.3.22175.4.nupkg.sha512",
+    "C:\\Users\\ap\\.nuget\\packages\\microsoft.extensions.configuration.environmentvariables\\6.0.1\\microsoft.extensions.configuration.environmentvariables.6.0.1.nupkg.sha512",
     "C:\\Users\\ap\\.nuget\\packages\\microsoft.extensions.configuration.fileextensions\\7.0.0-preview.3.22175.4\\microsoft.extensions.configuration.fileextensions.7.0.0-preview.3.22175.4.nupkg.sha512",
     "C:\\Users\\ap\\.nuget\\packages\\microsoft.extensions.configuration.json\\7.0.0-preview.3.22175.4\\microsoft.extensions.configuration.json.7.0.0-preview.3.22175.4.nupkg.sha512",
     "C:\\Users\\ap\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\7.0.0-preview.3.22175.4\\microsoft.extensions.dependencyinjection.7.0.0-preview.3.22175.4.nupkg.sha512",
