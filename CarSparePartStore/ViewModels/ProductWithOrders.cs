@@ -2,7 +2,7 @@ using CarSparePartService;
 
 namespace CarSparePartStore.ViewModels;
 
-internal class ProductWithOrders
+public class ProductWithOrders
 {
     private Product Product { get; }
 

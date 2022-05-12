@@ -4,7 +4,6 @@ using CarSparePartService;
 using CarSparePartService.Interfaces;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using NUnit.Framework;
-using TestConfiguration;
 
 namespace CarSparePartServiceUnitTests;
 
@@ -20,8 +19,7 @@ public class GetAllOrdersUnitTest
     public void TestGetAllOrders()
     {
         var carSparepartService = Ioc.Default.GetRequiredService<ICarSparePartService>();
-        carSparepartService.PlaceOrder(new Customer{CustomerId = 0, FirstName = "Test", LastName = "Testsen"}, 
-            Order.Create(new List<OrderItem>{ new OrderItem{NumberOfItems = 1, Product = new Product{ProductId = 1, 
+        carSparepartService.PlaceOrder(Order.Create(0, new List<OrderItem>{ new OrderItem{NumberOfItems = 1, Product = new Product{ProductId = 1, 
                                                                             Name = "Test Product", Description = "Test test test", Type = "Test type", Price = 1234.56m}}}));
         var allOrders = carSparepartService.GetAllOrders();
         Assert.IsTrue(allOrders.Any());
@@ -32,6 +30,6 @@ public class GetAllOrdersUnitTest
     /// </summary>
     private static void ConfigureServices()
     {
-        SetupTestServices.ConfigureServices();
+        TestServicesConfigurator.TestServicesConfigurator.ConfigureServices();
     }
 }

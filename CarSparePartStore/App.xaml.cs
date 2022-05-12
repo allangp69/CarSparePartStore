@@ -57,6 +57,9 @@ namespace CarSparePartStore
                     .AddSingleton<IProductFetcher, ProductFetcher>()
                     .AddSingleton<IOnlineStoreEmulator, OnlineStoreEmulator.OnlineStoreEmulator>()
                     .AddSingleton<IConfiguration>(Configuration)
+                    .AddSingleton<IOrderBackupManager, OrderBackupManager>()
+                    .AddSingleton<IOrderBackupWriter, XmlOrderBackupWriter>()
+                    .AddSingleton<IOrderBackupReader, XmlOrderBackupReader>()
                     .AddTransient<CarSparePartViewModel>()
                     .BuildServiceProvider());
         }

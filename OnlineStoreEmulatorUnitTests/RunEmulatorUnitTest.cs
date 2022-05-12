@@ -4,22 +4,20 @@ using System.Threading;
 using CarSparePartService.Interfaces;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using NUnit.Framework;
-using TestConfiguration;
+using OnlineStoreEmulator;
 
 namespace OnlineStoreEmulatorUnitTests;
 
 public class RunEmulatorUnitTests
 {
-    private global::OnlineStoreEmulator.OnlineStoreEmulator _emulator;
+    private IOnlineStoreEmulator _emulator;
 
     [OneTimeSetUp]
     public void Setup()
     {
         ConfigureServices();
-        var customerService = Ioc.Default.GetRequiredService<ICustomerService>();
-        var carSparepartService = Ioc.Default.GetRequiredService<ICarSparePartService>();
-        var productFetcher = Ioc.Default.GetRequiredService<IProductFetcher>();
-        _emulator = new global::OnlineStoreEmulator.OnlineStoreEmulator(carSparepartService, customerService, productFetcher);
+        _emulator = Ioc.Default.GetRequiredService<IOnlineStoreEmulator>();
+        //_emulator = new global::OnlineStoreEmulator.OnlineStoreEmulator(carSparepartService, customerService, productFetcher, 2);
     }
 
     [Test]
@@ -28,7 +26,7 @@ public class RunEmulatorUnitTests
         var carSparepartService = Ioc.Default.GetRequiredService<ICarSparePartService>();
         var numberOfOrdersBefore = carSparepartService.GetAllOrders().Count();
         _emulator.Start();
-        Thread.Sleep(TimeSpan.FromSeconds(30));
+        Thread.Sleep(TimeSpan.FromSeconds(3));
         _emulator.Stop();
         var numberOfOrdersAfter = carSparepartService.GetAllOrders().Count();
         Assert.IsTrue(numberOfOrdersAfter > numberOfOrdersBefore); 
@@ -39,6 +37,6 @@ public class RunEmulatorUnitTests
     /// </summary>
     private static void ConfigureServices()
     {
-        SetupTestServices.ConfigureServices();
+        TestServicesConfigurator.TestServicesConfigurator.ConfigureServices();
     }
 }

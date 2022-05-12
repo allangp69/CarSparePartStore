@@ -3,7 +3,6 @@ using CarSparePartService.Interfaces;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using NUnit.Framework;
 using OnlineStoreEmulator;
-using TestConfiguration;
 
 namespace OnlineStoreEmulatorUnitTests;
 
@@ -33,6 +32,6 @@ public class CreateOrderUnitTests
     /// </summary>
     private static void ConfigureServices()
     {
-        SetupTestServices.ConfigureServices();
+        TestServicesConfigurator.TestServicesConfigurator.ConfigureServices();
     }
 }

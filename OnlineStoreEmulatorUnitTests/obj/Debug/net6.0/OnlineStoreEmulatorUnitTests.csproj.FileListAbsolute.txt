@@ -106,5 +106,14 @@ C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulatorUnitTests\obj\Debug\net6.0\ref\O
 C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulatorUnitTests\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
 C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulatorUnitTests\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulatorUnitTests\bin\Debug\net6.0\Resources\SpareParts.xml
-C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulatorUnitTests\bin\Debug\net6.0\SetupTestServices.dll
-C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulatorUnitTests\bin\Debug\net6.0\SetupTestServices.pdb
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulatorUnitTests\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulatorUnitTests\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulatorUnitTests\bin\Debug\net6.0\TestServicesConfigurator.dll
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulatorUnitTests\bin\Debug\net6.0\TestServicesConfigurator.pdb
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulatorUnitTests\bin\Debug\net6.0\Microsoft.Extensions.Configuration.dll
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulatorUnitTests\bin\Debug\net6.0\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulatorUnitTests\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Json.dll
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulatorUnitTests\bin\Debug\net6.0\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulatorUnitTests\bin\Debug\net6.0\Microsoft.Extensions.FileProviders.Physical.dll
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulatorUnitTests\bin\Debug\net6.0\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\Git\Ucl\CarSparePartStore\OnlineStoreEmulatorUnitTests\bin\Debug\net6.0\Microsoft.Extensions.Configuration.EnvironmentVariables.dll

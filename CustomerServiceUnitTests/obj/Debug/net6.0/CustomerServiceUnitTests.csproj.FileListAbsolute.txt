@@ -104,3 +104,5 @@ C:\Git\Ucl\CarSparePartStore\CustomerServiceUnitTests\obj\Debug\net6.0\CustomerS
 C:\Git\Ucl\CarSparePartStore\CustomerServiceUnitTests\obj\Debug\net6.0\CustomerServiceUnitTests.genruntimeconfig.cache
 C:\Git\Ucl\CarSparePartStore\CustomerServiceUnitTests\obj\Debug\net6.0\ref\CustomerServiceUnitTests.dll
 C:\Git\Ucl\CarSparePartStore\CustomerServiceUnitTests\bin\Debug\net6.0\Resources\SpareParts.xml
+C:\Git\Ucl\CarSparePartStore\CustomerServiceUnitTests\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Git\Ucl\CarSparePartStore\CustomerServiceUnitTests\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
