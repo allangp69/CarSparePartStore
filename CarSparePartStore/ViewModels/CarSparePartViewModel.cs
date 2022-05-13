@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using CarSparePartService;
@@ -31,18 +30,25 @@ public class CarSparePartViewModel
         _carSparePartService = carSparePartService;
         ProductsWithOrders = new ObservableCollection<ProductWithOrders>();
         Content = new CarSparePartListView();
+        Notifications = new List<string>();
         _carSparePartService.OrderAdded += CarSparePartServiceOnOrderAdded;
-        UpdateProductsWithOrders();
+        StartEmulator();
     }
 
-    private void CarSparePartServiceOnOrderAdded(object? sender, EventArgs e)
+    private List<string> Notifications { get; }
+
+    private void CarSparePartServiceOnOrderAdded(object? sender, OrderAddedEventArgs e)
     {
-        Application.Current?.Dispatcher?.Invoke(() => UpdateProductsWithOrders());
+        Application.Current?.Dispatcher?.Invoke(() =>
+        {
+            UpdateProductsWithOrders();
+            Notifications.Add($"Order added - customerId: {e.CustomerId} - products: {e.Products}");
+            OnPropertyChanged(nameof(LatestNotification));
+        });
     }
 
     public void UpdateProductsWithOrders()
     {
-        
         ProductsWithOrders.Clear();
         var productsWithOrders = GetProductsWithOrders();
         foreach (var productWithOrders in productsWithOrders)
@@ -246,6 +252,11 @@ public class CarSparePartViewModel
     {
         get => _order;
         set => SetProperty(ref _order, value);
+    }
+
+    public string LatestNotification
+    {
+        get { return Notifications.Any() ? Notifications.Last() : string.Empty; }
     }
 
     public IEnumerable<ProductWithOrders> GetProductsWithOrders()

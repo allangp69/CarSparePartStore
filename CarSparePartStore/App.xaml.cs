@@ -28,7 +28,6 @@ namespace CarSparePartStore
             var productFetcher = Ioc.Default.GetRequiredService<IProductFetcher>();
             productFetcher.LoadProductsFromBackup();
             _emulator = Ioc.Default.GetRequiredService<IOnlineStoreEmulator>();
-            _emulator.Start();
             this.InitializeComponent();
         }
 
@@ -71,22 +70,6 @@ namespace CarSparePartStore
                         .CreateLogger())
                     .AddTransient<CarSparePartViewModel>()
                     .BuildServiceProvider());
-            
-            
-            // .AddSingleton((ILogger)new LoggerConfiguration()
-            //         .MinimumLevel.Information()
-            //         .WriteTo.File(<...>)
-            //     .CreateLogger()
-            
-            //     .AddSingleton<ILogger>(
-            //     loggerConfiguration
-            //         .ReadFrom.Configuration(hostingContext.Configuration))
-            //
-            // services.AddSingleton();
-            
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(Configuration)
-                .CreateLogger();
         }
     }
 }
