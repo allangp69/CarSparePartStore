@@ -8,22 +8,18 @@ namespace OnlineStoreEmulator;
 public class OnlineStoreEmulator
     : IOnlineStoreEmulator
 {
-    private static readonly Random _random = new Random();
-    private ICarSparePartService _carSparePartService { get; }
-    private ICustomerService _customerService { get; }
-    private IProductFetcher _productFetcher { get; }
+    private static readonly Random Random = new Random();
+    private readonly ICarSparePartService _carSparePartService;
     private readonly IRandomCustomerGenerator _randomCustomerGenerator;
     private readonly IRandomProductGenerator _randomProductGenerator;
     private int _intervalSeconds = 15;
-    CancellationTokenSource _cts;
+    private CancellationTokenSource _cts;
         
-    public OnlineStoreEmulator(ICarSparePartService carSparePartService, ICustomerService customerService, IRandomCustomerGenerator randomCustomerGenerator, IProductFetcher productFetcher, IRandomProductGenerator randomProductGenerator)
+    public OnlineStoreEmulator(ICarSparePartService carSparePartService, IRandomCustomerGenerator randomCustomerGenerator, IRandomProductGenerator randomProductGenerator)
     {
         _randomCustomerGenerator = randomCustomerGenerator;
         _randomProductGenerator = randomProductGenerator;
         _carSparePartService = carSparePartService;
-        _customerService = customerService;
-        _productFetcher = productFetcher;
         SetOrderIntervalFromConfiguration();
     }
 
@@ -65,7 +61,7 @@ public class OnlineStoreEmulator
     {
         var customer = _randomCustomerGenerator.GenerateCustomer();
         var product = _randomProductGenerator.GenerateProduct();
-        var orderItems = new List<OrderItem>{new OrderItem{Product = product, NumberOfItems = _random.Next(1, 11)}};
+        var orderItems = new List<OrderItem>{new OrderItem{Product = product, NumberOfItems = Random.Next(1, 11)}};
         _carSparePartService.PlaceOrder(Order.Create(customer.CustomerId, orderItems));
     }
 }
