@@ -38,6 +38,7 @@ public class OrderDTOConverter
         var retval = new OrderDTO
         {
             OrderId = order.OrderId,
+            OrderDateTime = order.OrderDateTime,
             CustomerId = order.CustomerId,
             OrderItems = ConvertToDTO(order.OrderItems).ToList()
         };
@@ -97,7 +98,7 @@ public class OrderDTOConverter
         {
             return null;
         }
-        return Order.Create(order.OrderId, order.CustomerId, ConvertFromDTO(order.OrderItems).ToList());
+        return Order.Create(order.OrderId, order.OrderDateTime, order.CustomerId, ConvertFromDTO(order.OrderItems).ToList());
     }
     
     private IEnumerable<OrderItem> ConvertFromDTO(IEnumerable<OrderItemDTO> orderItems)

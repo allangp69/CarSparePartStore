@@ -7,6 +7,7 @@ public class Order
         
     }
     public Guid OrderId { get; private set; }
+    public DateTime OrderDateTime { get; set; }
     public int CustomerId { get; set; }
     public List<OrderItem> OrderItems { get; set; }
     
@@ -17,11 +18,11 @@ public class Order
 
     public static Order Create(int customerId, IEnumerable<OrderItem> orderItems)
     {
-        return new Order { OrderId = Guid.NewGuid(), CustomerId = customerId, OrderItems = orderItems.ToList()};
+        return new Order { OrderId = Guid.NewGuid(), OrderDateTime = DateTime.Now, CustomerId = customerId, OrderItems = orderItems.ToList()};
     }
     
-    public static Order Create(Guid orderId, int customerId, IEnumerable<OrderItem> orderItems)
+    public static Order Create(Guid orderId, DateTime orderDateTime, int customerId, IEnumerable<OrderItem> orderItems)
     {
-        return new Order { OrderId = orderId, CustomerId = customerId, OrderItems = orderItems.ToList()};
+        return new Order { OrderId = orderId, OrderDateTime = orderDateTime, CustomerId = customerId, OrderItems = orderItems.ToList()};
     }
 }
