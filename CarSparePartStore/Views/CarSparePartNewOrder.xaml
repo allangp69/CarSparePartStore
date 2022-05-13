@@ -11,7 +11,7 @@
     <UserControl.Resources>
         <carSparePartStore:LongToShortTextConverter x:Key="LongToShorTextConverter" />
     </UserControl.Resources>
-    <Grid>
+    <Grid MaxWidth="400" MaxHeight="400">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
