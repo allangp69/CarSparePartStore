@@ -1,11 +1,11 @@
-namespace CarSparePartService;
+namespace CarSparePartService.Product;
 
 public class ProductWithOrders
 {
     private readonly IEnumerable<Guid> _orderIds;
-    private Product Product { get; }
+    private global::CarSparePartService.Product.Product Product { get; }
 
-    public ProductWithOrders(Product product, IEnumerable<Guid> orderIds)
+    public ProductWithOrders(global::CarSparePartService.Product.Product product, IEnumerable<Guid> orderIds)
     {
         _orderIds = orderIds;
         Product = product;

@@ -1,5 +1,6 @@
 ﻿using CarSparePartService;
 using CarSparePartService.Interfaces;
+using CarSparePartService.Product;
 using OnlineStoreEmulator;
 
 namespace TestServicesConfigurator;

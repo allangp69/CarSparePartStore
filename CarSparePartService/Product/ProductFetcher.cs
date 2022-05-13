@@ -3,7 +3,7 @@ using CarSparePartService.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 
-namespace CarSparePartService;
+namespace CarSparePartService.Product;
 
 public class ProductFetcher
 : IProductFetcher
@@ -21,18 +21,18 @@ public class ProductFetcher
         LoadProducts(productsBackupFile.FullName);
     }
 
-    private IEnumerable<Product> Products { get;  set; }
+    private IEnumerable<global::CarSparePartService.Product.Product> Products { get;  set; }
 
-    private IEnumerable<Product> ReadProductsFromXML(string fileName)
+    private IEnumerable<global::CarSparePartService.Product.Product> ReadProductsFromXML(string fileName)
     {
         var file = new FileInfo(fileName);
         var dataset = new DataSet();
         dataset.ReadXml(file.FullName);
-        var retval = new List<Product>();
+        var retval = new List<global::CarSparePartService.Product.Product>();
         var productsTable = dataset.Tables[2];
         foreach (DataRow row in productsTable.Rows)
         {
-            var product = new Product
+            var product = new global::CarSparePartService.Product.Product
             {
                 Name = row[0].ToString(),
                 Type = row[1].ToString(),
@@ -45,12 +45,12 @@ public class ProductFetcher
         return retval;
     }
 
-    public IEnumerable<Product> GetAllProducts()
+    public IEnumerable<global::CarSparePartService.Product.Product> GetAllProducts()
     {
         return Products;
     }
 
-    public Product FindProduct(int productId)
+    public global::CarSparePartService.Product.Product FindProduct(int productId)
     {
         return Products.FirstOrDefault(p => p.ProductId == productId);
     }

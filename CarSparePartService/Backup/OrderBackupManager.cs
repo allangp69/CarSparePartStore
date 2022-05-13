@@ -1,6 +1,6 @@
 ﻿using CarSparePartService.Interfaces;
 
-namespace CarSparePartService;
+namespace CarSparePartService.Backup;
 
 public class OrderBackupManager
     : IOrderBackupManager
@@ -14,12 +14,12 @@ public class OrderBackupManager
         _backupReader = backupReader;
     }
 
-    public void BackupToFile(IEnumerable<Order> orders, string backupFile)
+    public void BackupToFile(IEnumerable<OrderDTO> orders, string backupFile)
     {
         _backupWriter.WriteBackup(orders, backupFile);
     }
 
-    IEnumerable<Order> IOrderBackupManager.LoadBackupFromFile(string backupFile)
+    IEnumerable<OrderDTO> IOrderBackupManager.LoadBackupFromFile(string backupFile)
     {
         return _backupReader.ReadBackup(backupFile);
     }

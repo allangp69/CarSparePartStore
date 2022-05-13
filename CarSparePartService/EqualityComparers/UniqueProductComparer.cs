@@ -1,9 +1,9 @@
-﻿namespace CarSparePartService;
+﻿namespace CarSparePartService.EqualityComparers;
 
 public class UniqueProductComparer 
-    : IEqualityComparer<Product>
+    : IEqualityComparer<Product.Product>
 {
-    public bool Equals(Product x, Product y)
+    public bool Equals(Product.Product x, Product.Product y)
     {
         if (ReferenceEquals(x, y)) return true;
         if (ReferenceEquals(x, null)) return false;
@@ -12,7 +12,7 @@ public class UniqueProductComparer
         return x.ProductId == y.ProductId && x.Name == y.Name && x.Type == y.Type;
     }
 
-    public int GetHashCode(Product obj)
+    public int GetHashCode(Product.Product obj)
     {
         return HashCode.Combine(obj.ProductId, obj.Name, obj.Type);
     }

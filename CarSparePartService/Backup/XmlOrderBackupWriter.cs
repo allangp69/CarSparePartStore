@@ -1,14 +1,14 @@
 ﻿using System.Xml.Serialization;
 using CarSparePartService.Interfaces;
 
-namespace CarSparePartService;
+namespace CarSparePartService.Backup;
 
 public class XmlOrderBackupWriter
     : IOrderBackupWriter
 {
-    public bool WriteBackup(IEnumerable<Order> orders, string backupFile)
+    public bool WriteBackup(IEnumerable<OrderDTO> orders, string backupFile)
     {
-        var serializer = new XmlSerializer(typeof(List<Order>));
+        var serializer = new XmlSerializer(typeof(List<OrderDTO>));
         using (var fileStream = File.Create(backupFile))
         {
             { 

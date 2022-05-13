@@ -2,8 +2,8 @@
 
 public interface IProductFetcher
 {
-    IEnumerable<Product> GetAllProducts();
-    Product FindProduct(int productId);
+    IEnumerable<Product.Product> GetAllProducts();
+    Product.Product FindProduct(int productId);
     void LoadProducts(string fileName);
     void LoadProductsFromBackup();
 }

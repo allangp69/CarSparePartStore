@@ -1,17 +1,17 @@
 ﻿using System.Xml.Serialization;
 using CarSparePartService.Interfaces;
 
-namespace CarSparePartService;
+namespace CarSparePartService.Backup;
 
 public class XmlOrderBackupReader
     : IOrderBackupReader
 {
-    public IEnumerable<Order> ReadBackup(string backupFile)
+    public IEnumerable<OrderDTO> ReadBackup(string backupFile)
     {
-        var serializer = new XmlSerializer(typeof(List<Order>));
+        var serializer = new XmlSerializer(typeof(List<OrderDTO>));
         using (Stream reader = new FileStream(backupFile, FileMode.Open))
         {
-            return (List<Order>)serializer.Deserialize(reader);
+            return (List<OrderDTO>)serializer.Deserialize(reader);
         }
     }
 }

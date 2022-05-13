@@ -19,4 +19,9 @@ public class Order
     {
         return new Order { OrderId = Guid.NewGuid(), CustomerId = customerId, OrderItems = orderItems.ToList()};
     }
+    
+    public static Order Create(Guid orderId, int customerId, IEnumerable<OrderItem> orderItems)
+    {
+        return new Order { OrderId = orderId, CustomerId = customerId, OrderItems = orderItems.ToList()};
+    }
 }

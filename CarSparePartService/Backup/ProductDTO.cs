@@ -1,6 +1,6 @@
-namespace CarSparePartService;
+﻿namespace CarSparePartService.Backup;
 
-public class Product
+public record ProductDTO
 {
     public long ProductId { get; set; }
     public string Name { get; set; }

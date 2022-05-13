@@ -1,6 +1,8 @@
-﻿namespace CarSparePartService.Interfaces;
+﻿using CarSparePartService.Backup;
+
+namespace CarSparePartService.Interfaces;
 
 public interface IOrderBackupReader
 {
-    IEnumerable<Order> ReadBackup(string backupFile);
+    IEnumerable<OrderDTO> ReadBackup(string backupFile);
 }

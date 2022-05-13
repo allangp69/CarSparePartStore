@@ -1,4 +1,5 @@
 ﻿using CarSparePartService;
+using CarSparePartService.Product;
 
 namespace OnlineStoreEmulator;
 

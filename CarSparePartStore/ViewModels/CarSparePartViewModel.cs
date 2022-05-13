@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using CarSparePartService;
 using CarSparePartService.Interfaces;
+using CarSparePartService.Product;
 using CarSparePartStore.Views;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -31,22 +32,46 @@ public class CarSparePartViewModel
         ProductsWithOrders = new ObservableCollection<ProductWithOrders>();
         Content = new CarSparePartListView();
         Notifications = new List<string>();
-        _carSparePartService.OrderAdded += CarSparePartServiceOnOrderAdded;
+        _carSparePartService.OrderAdded += CarSparePartServiceOrderAdded;
+        _carSparePartService.RestoreBackupCompleted += CarSparePartServiceRestoreBackupCompleted;
+        _carSparePartService.BackupCompleted += CarSparePartServiceBackupCompleted;
         StartEmulator();
     }
 
     private List<string> Notifications { get; }
 
-    private void CarSparePartServiceOnOrderAdded(object? sender, OrderAddedEventArgs e)
+    private void CarSparePartServiceOrderAdded(object? sender, OrderAddedEventArgs e)
     {
         Application.Current?.Dispatcher?.Invoke(() =>
         {
             UpdateProductsWithOrders();
-            Notifications.Add($"Order added - customerId: {e.CustomerId} - products: {e.Products}");
-            OnPropertyChanged(nameof(LatestNotification));
+            AddNotification($"Order added - customerId: {e.CustomerId} - products: {e.Products}");
         });
     }
 
+    private void AddNotification(string notification)
+    {
+        Notifications.Add(notification);
+        OnPropertyChanged(nameof(LatestNotification));
+    }
+
+    private void CarSparePartServiceBackupCompleted(object? sender, EventArgs e)
+    {
+        Application.Current?.Dispatcher?.Invoke(() =>
+        {
+            AddNotification($"Backup of orders completed");
+        });
+    }
+
+    private void CarSparePartServiceRestoreBackupCompleted(object? sender, EventArgs e)
+    {
+        Application.Current?.Dispatcher?.Invoke(() =>
+        {
+            AddNotification($"Restore orders from backup completed");
+            UpdateProductsWithOrders();
+        });
+    }
+    
     public void UpdateProductsWithOrders()
     {
         ProductsWithOrders.Clear();
