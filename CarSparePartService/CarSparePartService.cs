@@ -8,12 +8,14 @@ public class CarSparePartService
         : ICarSparePartService
 {
     private readonly IOrderBackupManager _orderBackupManager;
+    private readonly IProductFetcher _productFetcher;
     private readonly ILogger _logger;
     public event EventHandler<OrderAddedEventArgs> OrderAdded;
     
-    public CarSparePartService(IOrderBackupManager orderBackupManager, ILogger logger)
+    public CarSparePartService(IOrderBackupManager orderBackupManager, IProductFetcher productFetcher, ILogger logger)
     {
         _orderBackupManager = orderBackupManager;
+        _productFetcher = productFetcher;
         _logger = logger;
         Orders = new List<Order>();
     }
@@ -54,5 +56,24 @@ public class CarSparePartService
     public IEnumerable<Order> GetAllOrders()
     {
         return Orders;
+    }
+    
+    public IEnumerable<ProductWithOrders> GetProductsWithOrders()
+    {
+        var retval = new List<ProductWithOrders>();
+        var products = _productFetcher.GetAllProducts(); 
+        foreach (var product in products)
+        {
+            retval.Add(new ProductWithOrders(product, GetOrdersIdsForProduct(product)));
+        }
+        return retval;
+    }
+
+    private IEnumerable<Guid> GetOrdersIdsForProduct(Product product)
+    {
+        if (!Orders.Any())
+            return new List<Guid>();
+        var comparer = new UniqueProductComparer();
+        return Orders.Where(o => o.OrderItems.Any(i => comparer.Equals(i.Product, product))).Select(o => o.OrderId).ToList();
     }
 }

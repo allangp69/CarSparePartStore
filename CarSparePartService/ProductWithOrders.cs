@@ -1,15 +1,14 @@
-using CarSparePartService;
-
-namespace CarSparePartStore.ViewModels;
+namespace CarSparePartService;
 
 public class ProductWithOrders
 {
+    private readonly IEnumerable<Guid> _orderIds;
     private Product Product { get; }
 
-    public ProductWithOrders(Product product, int numberOfItemsSold)
+    public ProductWithOrders(Product product, IEnumerable<Guid> orderIds)
     {
+        _orderIds = orderIds;
         Product = product;
-        NumberOfItemsSold = numberOfItemsSold;
     }
 
     public long ProductId {
@@ -49,7 +48,10 @@ public class ProductWithOrders
             return Product.Price;
         }
     }
-    public int NumberOfItemsSold { get; }
+    public int NumberOfItemsSold
+    {
+        get { return _orderIds.Count(); }
+    }
     public decimal TotalPrice {
         get
         {

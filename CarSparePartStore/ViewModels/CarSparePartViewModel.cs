@@ -261,25 +261,8 @@ public class CarSparePartViewModel
 
     public IEnumerable<ProductWithOrders> GetProductsWithOrders()
     {
-        var retval = new List<ProductWithOrders>();
-        var allOrders = _carSparePartService.GetAllOrders().ToList();
-        var products = allOrders.SelectMany(o => o.OrderItems.Select(i => i.Product)).Distinct(new UniqueProductComparer()).ToList();
-        foreach (var product in products)
-        {
-            retval.Add(new ProductWithOrders(product, GetNumberOfItemsSold(allOrders, product)));
-        }
-        return retval;
+        return _carSparePartService.GetProductsWithOrders().ToList();
     }
 
-    private int GetNumberOfItemsSold(List<Order> allOrders, Product product)
-    {
-        if (allOrders == null || allOrders.Count == 0)
-            return 0;
-        var retval = 0;
-        foreach (var order in allOrders.Where(o => o.OrderItems.Any(i => i.Product.ProductId == product.ProductId)))
-        {
-            retval += order.OrderItems.Where(i => i.Product.ProductId == product.ProductId).Sum(item => item.NumberOfItems);
-        }
-        return retval;
-    }
+    
 }

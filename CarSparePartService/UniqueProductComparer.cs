@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using CarSparePartService;
-
-namespace CarSparePartStore.ViewModels;
+﻿namespace CarSparePartService;
 
 public class UniqueProductComparer 
     : IEqualityComparer<Product>

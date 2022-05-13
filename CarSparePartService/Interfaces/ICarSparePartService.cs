@@ -9,4 +9,5 @@ public interface ICarSparePartService
     public void LoadBackup(string filePath);
     public void PlaceOrder(Order order);
     IEnumerable<Order> GetAllOrders();
+    IEnumerable<ProductWithOrders> GetProductsWithOrders();
 }

@@ -1,12 +1,12 @@
 namespace CarSparePartService;
 
-public class Order 
+public class Order
 {
     private Order()
     {
         
     }
-    
+    public Guid OrderId { get; private set; }
     public int CustomerId { get; set; }
     public List<OrderItem> OrderItems { get; set; }
     
@@ -17,6 +17,6 @@ public class Order
 
     public static Order Create(int customerId, IEnumerable<OrderItem> orderItems)
     {
-        return new Order { CustomerId = customerId, OrderItems = orderItems.ToList()};
+        return new Order { OrderId = Guid.NewGuid(), CustomerId = customerId, OrderItems = orderItems.ToList()};
     }
 }
