@@ -9,7 +9,7 @@ public class CarSparePartService
 {
     private readonly IOrderBackupManager _orderBackupManager;
     private readonly ILogger _logger;
-    public event EventHandler OrderAdded;
+    public event EventHandler<OrderAddedEventArgs> OrderAdded;
     
     public CarSparePartService(IOrderBackupManager orderBackupManager, ILogger logger)
     {
