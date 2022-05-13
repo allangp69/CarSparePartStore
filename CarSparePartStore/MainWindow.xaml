@@ -20,11 +20,13 @@
             </Grid>
             <DockPanel LastChildFill="True">
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Content="Create Order" Width="80" Height="35" Margin="10"
+                    <Button Content="Orders for product" Width="110" Height="35" Margin="10"
+                            Command="{Binding OrdersForProductCommand}"/>
+                    <Button Content="Create Order" Width="110" Height="35" Margin="10"
                             Command="{Binding CreateOrderCommand}"/>
-                    <Button Content="Backup orders" Width="80" Height="35" Margin="10"
+                    <Button Content="Backup orders" Width="110" Height="35" Margin="10"
                             Command="{Binding BackupOrdersCommand}"/>
-                    <Button Content="Restore orders from backup" Width="80" Height="35" Margin="10"
+                    <Button Content="Restore orders" Width="110" Height="35" Margin="10"
                             Command="{Binding RestoreOrdersFromBackupCommand}"/>
                 </StackPanel>
                 <ContentControl Content="{Binding Content}" />

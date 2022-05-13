@@ -18,13 +18,14 @@ using OnlineStoreEmulator;
 namespace CarSparePartStore.ViewModels;
 
 public class CarSparePartViewModel
-    :ObservableRecipient
+    : ObservableRecipient
 {
     private readonly IProductFetcher _productFetcher;
     private readonly ICustomerService _customerService;
     private ICarSparePartService _carSparePartService;
-    
-    public CarSparePartViewModel(ICarSparePartService carSparePartService, IProductFetcher productFetcher, ICustomerService customerService)
+
+    public CarSparePartViewModel(ICarSparePartService carSparePartService, IProductFetcher productFetcher,
+        ICustomerService customerService)
     {
         _productFetcher = productFetcher;
         _customerService = customerService;
@@ -57,10 +58,7 @@ public class CarSparePartViewModel
 
     private void CarSparePartServiceBackupCompleted(object? sender, EventArgs e)
     {
-        Application.Current?.Dispatcher?.Invoke(() =>
-        {
-            AddNotification($"Backup of orders completed");
-        });
+        Application.Current?.Dispatcher?.Invoke(() => { AddNotification($"Backup of orders completed"); });
     }
 
     private void CarSparePartServiceRestoreBackupCompleted(object? sender, EventArgs e)
@@ -71,20 +69,32 @@ public class CarSparePartViewModel
             UpdateProductsWithOrders();
         });
     }
-    
+
     public void UpdateProductsWithOrders()
     {
         ProductsWithOrders.Clear();
         var productsWithOrders = GetProductsWithOrders();
         foreach (var productWithOrders in productsWithOrders)
         {
-            ProductsWithOrders.Add(productWithOrders);   
+            ProductsWithOrders.Add(productWithOrders);
         }
     }
 
+    private ProductWithOrders _orderListSelectedProject;
+    public ProductWithOrders OrderListSelectedProject
+    {
+        get => _orderListSelectedProject;
+        set
+        {
+            SetProperty(ref _orderListSelectedProject, value); 
+            OrdersForProductCommand.NotifyCanExecuteChanged();   
+        }
+    }
+    
     public ObservableCollection<ProductWithOrders> ProductsWithOrders { get; private set; }
 
     private UserControl _content;
+
     public UserControl Content
     {
         get => _content;
@@ -92,37 +102,71 @@ public class CarSparePartViewModel
     }
 
     #region Commands
+
+    private RelayCommand _ordersForProductCommand;
+
+    public RelayCommand OrdersForProductCommand
+    {
+        get
+        {
+            return _ordersForProductCommand ?? (_ordersForProductCommand = new RelayCommand(ShowOrdersForProduct, CanShowOrdersForProduct));
+        }
+    }
+
     private RelayCommand _createOrderCommand;
+
     public RelayCommand CreateOrderCommand
     {
         get { return _createOrderCommand ?? (_createOrderCommand = new RelayCommand(CreateOrder, CanCreateOrder)); }
     }
 
     private RelayCommand _placeNewOrderCommand;
+
     public RelayCommand PlaceNewOrderCommand
     {
         get { return _placeNewOrderCommand ?? (_placeNewOrderCommand = new RelayCommand(PlaceOrder, CanPlaceOrder)); }
     }
 
     private RelayCommand _cancelNewOrderCommand;
+
     public RelayCommand CancelNewOrderCommand
     {
-        get { return _cancelNewOrderCommand ?? (_cancelNewOrderCommand = new RelayCommand(CancelOrder, CanCancelOrder)); }
+        get
+        {
+            return _cancelNewOrderCommand ?? (_cancelNewOrderCommand = new RelayCommand(CancelOrder, CanCancelOrder));
+        }
     }
 
     private RelayCommand _backupOrdersCommand;
+
     public RelayCommand BackupOrdersCommand
     {
         get { return _backupOrdersCommand ?? (_backupOrdersCommand = new RelayCommand(BackupOrders, CanBackupOrders)); }
     }
-    
+
     private RelayCommand _restoreOrdersFromBackupCommand;
+
     public RelayCommand RestoreOrdersFromBackupCommand
     {
-        get { return _restoreOrdersFromBackupCommand ?? (_restoreOrdersFromBackupCommand = new RelayCommand(RestoreOrdersFromBackup, CanRestoreOrders)); }
+        get
+        {
+            return _restoreOrdersFromBackupCommand ?? (_restoreOrdersFromBackupCommand = new RelayCommand(RestoreOrdersFromBackup, CanRestoreOrders));
+        }
     }
+
     #endregion Commands
-    
+
+    private bool CanShowOrdersForProduct()
+    {
+        return OrderListSelectedProject is not null;
+    }
+
+    private void ShowOrdersForProduct()
+    {
+        //Show the orders for product view
+        Content = new OrdersForProductView();
+    }
+
     private bool CanCancelOrder()
     {
         return true;
@@ -133,19 +177,20 @@ public class CarSparePartViewModel
         IsOrderCreationInProgress = false;
         Content = new CarSparePartListView();
     }
-    
+
     private bool CanCreateOrder()
     {
         return !IsOrderCreationInProgress;
     }
 
     private bool _isOrderCreationInProgress;
+
     public bool IsOrderCreationInProgress
     {
         get => _isOrderCreationInProgress;
         set
         {
-            SetProperty(ref _isOrderCreationInProgress, value); 
+            SetProperty(ref _isOrderCreationInProgress, value);
             CreateOrderCommand.NotifyCanExecuteChanged();
         }
     }
@@ -172,16 +217,25 @@ public class CarSparePartViewModel
         {
             return false;
         }
+
         return true;
     }
 
     private void PlaceOrder()
     {
         Order.CustomerId = SelectedCustomer.CustomerId;
-        Order.AddItem(new OrderItem{Product = SelectedProduct, NumberOfItems = NumberOfItems});
+        Order.AddItem(new OrderItem {Product = SelectedProduct, NumberOfItems = NumberOfItems});
         _carSparePartService.PlaceOrder(Order);
+        ClearSelections();
     }
-    
+
+    private void ClearSelections()
+    {
+        SelectedCustomer = null;
+        SelectedProduct = null;
+        NumberOfItems = 0;
+    }
+
     private bool CanBackupOrders()
     {
         return true;
@@ -195,12 +249,12 @@ public class CarSparePartViewModel
         _carSparePartService.CreateBackup(backupFilename);
         StartEmulator();
     }
-    
+
     private bool CanRestoreOrders()
     {
         return true;
     }
-    
+
     private void RestoreOrdersFromBackup()
     {
         StopEmulator();
@@ -211,6 +265,7 @@ public class CarSparePartViewModel
             //Show message to user
             return;
         }
+
         _carSparePartService.LoadBackup(backupFilename);
         StartEmulator();
         UpdateProductsWithOrders();
@@ -221,7 +276,7 @@ public class CarSparePartViewModel
         var emulator = Ioc.Default.GetRequiredService<IOnlineStoreEmulator>();
         emulator.Stop();
     }
-    
+
     private void StartEmulator()
     {
         var emulator = Ioc.Default.GetRequiredService<IOnlineStoreEmulator>();
@@ -230,50 +285,49 @@ public class CarSparePartViewModel
 
     public ObservableCollection<Customer> Customers
     {
-        get
-        {
-            return new ObservableCollection<Customer>(_customerService.GetAllCustomers());
-        }
+        get { return new ObservableCollection<Customer>(_customerService.GetAllCustomers()); }
     }
 
     private Customer _selectedCustomer;
+
     public Customer SelectedCustomer
     {
         get => _selectedCustomer;
         set
         {
-            SetProperty(ref _selectedCustomer, value); 
+            SetProperty(ref _selectedCustomer, value);
             PlaceNewOrderCommand.NotifyCanExecuteChanged();
         }
     }
 
     public ObservableCollection<Product> Products
     {
-        get
-        {
-            return new ObservableCollection<Product>(_productFetcher.GetAllProducts());
-        }
+        get { return new ObservableCollection<Product>(_productFetcher.GetAllProducts()); }
     }
+
     private Product _selectedProduct;
+
     public Product SelectedProduct
     {
         get => _selectedProduct;
         set
         {
-            SetProperty(ref _selectedProduct, value); 
+            SetProperty(ref _selectedProduct, value);
             PlaceNewOrderCommand.NotifyCanExecuteChanged();
         }
     }
 
     private int _numberOfItems;
+
     public int NumberOfItems
     {
         get => _numberOfItems;
         set => SetProperty(ref _numberOfItems, value);
     }
-    
+
     private Order _order;
-    public Order Order 
+
+    public Order Order
     {
         get => _order;
         set => SetProperty(ref _order, value);
@@ -288,6 +342,4 @@ public class CarSparePartViewModel
     {
         return _carSparePartService.GetProductsWithOrders().ToList();
     }
-
-    
 }
