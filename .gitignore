@@ -13,6 +13,10 @@ output
 *.user
 *.sln.docstates
 
+# Others
+sql/
+*.Cache
+
 # Build results
 [Dd]ebug/
 [Rr]elease/

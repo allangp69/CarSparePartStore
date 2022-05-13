@@ -1,21 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
 using CarSparePartStore.ViewModels;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using OnlineStoreEmulator;
 
 namespace CarSparePartStore
 {
@@ -28,15 +13,6 @@ namespace CarSparePartStore
         {
             InitializeComponent();
             this.DataContext = Ioc.Default.GetService<CarSparePartViewModel>();
-        }
-
-        private void Window_Closing(object? sender, CancelEventArgs e)
-        {
-            var dc = DataContext as CarSparePartViewModel;
-            if (dc is not null)
-            {
-                dc.CancelOrderUpdates();
-            }
         }
     }
 }

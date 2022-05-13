@@ -18,26 +18,26 @@
             <ListView.Resources>
                 <Style TargetType="{x:Type TextBlock}">
                     <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.Description }"></Setter>
+                    <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+                    <Setter Property="Height" Value="35"></Setter>
                 </Style>
             </ListView.Resources>
             <ListView.View>
                 <GridView AllowsColumnReorder="true"
                           ColumnHeaderToolTip="ProductsWithOrders">
                     <GridViewColumn DisplayMemberBinding="{Binding Path=ProductName}"
-                                    Header="Name" Width="100" />
+                                    Header="Name" Width="150" />
                     <GridViewColumn DisplayMemberBinding="{Binding Path=ProductType}"
-                                    Header="Type" Width="100" />
+                                    Header="Type" Width="80" />
                     <GridViewColumn DisplayMemberBinding="{Binding Path=ShortDescription}"
-                                    Header="Description" Width="300">
-                    </GridViewColumn>
+                                    Header="Description" Width="400" />
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Price}"
                                     Header="Price" Width="100" />
                     <GridViewColumn DisplayMemberBinding="{Binding Path=NumberOfItemsSold}"
-                                    Header="Items Sold" Width="100" />
+                                    Header="Items Sold" Width="80" />
                     <GridViewColumn DisplayMemberBinding="{Binding Path=TotalPrice}"
-                                    Header="Total price" Width="100" />
+                                    Header="Total price" Width="80" />
                 </GridView>
-
             </ListView.View>
         </ListView>
     </Grid>

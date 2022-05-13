@@ -23,7 +23,6 @@ public class CarSparePartViewModel
     private readonly IProductFetcher _productFetcher;
     private readonly ICustomerService _customerService;
     private ICarSparePartService _carSparePartService;
-    private readonly CancellationTokenSource cancellationTokenSource;
     
     public CarSparePartViewModel(ICarSparePartService carSparePartService, IProductFetcher productFetcher, ICustomerService customerService)
     {
@@ -31,30 +30,19 @@ public class CarSparePartViewModel
         _customerService = customerService;
         _carSparePartService = carSparePartService;
         ProductsWithOrders = new ObservableCollection<ProductWithOrders>();
-        
-        cancellationTokenSource = new CancellationTokenSource();
-        
-        ThreadPool.QueueUserWorkItem(new WaitCallback(LookForOrderUpdates), cancellationTokenSource.Token);
-        
         Content = new CarSparePartListView();
+        _carSparePartService.OrderAdded += CarSparePartServiceOnOrderAdded;
+        UpdateProductsWithOrders();
     }
 
-    private void LookForOrderUpdates(object? state)
+    private void CarSparePartServiceOnOrderAdded(object? sender, EventArgs e)
     {
-        while (true)
-        {
-            Application.Current?.Dispatcher?.Invoke(() => UpdateProductsWithOrders());
-            Thread.Sleep(TimeSpan.FromSeconds(15));
-        }
-    }
-
-    public void CancelOrderUpdates()
-    {
-        cancellationTokenSource.Cancel();
+        Application.Current?.Dispatcher?.Invoke(() => UpdateProductsWithOrders());
     }
 
     public void UpdateProductsWithOrders()
     {
+        
         ProductsWithOrders.Clear();
         var productsWithOrders = GetProductsWithOrders();
         foreach (var productWithOrders in productsWithOrders)
@@ -130,7 +118,6 @@ public class CarSparePartViewModel
             CreateOrderCommand.NotifyCanExecuteChanged();
         }
     }
-
 
     private void CreateOrder()
     {

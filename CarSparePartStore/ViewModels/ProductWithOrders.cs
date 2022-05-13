@@ -40,7 +40,7 @@ public class ProductWithOrders
     public string ShortDescription {
         get
         {
-            return $"{Product.Description.Substring(0, 50)} ...";
+            return $"{Product.Description.Substring(0, 50).TrimStart()} ...";
         }
     }
     public decimal Price {
