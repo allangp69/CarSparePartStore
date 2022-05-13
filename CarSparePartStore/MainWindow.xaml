@@ -6,18 +6,29 @@
         xmlns:viewModels="clr-namespace:CarSparePartStore.ViewModels"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModels:CarSparePartViewModel, IsDesignTimeCreatable=False}"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="900">
     <Grid>
         <DockPanel LastChildFill="True">
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right">
-                <Button Content="Create Order" Width="80" Height="35" Margin="10"
-                        Command="{Binding CreateOrderCommand}"/>
-                <Button Content="Backup orders" Width="80" Height="35" Margin="10"
-                        Command="{Binding BackupOrdersCommand}"/>
-                <Button Content="Restore orders from backup" Width="80" Height="35" Margin="10"
-                        Command="{Binding RestoreOrdersFromBackupCommand}"/>
-            </StackPanel>
-            <ContentControl Content="{Binding Content}" />
+            <Grid DockPanel.Dock="Bottom" Background="LightGray">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{Binding LatestNotification}" Margin="5" />
+                <Image Grid.Column="1" Source="../Images/red.jfif" Width="12" Height="12" Margin="5" ToolTip="Not connected" />
+                <TextBlock Grid.Column="1" Text="Not connected" />
+            </Grid>
+            <DockPanel LastChildFill="True">
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Create Order" Width="80" Height="35" Margin="10"
+                            Command="{Binding CreateOrderCommand}"/>
+                    <Button Content="Backup orders" Width="80" Height="35" Margin="10"
+                            Command="{Binding BackupOrdersCommand}"/>
+                    <Button Content="Restore orders from backup" Width="80" Height="35" Margin="10"
+                            Command="{Binding RestoreOrdersFromBackupCommand}"/>
+                </StackPanel>
+                <ContentControl Content="{Binding Content}" />
+            </DockPanel>
         </DockPanel>
     </Grid>
 </Window>
