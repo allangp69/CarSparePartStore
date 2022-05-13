@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using OnlineStoreEmulator;
+using Serilog;
 using TestServicesConfigurator;
 
 namespace CarSparePartStore
@@ -63,8 +64,29 @@ namespace CarSparePartStore
                     .AddSingleton<IOrderBackupManager, OrderBackupManager>()
                     .AddSingleton<IOrderBackupWriter, XmlOrderBackupWriter>()
                     .AddSingleton<IOrderBackupReader, XmlOrderBackupReader>()
+                    .AddSingleton((ILogger)new LoggerConfiguration()
+                        .MinimumLevel.Information()
+                        .WriteTo.Console()
+                        .WriteTo.File(Configuration.GetSection("Logging").GetValue<string>("LogFilePath"))
+                        .CreateLogger())
                     .AddTransient<CarSparePartViewModel>()
                     .BuildServiceProvider());
+            
+            
+            // .AddSingleton((ILogger)new LoggerConfiguration()
+            //         .MinimumLevel.Information()
+            //         .WriteTo.File(<...>)
+            //     .CreateLogger()
+            
+            //     .AddSingleton<ILogger>(
+            //     loggerConfiguration
+            //         .ReadFrom.Configuration(hostingContext.Configuration))
+            //
+            // services.AddSingleton();
+            
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(Configuration)
+                .CreateLogger();
         }
     }
 }

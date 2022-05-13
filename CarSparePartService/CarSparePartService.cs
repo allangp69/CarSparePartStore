@@ -1,4 +1,6 @@
-﻿using CarSparePartService.Interfaces;
+﻿using CarSparePartService.ExtensionMethods;
+using CarSparePartService.Interfaces;
+using Serilog;
 
 namespace CarSparePartService;
 
@@ -6,10 +8,12 @@ public class CarSparePartService
         : ICarSparePartService
 {
     private readonly IOrderBackupManager _orderBackupManager;
-    
-    public CarSparePartService(IOrderBackupManager orderBackupManager)
+    private readonly ILogger _logger;
+
+    public CarSparePartService(IOrderBackupManager orderBackupManager, ILogger logger)
     {
         _orderBackupManager = orderBackupManager;
+        _logger = logger;
         Orders = new List<Order>();
     }
     
@@ -30,6 +34,7 @@ public class CarSparePartService
     public void PlaceOrder(Order order)
     {
         Orders.Add(order);
+        _logger.Information($"Order added - customerId: {order.CustomerId} - products: {order.ProductsList()}");
     }
 
     private List<Order> Orders { get; set; }
