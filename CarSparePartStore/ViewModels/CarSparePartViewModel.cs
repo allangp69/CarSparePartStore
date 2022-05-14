@@ -33,7 +33,7 @@ public sealed  class CarSparePartViewModel
         _onlineStoreEmulator = onlineStoreEmulator;
         _onlineStoreEmulator.IsRunningChanged += OnlineStoreEmulatorIsRunningChanged;
         _carSparePartService = carSparePartService;
-        ProductsWithOrders = new ObservableCollection<ProductWithOrders>();
+        ProductsWithItemsCount = new ObservableCollection<ProductWithItemsCount>();
         Notifications = new List<string>();
         _carSparePartService.OrderAdded += CarSparePartServiceOrderAdded;
         _carSparePartService.RestoreBackupCompleted += CarSparePartServiceRestoreBackupCompleted;
@@ -105,11 +105,11 @@ public sealed  class CarSparePartViewModel
 
     public void UpdateProductsWithOrders()
     {
-        ProductsWithOrders.Clear();
-        var productsWithOrders = GetProductsWithOrders();
+        ProductsWithItemsCount.Clear();
+        var productsWithOrders = GetProductsWithItemsCount();
         foreach (var productWithOrders in productsWithOrders)
         {
-            ProductsWithOrders.Add(productWithOrders);
+            ProductsWithItemsCount.Add(productWithOrders);
         }
     }
 
@@ -124,7 +124,7 @@ public sealed  class CarSparePartViewModel
         }
     }
     
-    public ObservableCollection<ProductWithOrders> ProductsWithOrders { get; private set; }
+    public ObservableCollection<ProductWithItemsCount> ProductsWithItemsCount { get; private set; }
 
     private UserControl _content;
     public UserControl Content
@@ -394,5 +394,10 @@ public sealed  class CarSparePartViewModel
     public IEnumerable<ProductWithOrders> GetProductsWithOrders()
     {
         return _carSparePartService.GetProductsWithOrders().ToList();
+    }
+    
+    public IEnumerable<ProductWithItemsCount> GetProductsWithItemsCount()
+    {
+        return _carSparePartService.GetProductsWithItemsCount().ToList();
     }
 }
