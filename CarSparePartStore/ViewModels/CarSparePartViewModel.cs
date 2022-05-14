@@ -17,7 +17,7 @@ using OnlineStoreEmulator;
 
 namespace CarSparePartStore.ViewModels;
 
-public class CarSparePartViewModel
+public sealed  class CarSparePartViewModel
     : ObservableRecipient
 {
     private readonly IProductFetcher _productFetcher;
@@ -34,14 +34,18 @@ public class CarSparePartViewModel
         _onlineStoreEmulator.IsRunningChanged += OnlineStoreEmulatorIsRunningChanged;
         _carSparePartService = carSparePartService;
         ProductsWithOrders = new ObservableCollection<ProductWithOrders>();
-        Content = new CarSparePartListView();
         Notifications = new List<string>();
         _carSparePartService.OrderAdded += CarSparePartServiceOrderAdded;
         _carSparePartService.RestoreBackupCompleted += CarSparePartServiceRestoreBackupCompleted;
         _carSparePartService.BackupCompleted += CarSparePartServiceBackupCompleted;
-        StartEmulator();
+        
     }
 
+    protected override void OnActivated()
+    {
+        Content = new CarSparePartListView();
+        StartEmulator();
+    }
     private List<string> Notifications { get; }
 
     private void OnlineStoreEmulatorIsRunningChanged(object? sender, IsRunningEventArgs e)

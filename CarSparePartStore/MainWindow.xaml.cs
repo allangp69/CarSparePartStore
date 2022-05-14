@@ -12,7 +12,9 @@ namespace CarSparePartStore
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = Ioc.Default.GetService<CarSparePartViewModel>();
+            var vm = Ioc.Default.GetService<CarSparePartViewModel>();
+            this.DataContext = vm;
+            vm.IsActive = true;
         }
     }
 }
