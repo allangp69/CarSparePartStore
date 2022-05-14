@@ -1,14 +1,18 @@
 ﻿using System.Data;
 using CarSparePartService.Interfaces;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
 
 namespace CarSparePartService.Product;
 
 public class ProductFetcher
 : IProductFetcher
 {
+    private readonly IConfiguration _configuration;
 
+    public ProductFetcher(IConfiguration configuration)
+    {
+        _configuration = configuration;
+    }
     public void LoadProducts(string fileName)
     {
         Products = ReadProductsFromXML(fileName);
@@ -16,23 +20,22 @@ public class ProductFetcher
 
     public void LoadProductsFromBackup()
     {
-        var configuration = Ioc.Default.GetRequiredService<IConfiguration>();
-        var productsBackupFile = new FileInfo(configuration.GetSection("ApplicationSettings").GetSection("ProductsBackup").Value);
+        var productsBackupFile = new FileInfo(_configuration.GetSection("ApplicationSettings").GetSection("ProductsBackup").Value);
         LoadProducts(productsBackupFile.FullName);
     }
 
-    private IEnumerable<global::CarSparePartService.Product.Product> Products { get;  set; }
+    private IEnumerable<Product> Products { get;  set; }
 
-    private IEnumerable<global::CarSparePartService.Product.Product> ReadProductsFromXML(string fileName)
+    private IEnumerable<Product> ReadProductsFromXML(string fileName)
     {
         var file = new FileInfo(fileName);
         var dataset = new DataSet();
         dataset.ReadXml(file.FullName);
-        var retval = new List<global::CarSparePartService.Product.Product>();
+        var retval = new List<Product>();
         var productsTable = dataset.Tables[2];
         foreach (DataRow row in productsTable.Rows)
         {
-            var product = new global::CarSparePartService.Product.Product
+            var product = new Product
             {
                 Name = row[0].ToString(),
                 Type = row[1].ToString(),
@@ -45,12 +48,12 @@ public class ProductFetcher
         return retval;
     }
 
-    public IEnumerable<global::CarSparePartService.Product.Product> GetAllProducts()
+    public IEnumerable<Product> GetAllProducts()
     {
         return Products;
     }
 
-    public global::CarSparePartService.Product.Product FindProduct(int productId)
+    public Product FindProduct(int productId)
     {
         return Products.FirstOrDefault(p => p.ProductId == productId);
     }
