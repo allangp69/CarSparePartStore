@@ -25,39 +25,7 @@ public class CarSparePartService
         Orders = new List<Order>();
     }
     
-    
-    protected virtual void OnBackupCompleted(EventArgs e)
-    {
-        var handler = BackupCompleted;
-        handler?.Invoke(this, e);
-    }
-    public void CreateBackup(string filePath)
-    {
-        if (string.IsNullOrEmpty(filePath))
-        {
-            return;
-        }
-        var converter = new OrderDTOConverter();
-        _orderBackupManager.BackupToFile(converter.ConvertToDTO(GetAllOrders()), filePath);
-        OnBackupCompleted(EventArgs.Empty);
-    }
-
-    protected virtual void OnRestoreBackupCompleted(EventArgs e)
-    {
-        var handler = RestoreBackupCompleted;
-        handler?.Invoke(this, e);
-    }
-    public void LoadBackup(string filePath)
-    {
-        if (!File.Exists(filePath))
-        {
-            _logger.Error($"Could not restore from backup - file: {filePath} doesn't exist");
-        }
-        var converter = new OrderDTOConverter();
-        Orders = converter.ConvertFromDTO(_orderBackupManager.LoadBackupFromFile(filePath)).ToList();
-        OnRestoreBackupCompleted(EventArgs.Empty);
-    }
-
+    #region Orders
     protected virtual void OnOrderAdded(OrderAddedEventArgs e)
     {
         var handler = OrderAdded;
@@ -77,7 +45,7 @@ public class CarSparePartService
     }
 
     private List<Order> Orders { get; set; }
-
+    
     public IEnumerable<Order> GetAllOrders()
     {
         return Orders;
@@ -101,4 +69,42 @@ public class CarSparePartService
         var comparer = new UniqueProductComparer();
         return Orders.Where(o => o.OrderItems.Any(i => comparer.Equals(i.Product, product))).Select(o => o.OrderId).ToList();
     }
+    
+    #endregion Orders
+    
+    #region Backup
+    private void OnBackupCompleted(EventArgs e)
+    {
+        var handler = BackupCompleted;
+        handler?.Invoke(this, e);
+    }
+    public void CreateBackup(string filePath)
+    {
+        if (string.IsNullOrEmpty(filePath))
+        {
+            return;
+        }
+        var converter = new OrderDTOConverter();
+        _orderBackupManager.BackupToFile(converter.ConvertToDTO(GetAllOrders()), filePath);
+        OnBackupCompleted(EventArgs.Empty);
+    }
+
+    private void OnRestoreBackupCompleted(EventArgs e)
+    {
+        var handler = RestoreBackupCompleted;
+        handler?.Invoke(this, e);
+    }
+    public void LoadBackup(string filePath)
+    {
+        if (!File.Exists(filePath))
+        {
+            _logger.Error($"Could not restore from backup - file: {filePath} doesn't exist");
+            return;
+        }
+        var converter = new OrderDTOConverter();
+        Orders = converter.ConvertFromDTO(_orderBackupManager.LoadBackupFromFile(filePath)).ToList();
+        OnRestoreBackupCompleted(EventArgs.Empty);
+    }
+
+    #endregion Backup
 }
