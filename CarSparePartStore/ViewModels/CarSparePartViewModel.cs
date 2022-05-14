@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using CarSparePartService;
 using CarSparePartService.Interfaces;
 using CarSparePartService.Product;
@@ -22,7 +24,7 @@ public class CarSparePartViewModel
 {
     private readonly IProductFetcher _productFetcher;
     private readonly ICustomerService _customerService;
-    private ICarSparePartService _carSparePartService;
+    private readonly ICarSparePartService _carSparePartService;
 
     public CarSparePartViewModel(ICarSparePartService carSparePartService, IProductFetcher productFetcher,
         ICustomerService customerService)
@@ -94,7 +96,6 @@ public class CarSparePartViewModel
     public ObservableCollection<ProductWithOrders> ProductsWithOrders { get; private set; }
 
     private UserControl _content;
-
     public UserControl Content
     {
         get => _content;
@@ -104,7 +105,6 @@ public class CarSparePartViewModel
     #region Commands
 
     private RelayCommand _ordersForProductCommand;
-
     public RelayCommand OrdersForProductCommand
     {
         get
@@ -114,21 +114,18 @@ public class CarSparePartViewModel
     }
 
     private RelayCommand _createOrderCommand;
-
     public RelayCommand CreateOrderCommand
     {
         get { return _createOrderCommand ?? (_createOrderCommand = new RelayCommand(CreateOrder, CanCreateOrder)); }
     }
 
     private RelayCommand _placeNewOrderCommand;
-
     public RelayCommand PlaceNewOrderCommand
     {
         get { return _placeNewOrderCommand ?? (_placeNewOrderCommand = new RelayCommand(PlaceOrder, CanPlaceOrder)); }
     }
 
     private RelayCommand _cancelNewOrderCommand;
-
     public RelayCommand CancelNewOrderCommand
     {
         get
@@ -138,7 +135,6 @@ public class CarSparePartViewModel
     }
 
     private RelayCommand _backupOrdersCommand;
-
     public RelayCommand BackupOrdersCommand
     {
         get { return _backupOrdersCommand ?? (_backupOrdersCommand = new RelayCommand(BackupOrders, CanBackupOrders)); }
@@ -337,6 +333,11 @@ public class CarSparePartViewModel
     {
         get { return Notifications.Any() ? Notifications.Last() : string.Empty; }
     }
+
+    // public ImageSource IsConnectedSourceImage
+    // {
+    //     get { return new BitmapImage(new Uri("../Images/red.jpeg")); }
+    // }
 
     public IEnumerable<ProductWithOrders> GetProductsWithOrders()
     {
