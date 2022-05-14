@@ -62,12 +62,36 @@ public class CarSparePartService
         return retval;
     }
 
+    public IEnumerable<ProductWithItemsCount> GetProductsWithItemsCount()
+    {
+        var retval = new List<ProductWithItemsCount>();
+        var products = _productFetcher.GetAllProducts(); 
+        foreach (var product in products)
+        {
+            retval.Add(new ProductWithItemsCount(product, GetNumberOfItemsSoldForProduct(product)));
+        }
+        return retval;
+    }
+
     private IEnumerable<Guid> GetOrdersIdsForProduct(Product.Product product)
     {
         if (!Orders.Any())
             return new List<Guid>();
         var comparer = new UniqueProductComparer();
         return Orders.Where(o => o.OrderItems.Any(i => comparer.Equals(i.Product, product))).Select(o => o.OrderId).ToList();
+    }
+    
+    private int GetNumberOfItemsSoldForProduct(Product.Product product)
+    {
+        var retval = 0;
+        if (!Orders.Any())
+            return retval;
+        var comparer = new UniqueProductComparer();
+        foreach (var order in Orders.Where(o => o.OrderItems.Any(i => comparer.Equals(i.Product, product))))
+        {
+            retval += order.OrderItems.Where(o => comparer.Equals(o.Product, product)).Sum(o => o.NumberOfItems);
+        }
+        return retval;
     }
     
     #endregion Orders

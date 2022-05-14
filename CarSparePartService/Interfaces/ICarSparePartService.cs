@@ -13,4 +13,5 @@ public interface ICarSparePartService
     public void PlaceOrder(Order order);
     IEnumerable<Order> GetAllOrders();
     IEnumerable<ProductWithOrders> GetProductsWithOrders();
+    IEnumerable<ProductWithItemsCount> GetProductsWithItemsCount();
 }
