@@ -15,8 +15,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="{Binding LatestNotification}" Margin="5" />
-                <Image Grid.Column="1" Source="../Images/red.jfif" Width="12" Height="12" Margin="5" ToolTip="Not connected" />
-                <TextBlock Grid.Column="1" Text="Not connected" />
+                <Image Grid.Column="1" Source="{StaticResource ConnectionRedImage}" Width="12" Height="12" Margin="5, 5, 15, 5" ToolTip="Not connected" />
             </Grid>
             <DockPanel LastChildFill="True">
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">

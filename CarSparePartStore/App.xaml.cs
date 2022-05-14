@@ -21,25 +21,26 @@ namespace CarSparePartStore
     public partial class App : Application
     {
         private readonly IOnlineStoreEmulator _emulator;
-        private static IConfigurationRoot Configuration { get; set; }
+        private IConfigurationRoot Configuration { get; set; }
         
         public App()
         {
-            ReadConfiguration();
+            Configuration = ReadConfiguration();
             ConfigureServices();
             var productFetcher = Ioc.Default.GetRequiredService<IProductFetcher>();
             productFetcher.LoadProductsFromBackup();
+            
             _emulator = Ioc.Default.GetRequiredService<IOnlineStoreEmulator>();
             this.InitializeComponent();
         }
 
-        private void ReadConfiguration()
+        private IConfigurationRoot ReadConfiguration()
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
-             Configuration = builder.Build();
+             return builder.Build();
         }
 
         protected override void OnExit(ExitEventArgs e)
@@ -51,7 +52,7 @@ namespace CarSparePartStore
         // <summary>
         /// Configures the services for the application.
         /// </summary>
-        private static void ConfigureServices()
+        private void ConfigureServices()
         {
             Ioc.Default.ConfigureServices(
                 new ServiceCollection()
