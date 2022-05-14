@@ -4,9 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:CarSparePartStore.ViewModels"
+        xmlns:carSparePartStore="clr-namespace:CarSparePartStore"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModels:CarSparePartViewModel, IsDesignTimeCreatable=False}"
         Title="MainWindow" Height="450" Width="900">
+    <Window.Resources>
+        <carSparePartStore:BoolToRedGreenImageConverter x:Key="BoolToRedGreenImageConverter" />
+    </Window.Resources>
     <Grid>
         <DockPanel LastChildFill="True">
             <Grid DockPanel.Dock="Bottom" Background="LightGray">
@@ -15,18 +19,27 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="{Binding LatestNotification}" Margin="5" />
-                <Image Grid.Column="1" Source="{StaticResource ConnectionRedImage}" Width="12" Height="12" Margin="5, 5, 15, 5" ToolTip="Not connected" />
+                <Image Grid.Column="1"
+                       Source="{Binding IsOnlineStoreRunning, Converter={StaticResource BoolToRedGreenImageConverter}}"
+                       Width="12" Height="12" Margin="5, 5, 15, 5" ToolTip="{Binding IsOnlineStoreRunningText}">
+                    <Image.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Start emulator" Command="{Binding StartEmulatorCommand}" />
+                            <MenuItem Header="Stop emulator" Command="{Binding StopEmulatorCommand}" />
+                        </ContextMenu>
+                    </Image.ContextMenu>
+                </Image>
             </Grid>
             <DockPanel LastChildFill="True">
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button Content="Orders for product" Width="110" Height="35" Margin="10"
-                            Command="{Binding OrdersForProductCommand}"/>
+                            Command="{Binding OrdersForProductCommand}" />
                     <Button Content="Create Order" Width="110" Height="35" Margin="10"
-                            Command="{Binding CreateOrderCommand}"/>
+                            Command="{Binding CreateOrderCommand}" />
                     <Button Content="Backup orders" Width="110" Height="35" Margin="10"
-                            Command="{Binding BackupOrdersCommand}"/>
+                            Command="{Binding BackupOrdersCommand}" />
                     <Button Content="Restore orders" Width="110" Height="35" Margin="10"
-                            Command="{Binding RestoreOrdersFromBackupCommand}"/>
+                            Command="{Binding RestoreOrdersFromBackupCommand}" />
                 </StackPanel>
                 <ContentControl Content="{Binding Content}" />
             </DockPanel>

@@ -5,8 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using CarSparePartService;
 using CarSparePartService.Interfaces;
 using CarSparePartService.Product;
@@ -24,13 +22,16 @@ public class CarSparePartViewModel
 {
     private readonly IProductFetcher _productFetcher;
     private readonly ICustomerService _customerService;
+    private readonly IOnlineStoreEmulator _onlineStoreEmulator;
     private readonly ICarSparePartService _carSparePartService;
 
     public CarSparePartViewModel(ICarSparePartService carSparePartService, IProductFetcher productFetcher,
-        ICustomerService customerService)
+        ICustomerService customerService, IOnlineStoreEmulator onlineStoreEmulator)
     {
         _productFetcher = productFetcher;
         _customerService = customerService;
+        _onlineStoreEmulator = onlineStoreEmulator;
+        _onlineStoreEmulator.IsRunningChanged += OnlineStoreEmulatorIsRunningChanged;
         _carSparePartService = carSparePartService;
         ProductsWithOrders = new ObservableCollection<ProductWithOrders>();
         Content = new CarSparePartListView();
@@ -43,6 +44,32 @@ public class CarSparePartViewModel
 
     private List<string> Notifications { get; }
 
+    private void OnlineStoreEmulatorIsRunningChanged(object? sender, IsRunningEventArgs e)
+    {
+        IsOnlineStoreRunning = e.IsRunning;
+    }
+
+    private bool _isOnlineStoreRunning;
+    public bool IsOnlineStoreRunning
+    {
+        get => _isOnlineStoreRunning;
+        set
+        {
+            SetProperty(ref _isOnlineStoreRunning, value);
+            OnPropertyChanged(nameof(IsOnlineStoreRunningText));
+            StartEmulatorCommand.NotifyCanExecuteChanged();
+            StopEmulatorCommand.NotifyCanExecuteChanged();
+        }
+    }
+
+    public string IsOnlineStoreRunningText
+    {
+        get
+        {
+            var notOrEmptyString = IsOnlineStoreRunning ? "" : "not";
+            return $"The OnlineStoreEmulator is {notOrEmptyString} running.";
+        }
+    }
     private void CarSparePartServiceOrderAdded(object? sender, OrderAddedEventArgs e)
     {
         Application.Current?.Dispatcher?.Invoke(() =>
@@ -141,12 +168,29 @@ public class CarSparePartViewModel
     }
 
     private RelayCommand _restoreOrdersFromBackupCommand;
-
     public RelayCommand RestoreOrdersFromBackupCommand
     {
         get
         {
             return _restoreOrdersFromBackupCommand ?? (_restoreOrdersFromBackupCommand = new RelayCommand(RestoreOrdersFromBackup, CanRestoreOrders));
+        }
+    }
+
+    private RelayCommand _startEmulatorCommand;
+    public RelayCommand StartEmulatorCommand
+    {
+        get
+        {
+            return _startEmulatorCommand ?? (_startEmulatorCommand = new RelayCommand(StartEmulator, CanStartEmulator));
+        }
+    }
+
+    private RelayCommand _stopEmulatorCommand;
+    public RelayCommand StopEmulatorCommand
+    {
+        get
+        {
+            return _stopEmulatorCommand ?? (_stopEmulatorCommand = new RelayCommand(StopEmulator, CanStopEmulator));
         }
     }
 
@@ -269,16 +313,24 @@ public class CarSparePartViewModel
 
     private void StopEmulator()
     {
-        var emulator = Ioc.Default.GetRequiredService<IOnlineStoreEmulator>();
-        emulator.Stop();
+        _onlineStoreEmulator.Stop();
     }
 
+    private bool CanStopEmulator()
+    {
+        return IsOnlineStoreRunning;
+    }
+    
     private void StartEmulator()
     {
-        var emulator = Ioc.Default.GetRequiredService<IOnlineStoreEmulator>();
-        emulator.Start();
+        _onlineStoreEmulator.Start();
     }
 
+    private bool CanStartEmulator()
+    {
+        return !IsOnlineStoreRunning;
+    }
+    
     public ObservableCollection<Customer> Customers
     {
         get { return new ObservableCollection<Customer>(_customerService.GetAllCustomers()); }
@@ -322,6 +374,7 @@ public class CarSparePartViewModel
     }
 
     private Order _order;
+    
 
     public Order Order
     {
@@ -333,11 +386,6 @@ public class CarSparePartViewModel
     {
         get { return Notifications.Any() ? Notifications.Last() : string.Empty; }
     }
-
-    // public ImageSource IsConnectedSourceImage
-    // {
-    //     get { return new BitmapImage(new Uri("../Images/red.jpeg")); }
-    // }
 
     public IEnumerable<ProductWithOrders> GetProductsWithOrders()
     {

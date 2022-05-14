@@ -14,7 +14,25 @@ public class OnlineStoreEmulator
     private readonly IRandomProductGenerator _randomProductGenerator;
     private int _intervalSeconds = 15;
     private CancellationTokenSource _cts;
-        
+    
+    private bool _isRunning;
+
+    private bool IsRunning
+    {
+        get => _isRunning;
+        set
+        {
+            _isRunning = value;
+            OnIsRunningChanged(_isRunning);
+        }
+    }
+
+    private void OnIsRunningChanged(bool isRunning)
+    {
+        var handler = IsRunningChanged;
+        handler?.Invoke(this,  new IsRunningEventArgs(isRunning));
+    }
+
     public OnlineStoreEmulator(ICarSparePartService carSparePartService, IRandomCustomerGenerator randomCustomerGenerator, IRandomProductGenerator randomProductGenerator)
     {
         _randomCustomerGenerator = randomCustomerGenerator;
@@ -23,6 +41,8 @@ public class OnlineStoreEmulator
         SetOrderIntervalFromConfiguration();
     }
 
+    public event EventHandler<IsRunningEventArgs>? IsRunningChanged;
+    
     private void SetOrderIntervalFromConfiguration()
     {
         var configuration = Ioc.Default.GetRequiredService<IConfiguration>();
@@ -54,13 +74,15 @@ public class OnlineStoreEmulator
             }
         });
         onlineSaleThread.Start();
+        IsRunning = true;
     }
-    
+
     public void Stop()
     {
         _cts.Cancel();
+        IsRunning = false;
     }
-    
+
     public void CreateOrder()
     {
         var customer = _randomCustomerGenerator.GenerateCustomer();
