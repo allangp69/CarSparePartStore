@@ -27,6 +27,9 @@ public class OnlineStoreEmulator
     {
         var configuration = Ioc.Default.GetRequiredService<IConfiguration>();
         var interval = configuration.GetSection("OnlineStorEmulator").GetSection("CreateOrdersIntervalSeconds").Value;
+        // _intervalSeconds = int.TryParse(interval, out var intervalseconds) && intervalseconds > 0
+        //     ? intervalseconds
+        //     : _intervalSeconds;
         if (interval is null) 
             return;
         if (!int.TryParse(interval, out var intervalSeconds)) 
@@ -46,7 +49,8 @@ public class OnlineStoreEmulator
             {
                 Console.WriteLine("Creating order");
                 CreateOrder();
-                Thread.Sleep(TimeSpan.FromSeconds(_intervalSeconds));
+                //Thread.Sleep(TimeSpan.FromSeconds(_intervalSeconds));
+                _cts.Token.WaitHandle.WaitOne(TimeSpan.FromSeconds(_intervalSeconds));
             }
         });
         onlineSaleThread.Start();
