@@ -3,9 +3,9 @@ namespace CarSparePartService.Product;
 public class ProductWithOrders
 {
     private readonly IEnumerable<Guid> _orderIds;
-    private global::CarSparePartService.Product.Product Product { get; }
+    private Product Product { get; }
 
-    public ProductWithOrders(global::CarSparePartService.Product.Product product, IEnumerable<Guid> orderIds)
+    public ProductWithOrders(Product product, IEnumerable<Guid> orderIds)
     {
         _orderIds = orderIds;
         Product = product;
