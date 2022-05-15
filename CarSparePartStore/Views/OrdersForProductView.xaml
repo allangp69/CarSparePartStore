@@ -3,11 +3,98 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:CarSparePartStore.Views"
+             xmlns:viewModels="clr-namespace:CarSparePartStore.ViewModels"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:carSparePartStore="clr-namespace:CarSparePartStore"
+             d:DataContext="{d:DesignInstance Type=viewModels:CarSparePartViewModel, IsDesignTimeCreatable=False}"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <!-- Display the orders for the selected product for a specific period -->
-        <TextBlock>Orders for product</TextBlock>
+    <UserControl.Resources>
+        <carSparePartStore:LongToShortTextConverter x:Key="LongToShortTextConverter" />
+    </UserControl.Resources>
+    <Grid MaxWidth="400" MaxHeight="400">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Margin="10" HorizontalAlignment="Center">
+            <TextBlock Text="Orders for product" FontSize="24" />
+        </StackPanel>
+        <Grid Grid.Row="1" Margin="10">
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="10" />
+                </Style>
+                <Style TargetType="ComboBox">
+                    <Setter Property="Margin" Value="10" />
+                </Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Margin" Value="10" />
+                </Style>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Product" />
+            <ComboBox Grid.Row="0" Grid.Column="1" Height="25"
+                      ItemsSource="{Binding Products}" 
+                      SelectedItem="{Binding OrdersForProductSelectedProduct}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" Margin="5" />
+                            <TextBlock Text="{Binding Description, Converter={StaticResource LongToShortTextConverter}}" Width="200" Height="35" TextWrapping="WrapWithOverflow" Margin="5" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Period" />
+            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                <DatePicker DisplayDate="{Binding PeriodFromDate}" />
+                <xctk:MaskedTextBox Text="{Binding PeriodFromTime}" Mask="##:##" />
+                <TextBlock Text=" to " />
+                <DatePicker DisplayDate="{Binding PeriodToDate}" />
+                <xctk:MaskedTextBox Text="{Binding PeriodToTime}" Mask="##:##" />
+            </StackPanel>
+            <ListView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding OrdersForProduct}" 
+                      SelectedItem="{Binding OrdersForProductsSelectedOrder}" Margin="10">
+                <ListView.Resources>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.Description }"></Setter>
+                        <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+                        <Setter Property="Height" Value="35"></Setter>
+                    </Style>
+                </ListView.Resources>
+                <ListView.View>
+                    <GridView AllowsColumnReorder="true"
+                              ColumnHeaderToolTip="ProductsWithOrders">
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=ProductName}"
+                                        Header="Name" Width="150" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=ProductType}"
+                                        Header="Type" Width="80" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=ShortDescription}"
+                                        Header="Description" Width="400" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=Price}"
+                                        Header="Price" Width="100" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=ItemsCount}"
+                                        Header="Items Sold" Width="80" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=TotalPrice}"
+                                        Header="Total price" Width="80" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                <Button Content="Ok" Width="75" Height="35" Command="{Binding PlaceNewOrderCommand}" />
+                <Button Content="Cancel" Width="75" Height="35" Command="{Binding CancelNewOrderCommand}" />
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

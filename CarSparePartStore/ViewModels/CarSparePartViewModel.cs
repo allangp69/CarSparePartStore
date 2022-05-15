@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using CarSparePartService;
 using CarSparePartService.Interfaces;
 using CarSparePartService.Product;
+using CarSparePartStore.ExtensionMethods;
 using CarSparePartStore.Views;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -106,15 +107,15 @@ public sealed  class CarSparePartViewModel
     public void UpdateProductsWithOrders()
     {
         ProductsWithItemsCount.Clear();
-        var productsWithOrders = GetProductsWithItemsCount();
+        var productsWithOrders = _carSparePartService.GetProductsWithItemsCount();
         foreach (var productWithOrders in productsWithOrders)
         {
             ProductsWithItemsCount.Add(productWithOrders);
         }
     }
 
-    private ProductWithOrders _orderListSelectedProject;
-    public ProductWithOrders OrderListSelectedProject
+    private ProductWithItemsCount _orderListSelectedProject;
+    public ProductWithItemsCount OrderListSelectedProject
     {
         get => _orderListSelectedProject;
         set
@@ -358,7 +359,6 @@ public sealed  class CarSparePartViewModel
     }
 
     private Product _selectedProduct;
-
     public Product SelectedProduct
     {
         get => _selectedProduct;
@@ -378,8 +378,6 @@ public sealed  class CarSparePartViewModel
     }
 
     private Order _order;
-    
-
     public Order Order
     {
         get => _order;
@@ -390,14 +388,77 @@ public sealed  class CarSparePartViewModel
     {
         get { return Notifications.Any() ? Notifications.Last() : string.Empty; }
     }
-
-    public IEnumerable<ProductWithOrders> GetProductsWithOrders()
-    {
-        return _carSparePartService.GetProductsWithOrders().ToList();
-    }
     
-    public IEnumerable<ProductWithItemsCount> GetProductsWithItemsCount()
+    private DateTime _periodFromDate;
+    public DateTime PeriodFromDate
     {
-        return _carSparePartService.GetProductsWithItemsCount().ToList();
+        get => _periodFromDate;
+        set
+        {
+            SetProperty(ref _periodFromDate, value);
+            UpdateOrdersForProduct();
+        }
+    }
+
+    private string _periodFromTime;
+    public string PeriodFromTime
+    {
+        get => _periodFromTime;
+        set
+        {
+            SetProperty(ref _periodFromTime, value);
+            UpdateOrdersForProduct();
+        }
+    }
+
+    private DateTime _periodToDate;
+    public DateTime PeriodToDate
+    {
+        get => _periodToDate;
+        set
+        {
+            SetProperty(ref _periodToDate, value);
+            UpdateOrdersForProduct();
+        }
+    }
+
+    private string _periodToTime;
+    public string PeriodToTime
+    {
+        get => _periodToTime;
+        set
+        {
+            SetProperty(ref _periodToTime, value);
+            UpdateOrdersForProduct();
+        }
+    }
+
+    public Product _ordersForProductSelectedProduct;
+    public Product OrdersForProductSelectedProduct
+    {
+        get => _ordersForProductSelectedProduct;
+        set
+        {
+            SetProperty(ref _ordersForProductSelectedProduct, value);
+        }
+    }
+
+    private void UpdateOrdersForProduct()
+    {
+        OrdersForProduct.Clear();
+        var orders = _carSparePartService.GetOrdersForProduct(OrdersForProductSelectedProduct);
+        var fromDateTime = PeriodFromDate.AddTime(PeriodFromTime);
+        var toDateTime = PeriodToDate.AddTime(PeriodToTime);
+        foreach (var order in orders.Where(o => o.OrderDateTime >= fromDateTime && o.OrderDateTime <= toDateTime))
+        {
+            OrdersForProduct.Add(order);
+        }
+    }
+
+    private ObservableCollection<Order> _ordersForProduct;
+    public ObservableCollection<Order> OrdersForProduct
+    {
+        get => _ordersForProduct;
+        set => SetProperty(ref _ordersForProduct, value);
     }
 }
