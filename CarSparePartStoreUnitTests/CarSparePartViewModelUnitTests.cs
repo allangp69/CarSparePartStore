@@ -30,9 +30,6 @@ public class Tests
                 new OrderItem{NumberOfItems = 2, Product = new Product{ProductId = 2, Name = "Dummy 2", Description = "Dummy Product 2", Price = 134.56m, Type = "Bike SparePart"}},
                 new OrderItem{NumberOfItems = 5, Product = new Product{ProductId = 1, Name = "Dummy 1", Description = "Dummy Product 1", Price = 1234.56m, Type = "Car SparePart"}}
             }));
-        // var productFetcher = Ioc.Default.GetRequiredService<IProductFetcher>();
-        // var customerService = Ioc.Default.GetRequiredService<ICustomerService>();
-        // viewModel = new CarSparePartViewModel(carSparepartService, productFetcher, customerService);
         viewModel = Ioc.Default.GetService<CarSparePartViewModel>();
     }
 
