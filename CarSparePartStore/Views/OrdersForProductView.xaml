@@ -41,7 +41,6 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -69,6 +68,7 @@
                     <DatePicker SelectedDate="{Binding PeriodToDate}" />
                     <xctk:MaskedTextBox Text="{Binding PeriodToTime}" Mask="##:##" />
                 </StackPanel>
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding OrdersForProductSelectedProduct.Name}" />
             </Grid>
             <ListView Grid.Row="1" ItemsSource="{Binding OrdersForProduct}" 
                       SelectedItem="{Binding OrdersForProductSelectedOrder}" Margin="10">
@@ -97,10 +97,9 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center"
+            <StackPanel Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center"
                         Orientation="Horizontal">
-                <Button Content="Ok" Width="75" Height="35" Command="{Binding PlaceNewOrderCommand}" />
-                <Button Content="Cancel" Width="75" Height="35" Command="{Binding CancelNewOrderCommand}" />
+                <Button Content="Close" Width="75" Height="35" Command="{Binding CloseOrdersForProductCommand}" />
             </StackPanel>
         </Grid>
     </Grid>

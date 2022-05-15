@@ -48,7 +48,7 @@ public sealed  class CarSparePartViewModel
 
     protected override void OnActivated()
     {
-        Content = new CarSparePartListView();
+        ShowDefaultView();
         StartEmulator();
     }
     private List<string> Notifications { get; }
@@ -148,6 +148,17 @@ public sealed  class CarSparePartViewModel
             return _ordersForProductCommand ?? (_ordersForProductCommand = new RelayCommand(ShowOrdersForProduct, CanShowOrdersForProduct));
         }
     }
+    
+    private RelayCommand _closeOrdersForProductCommand;
+    public RelayCommand CloseOrdersForProductCommand
+    {
+        get
+        {
+            return _closeOrdersForProductCommand ?? (_closeOrdersForProductCommand = new RelayCommand(CloseOrdersForProduct, CanCloseOrdersForProduct));
+        }
+    }
+    
+    
 
     private RelayCommand _createOrderCommand;
     public RelayCommand CreateOrderCommand
@@ -217,6 +228,21 @@ public sealed  class CarSparePartViewModel
         Content = new OrdersForProductView();
     }
 
+    private bool CanCloseOrdersForProduct()
+    {
+        return true;
+    }
+    
+    private void CloseOrdersForProduct()
+    {
+        ShowDefaultView();
+    }
+
+    private void ShowDefaultView()
+    {
+        Content = new CarSparePartListView();
+    }
+
     private bool CanCancelOrder()
     {
         return true;
@@ -225,7 +251,7 @@ public sealed  class CarSparePartViewModel
     private void CancelOrder()
     {
         IsOrderCreationInProgress = false;
-        Content = new CarSparePartListView();
+        ShowDefaultView();
     }
 
     private bool CanCreateOrder()
