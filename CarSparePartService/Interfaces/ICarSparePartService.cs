@@ -14,4 +14,5 @@ public interface ICarSparePartService
     IEnumerable<Order> GetAllOrders();
     IEnumerable<ProductWithOrders> GetProductsWithOrders();
     IEnumerable<ProductWithItemsCount> GetProductsWithItemsCount();
+    IEnumerable<Order> GetOrdersForProduct(Product.Product product);
 }

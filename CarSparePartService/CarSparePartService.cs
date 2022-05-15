@@ -73,6 +73,13 @@ public class CarSparePartService
         return retval;
     }
 
+    public IEnumerable<Order> GetOrdersForProduct(Product.Product product)
+    {
+        var comparer = new UniqueProductComparer();
+        var retval = Orders.Where(o => o.OrderItems.Any(i => comparer.Equals(i.Product, product)));
+        return retval;
+    }
+
     private IEnumerable<Guid> GetOrdersIdsForProduct(Product.Product product)
     {
         if (!Orders.Any())
