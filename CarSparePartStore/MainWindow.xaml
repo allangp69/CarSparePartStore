@@ -7,7 +7,7 @@
         xmlns:carSparePartStore="clr-namespace:CarSparePartStore"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModels:CarSparePartViewModel, IsDesignTimeCreatable=False}"
-        Title="MainWindow" Height="450" Width="900">
+        Title="Car Sparepart Store" Height="450" Width="900">
     <Window.Resources>
         <carSparePartStore:BoolToRedGreenImageConverter x:Key="BoolToRedGreenImageConverter" />
     </Window.Resources>
@@ -24,7 +24,7 @@
                        Width="12" Height="12" Margin="5, 5, 15, 5" ToolTip="{Binding IsOnlineStoreRunningText}">
                     <Image.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="Start emulator" Command="{Binding StartEmulatorCommand}" />
+                            <MenuItem Header="{x:Static carSparePartStore:StringResources.MenuItem_Header}" Command="{Binding StartEmulatorCommand}" />
                             <MenuItem Header="Stop emulator" Command="{Binding StopEmulatorCommand}" />
                         </ContextMenu>
                     </Image.ContextMenu>
