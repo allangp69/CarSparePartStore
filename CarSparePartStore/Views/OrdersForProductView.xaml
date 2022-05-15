@@ -8,11 +8,11 @@
              xmlns:carSparePartStore="clr-namespace:CarSparePartStore"
              d:DataContext="{d:DesignInstance Type=viewModels:CarSparePartViewModel, IsDesignTimeCreatable=False}"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="500" d:DesignWidth="300">
     <UserControl.Resources>
         <carSparePartStore:LongToShortTextConverter x:Key="LongToShortTextConverter" />
     </UserControl.Resources>
-    <Grid MaxWidth="400" MaxHeight="400">
+    <Grid MaxHeight="500">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -34,37 +34,44 @@
             </Grid.Resources>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Product" />
-            <ComboBox Grid.Row="0" Grid.Column="1" Height="25"
-                      ItemsSource="{Binding Products}" 
-                      SelectedItem="{Binding OrdersForProductSelectedProduct}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Name}" Margin="5" />
-                            <TextBlock Text="{Binding Description, Converter={StaticResource LongToShortTextConverter}}" Width="200" Height="35" TextWrapping="WrapWithOverflow" Margin="5" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="Period" />
-            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
-                <DatePicker DisplayDate="{Binding PeriodFromDate}" />
-                <xctk:MaskedTextBox Text="{Binding PeriodFromTime}" Mask="##:##" />
-                <TextBlock Text=" to " />
-                <DatePicker DisplayDate="{Binding PeriodToDate}" />
-                <xctk:MaskedTextBox Text="{Binding PeriodToTime}" Mask="##:##" />
-            </StackPanel>
-            <ListView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding OrdersForProduct}" 
-                      SelectedItem="{Binding OrdersForProductsSelectedOrder}" Margin="10">
+            <Grid Grid.Row="0" Grid.Column="0" MaxWidth="500">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Product" />
+                <ComboBox Grid.Row="0" Grid.Column="1" Height="30"
+                          ItemsSource="{Binding Products}" 
+                          SelectedItem="{Binding OrdersForProductSelectedProduct, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}" Margin="5" />
+                                <TextBlock Text="{Binding Description, Converter={StaticResource LongToShortTextConverter}}" Width="200" Height="35" TextWrapping="WrapWithOverflow" Margin="5" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Period" />
+                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                    <DatePicker SelectedDate="{Binding PeriodFromDate}" />
+                    <xctk:MaskedTextBox Text="{Binding PeriodFromTime}" Mask="##:##" />
+                    <TextBlock Text=" to " />
+                    <DatePicker SelectedDate="{Binding PeriodToDate}" />
+                    <xctk:MaskedTextBox Text="{Binding PeriodToTime}" Mask="##:##" />
+                </StackPanel>
+            </Grid>
+            <ListView Grid.Row="1" ItemsSource="{Binding OrdersForProduct}" 
+                      SelectedItem="{Binding OrdersForProductSelectedOrder}" Margin="10">
                 <ListView.Resources>
                     <Style TargetType="{x:Type TextBlock}">
                         <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.Description }"></Setter>
@@ -90,7 +97,7 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center"
+            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center"
                         Orientation="Horizontal">
                 <Button Content="Ok" Width="75" Height="35" Command="{Binding PlaceNewOrderCommand}" />
                 <Button Content="Cancel" Width="75" Height="35" Command="{Binding CancelNewOrderCommand}" />

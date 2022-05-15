@@ -34,12 +34,16 @@ public sealed  class CarSparePartViewModel
         _onlineStoreEmulator = onlineStoreEmulator;
         _onlineStoreEmulator.IsRunningChanged += OnlineStoreEmulatorIsRunningChanged;
         _carSparePartService = carSparePartService;
-        ProductsWithItemsCount = new ObservableCollection<ProductWithItemsCount>();
-        Notifications = new List<string>();
         _carSparePartService.OrderAdded += CarSparePartServiceOrderAdded;
         _carSparePartService.RestoreBackupCompleted += CarSparePartServiceRestoreBackupCompleted;
         _carSparePartService.BackupCompleted += CarSparePartServiceBackupCompleted;
-        
+        ProductsWithItemsCount = new ObservableCollection<ProductWithItemsCount>();
+        OrdersForProduct = new ObservableCollection<Order>();
+        Notifications = new List<string>();
+        PeriodFromDate = DateTime.Today;
+        PeriodFromTime = "0000";
+        PeriodToDate = DateTime.Today.AddDays(1);
+        PeriodToTime = "0000";
     }
 
     protected override void OnActivated()
@@ -208,6 +212,7 @@ public sealed  class CarSparePartViewModel
 
     private void ShowOrdersForProduct()
     {
+        OrdersForProductSelectedProduct = SelectedProduct;
         //Show the orders for product view
         Content = new OrdersForProductView();
     }
@@ -440,6 +445,7 @@ public sealed  class CarSparePartViewModel
         set
         {
             SetProperty(ref _ordersForProductSelectedProduct, value);
+            UpdateOrdersForProduct();
         }
     }
 
@@ -460,5 +466,12 @@ public sealed  class CarSparePartViewModel
     {
         get => _ordersForProduct;
         set => SetProperty(ref _ordersForProduct, value);
+    }
+    
+    private Order _ordersForProductSelectedOrder;
+    public Order OrdersForProductSelectedOrder
+    {
+        get => _ordersForProductSelectedOrder;
+        set => SetProperty(ref _ordersForProductSelectedOrder, value);
     }
 }
