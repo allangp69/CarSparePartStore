@@ -17,7 +17,6 @@ public class RunEmulatorUnitTests
     {
         ConfigureServices();
         _emulator = Ioc.Default.GetRequiredService<IOnlineStoreEmulator>();
-        //_emulator = new global::OnlineStoreEmulator.OnlineStoreEmulator(carSparepartService, customerService, productFetcher, 2);
     }
 
     [Test]
