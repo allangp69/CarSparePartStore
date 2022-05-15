@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace CarSparePartStore;
+namespace CarSparePartStore.Converters;
 
 public class LongToShortTextConverter 
     : IValueConverter

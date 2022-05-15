@@ -53,7 +53,7 @@ public class ProductFetcher
         return Products;
     }
 
-    public Product FindProduct(int productId)
+    public Product FindProduct(long productId)
     {
         return Products.FirstOrDefault(p => p.ProductId == productId);
     }

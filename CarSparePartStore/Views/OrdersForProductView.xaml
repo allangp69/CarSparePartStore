@@ -6,11 +6,13 @@
              xmlns:viewModels="clr-namespace:CarSparePartStore.ViewModels"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:carSparePartStore="clr-namespace:CarSparePartStore"
+             xmlns:converters="clr-namespace:CarSparePartStore.Converters"
              d:DataContext="{d:DesignInstance Type=viewModels:CarSparePartViewModel, IsDesignTimeCreatable=False}"
              mc:Ignorable="d"
              d:DesignHeight="500" d:DesignWidth="300">
     <UserControl.Resources>
-        <carSparePartStore:LongToShortTextConverter x:Key="LongToShortTextConverter" />
+        <converters:LongToShortTextConverter x:Key="LongToShortTextConverter" />
+        <converters:OrderItemsToStringConverter x:Key="OrderItemsToStringConverter" />
     </UserControl.Resources>
     <Grid MaxHeight="500">
         <Grid.RowDefinitions>
@@ -37,9 +39,8 @@
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Grid.Column="0" MaxWidth="500">
+            <Grid Grid.Row="0" Grid.Column="0" MaxWidth="700">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
@@ -68,7 +69,6 @@
                     <DatePicker SelectedDate="{Binding PeriodToDate}" />
                     <xctk:MaskedTextBox Text="{Binding PeriodToTime}" Mask="##:##" />
                 </StackPanel>
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding OrdersForProductSelectedProduct.Name}" />
             </Grid>
             <ListView Grid.Row="1" ItemsSource="{Binding OrdersForProduct}" 
                       SelectedItem="{Binding OrdersForProductSelectedOrder}" Margin="10">
@@ -82,18 +82,14 @@
                 <ListView.View>
                     <GridView AllowsColumnReorder="true"
                               ColumnHeaderToolTip="ProductsWithOrders">
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=ProductName}"
-                                        Header="Name" Width="150" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=ProductType}"
-                                        Header="Type" Width="80" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=ShortDescription}"
-                                        Header="Description" Width="400" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=Price}"
-                                        Header="Price" Width="100" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=ItemsCount}"
-                                        Header="Items Sold" Width="80" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=TotalPrice}"
-                                        Header="Total price" Width="80" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=OrderId}"
+                                        Header="OrderId" Width="150" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=OrderDateTime}"
+                                        Header="DateTime" Width="80" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=CustomerId}"
+                                        Header="CustomerId" Width="400" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=OrderItems, Converter={StaticResource OrderItemsToStringConverter}}"
+                                        Header="OrderItems" Width="100" />
                     </GridView>
                 </ListView.View>
             </ListView>

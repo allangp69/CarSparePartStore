@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:CarSparePartStore.ViewModels"
         xmlns:carSparePartStore="clr-namespace:CarSparePartStore"
+        xmlns:converters="clr-namespace:CarSparePartStore.Converters"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewModels:CarSparePartViewModel, IsDesignTimeCreatable=False}"
         Title="Car Sparepart Store" Height="450" Width="900">
     <Window.Resources>
-        <carSparePartStore:BoolToRedGreenImageConverter x:Key="BoolToRedGreenImageConverter" />
+        <converters:BoolToRedGreenImageConverter x:Key="BoolToRedGreenImageConverter" />
     </Window.Resources>
     <Grid>
         <DockPanel LastChildFill="True">

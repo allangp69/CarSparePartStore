@@ -118,13 +118,13 @@ public sealed  class CarSparePartViewModel
         }
     }
 
-    private ProductWithItemsCount _orderListSelectedProject;
-    public ProductWithItemsCount OrderListSelectedProject
+    private ProductWithItemsCount _orderListSelectedProduct;
+    public ProductWithItemsCount OrderListSelectedProduct
     {
-        get => _orderListSelectedProject;
+        get => _orderListSelectedProduct;
         set
         {
-            SetProperty(ref _orderListSelectedProject, value); 
+            SetProperty(ref _orderListSelectedProduct, value); 
             OrdersForProductCommand.NotifyCanExecuteChanged();   
         }
     }
@@ -218,14 +218,19 @@ public sealed  class CarSparePartViewModel
 
     private bool CanShowOrdersForProduct()
     {
-        return OrderListSelectedProject is not null;
+        return OrderListSelectedProduct is not null;
     }
 
     private void ShowOrdersForProduct()
     {
-        OrdersForProductSelectedProduct = SelectedProduct;
+        OrdersForProductSelectedProduct = GetProductByProductId(OrderListSelectedProduct.ProductId);
         //Show the orders for product view
         Content = new OrdersForProductView();
+    }
+
+    private Product GetProductByProductId(long productId)
+    {
+        return _productFetcher.FindProduct(productId);
     }
 
     private bool CanCloseOrdersForProduct()

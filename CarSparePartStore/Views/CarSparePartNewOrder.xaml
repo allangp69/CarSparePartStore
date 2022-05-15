@@ -5,11 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:CarSparePartStore.ViewModels"
              xmlns:carSparePartStore="clr-namespace:CarSparePartStore"
+             xmlns:converters="clr-namespace:CarSparePartStore.Converters"
              d:DataContext="{d:DesignInstance Type=viewModels:CarSparePartViewModel, IsDesignTimeCreatable=False}"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <carSparePartStore:LongToShortTextConverter x:Key="LongToShortTextConverter" />
+        <converters:LongToShortTextConverter x:Key="LongToShortTextConverter" />
     </UserControl.Resources>
     <Grid MaxWidth="500" MaxHeight="400">
         <Grid.RowDefinitions>

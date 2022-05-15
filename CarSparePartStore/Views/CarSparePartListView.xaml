@@ -13,7 +13,7 @@
         <StackPanel Grid.Row="0" HorizontalAlignment="Center">
             <TextBlock Text="List of products" FontSize="24" />
         </StackPanel>
-        <ListView Grid.Row="1" ItemsSource="{Binding ProductsWithItemsCount}" SelectedItem="{Binding OrderListSelectedProject}" Margin="10">
+        <ListView Grid.Row="1" ItemsSource="{Binding ProductsWithItemsCount}" SelectedItem="{Binding OrderListSelectedProduct}" Margin="10">
             <ListView.Resources>
                 <Style TargetType="{x:Type TextBlock}">
                     <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.Description }"></Setter>
