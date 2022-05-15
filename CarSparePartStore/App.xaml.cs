@@ -20,21 +20,29 @@ namespace CarSparePartStore
     /// </summary>
     public partial class App : Application
     {
-        private readonly IOnlineStoreEmulator _emulator;
-        private IConfigurationRoot Configuration { get; set; }
-        
         public App()
         {
-            Configuration = ReadConfiguration();
-            ConfigureServices();
+            var configuration = ReadConfiguration();
+            ConfigureServices(configuration);
             var productFetcher = Ioc.Default.GetRequiredService<IProductFetcher>();
             productFetcher.LoadProductsFromBackup();
+
+            LoadBackup(configuration);
             
-            _emulator = Ioc.Default.GetRequiredService<IOnlineStoreEmulator>();
             this.InitializeComponent();
         }
 
-        private IConfigurationRoot ReadConfiguration()
+        private void LoadBackup(IConfiguration configuration)
+        {
+            var carSparePartService = Ioc.Default.GetRequiredService<ICarSparePartService>();
+            var backupFilename = configuration.GetSection("ApplicationSettings").GetSection("OrdersBackup").Value;
+            if (File.Exists(backupFilename))
+            {
+                carSparePartService.LoadBackup(backupFilename);
+            }
+        }
+
+        private IConfiguration ReadConfiguration()
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -45,18 +53,29 @@ namespace CarSparePartStore
 
         protected override void OnExit(ExitEventArgs e)
         {
-            _emulator.Stop();
+            var emulator = Ioc.Default.GetRequiredService<IOnlineStoreEmulator>();
+            emulator.Stop();
+            CreateBackup();
             base.OnExit(e);
+        }
+        
+        private void CreateBackup()
+        {
+            var configuration = Ioc.Default.GetRequiredService<IConfiguration>();
+            var carSparePartService = Ioc.Default.GetRequiredService<ICarSparePartService>();
+            var backupFilename = configuration.GetSection("ApplicationSettings").GetSection("OrdersBackup").Value;
+            carSparePartService.CreateBackup(backupFilename);
         }
         
         // <summary>
         /// Configures the services for the application.
         /// </summary>
-        private void ConfigureServices()
+        /// <param name="readConfiguration"></param>
+        private void ConfigureServices(IConfiguration configuration)
         {
             Ioc.Default.ConfigureServices(
                 new ServiceCollection()
-                    .AddSingleton<IConfiguration>(Configuration)
+                    .AddSingleton<IConfiguration>(configuration)
                     .AddSingleton<ICustomerService, CustomerService>()
                     .AddSingleton<IRandomCustomerGenerator, RandomCustomerGenerator>()
                     .AddSingleton<ICarSparePartService, CarSparePartService.CarSparePartService>()
@@ -69,7 +88,7 @@ namespace CarSparePartStore
                     .AddSingleton((ILogger)new LoggerConfiguration()
                         .MinimumLevel.Information()
                         .WriteTo.Console()
-                        .WriteTo.File(Configuration.GetSection("Logging").GetValue<string>("LogFilePath"))
+                        .WriteTo.File(configuration.GetSection("Logging").GetValue<string>("LogFilePath"))
                         .CreateLogger())
                     .AddTransient<CarSparePartViewModel>()
                     .BuildServiceProvider());
