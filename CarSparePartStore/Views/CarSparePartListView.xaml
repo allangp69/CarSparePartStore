@@ -11,7 +11,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" HorizontalAlignment="Center">
-            <TextBlock Text="List of orders" FontSize="24" />
+            <TextBlock Text="List of products" FontSize="24" />
         </StackPanel>
         <ListView Grid.Row="1" ItemsSource="{Binding ProductsWithItemsCount}" SelectedItem="{Binding OrderListSelectedProject}" Margin="10">
             <ListView.Resources>
