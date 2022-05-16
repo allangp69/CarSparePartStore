@@ -3,7 +3,7 @@ namespace CarSparePartService.Product;
 public class ProductWithItemsCount
 {
     private Product Product { get; }
-    public int ItemsCount { get; }
+    public int ItemsCount { get; set; }
 
     public ProductWithItemsCount(Product product, int itemsCount)
     {

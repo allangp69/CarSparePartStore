@@ -19,16 +19,21 @@ using OnlineStoreEmulator;
 namespace CarSparePartStore.ViewModels;
 
 public sealed  class CarSparePartViewModel
-    : ObservableRecipient
+    : ObservableRecipient, IDisposable
 {
     private readonly IProductFetcher _productFetcher;
     private readonly ICustomerService _customerService;
     private readonly IOnlineStoreEmulator _onlineStoreEmulator;
     private readonly ICarSparePartService _carSparePartService;
+    private readonly NotificationHandler _notificationHandler;
 
     public CarSparePartViewModel(ICarSparePartService carSparePartService, IProductFetcher productFetcher,
-        ICustomerService customerService, IOnlineStoreEmulator onlineStoreEmulator)
+        ICustomerService customerService, IOnlineStoreEmulator onlineStoreEmulator, NotificationHandler notificationHandler)
     {
+        ActiveNotifications = new ObservableCollection<Notification>();
+        _notificationHandler = notificationHandler;
+        _notificationHandler.NotificationAdded += NotificationHandlerOnNotificationAdded;
+        _notificationHandler.NotificationRemoved += NotificationHandlerOnNotificationRemoved;
         _productFetcher = productFetcher;
         _customerService = customerService;
         _onlineStoreEmulator = onlineStoreEmulator;
@@ -39,11 +44,39 @@ public sealed  class CarSparePartViewModel
         _carSparePartService.BackupCompleted += CarSparePartServiceBackupCompleted;
         ProductsWithItemsCount = new ObservableCollection<ProductWithItemsCount>();
         OrdersForProduct = new ObservableCollection<Order>();
-        Notifications = new List<string>();
+        Notifications = new List<Notification>();
         PeriodFromDate = DateTime.Today;
         PeriodFromTime = "0000";
         PeriodToDate = DateTime.Today.AddDays(1);
         PeriodToTime = "0000";
+    }
+
+    private void NotificationHandlerOnNotificationAdded(object? sender, NotificationAddedEventArgs e)
+    {
+        AddActiveNotification(e.Notification);
+    }
+    
+    private void NotificationHandlerOnNotificationRemoved(object? sender, NotificationRemovedEventArgs e)
+    {
+        RemoveActiveNotification(e.Notification);
+    }
+
+    private void AddActiveNotification(Notification notification)
+    {
+        Application.Current?.Dispatcher?.Invoke(() =>
+        {
+            ActiveNotifications.Add(notification);
+            OnPropertyChanged(nameof(HasActiveNotifications));
+        });
+    }
+    
+    private void RemoveActiveNotification(Notification notification)
+    {
+        Application.Current?.Dispatcher?.Invoke(() =>
+        {
+            ActiveNotifications.Remove(notification);
+            OnPropertyChanged(nameof(HasActiveNotifications));
+        });
     }
 
     protected override void OnActivated()
@@ -51,7 +84,14 @@ public sealed  class CarSparePartViewModel
         ShowDefaultView();
         StartEmulator();
     }
-    private List<string> Notifications { get; }
+    private List<Notification> Notifications { get; }
+
+    private ObservableCollection<Notification> _activeNotifications; 
+    public ObservableCollection<Notification> ActiveNotifications 
+    {
+        get => _activeNotifications;
+        set => SetProperty(ref _activeNotifications, value);
+    }
 
     private void OnlineStoreEmulatorIsRunningChanged(object? sender, IsRunningEventArgs e)
     {
@@ -88,10 +128,12 @@ public sealed  class CarSparePartViewModel
         });
     }
 
-    private void AddNotification(string notification)
+    private void AddNotification(string notificationMessage)
     {
+        var notification = new Notification(notificationMessage);
         Notifications.Add(notification);
         OnPropertyChanged(nameof(LatestNotification));
+        _notificationHandler.AddNotification(notification);
     }
 
     private void CarSparePartServiceBackupCompleted(object? sender, EventArgs e)
@@ -110,11 +152,16 @@ public sealed  class CarSparePartViewModel
 
     public void UpdateProductsWithOrders()
     {
-        ProductsWithItemsCount.Clear();
         var productsWithOrders = _carSparePartService.GetProductsWithItemsCount();
         foreach (var productWithOrders in productsWithOrders)
         {
-            ProductsWithItemsCount.Add(productWithOrders);
+            var itemFromList = ProductsWithItemsCount.FirstOrDefault(p => p.ProductId == productWithOrders.ProductId); 
+            if (itemFromList is null)
+            {
+                itemFromList = productWithOrders;
+                ProductsWithItemsCount.Add(productWithOrders);
+            }
+            itemFromList.ItemsCount = productWithOrders.ItemsCount;
         }
     }
 
@@ -422,7 +469,7 @@ public sealed  class CarSparePartViewModel
 
     public string LatestNotification
     {
-        get { return Notifications.Any() ? Notifications.Last() : string.Empty; }
+        get { return Notifications.Any() ? Notifications.Last().Message : string.Empty; }
     }
     
     private DateTime _periodFromDate;
@@ -504,5 +551,15 @@ public sealed  class CarSparePartViewModel
     {
         get => _ordersForProductSelectedOrder;
         set => SetProperty(ref _ordersForProductSelectedOrder, value);
+    }
+
+    public bool HasActiveNotifications
+    {
+        get { return ActiveNotifications.Any(); }
+    }
+
+    public void Dispose()
+    {
+        _notificationHandler.Dispose();
     }
 }

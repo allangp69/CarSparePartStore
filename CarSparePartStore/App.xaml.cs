@@ -85,6 +85,7 @@ namespace CarSparePartStore
                     .AddSingleton<IOrderBackupManager, OrderBackupManager>()
                     .AddSingleton<IOrderBackupWriter, XmlOrderBackupWriter>()
                     .AddSingleton<IOrderBackupReader, XmlOrderBackupReader>()
+                    .AddSingleton<NotificationHandler>()
                     .AddSingleton((ILogger)new LoggerConfiguration()
                         .MinimumLevel.Information()
                         .WriteTo.Console()
