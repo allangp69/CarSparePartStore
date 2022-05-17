@@ -1,21 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using CarSparePartService;
 using CarSparePartService.Interfaces;
 using CarSparePartService.Product;
-using CarSparePartStore.ExtensionMethods;
-using CarSparePartStore.ViewModels.Notification;
-using CarSparePartStore.Views;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Mvvm.Input;
-using OnlineStoreEmulator;
 
 namespace CarSparePartStore.ViewModels;
 
@@ -23,7 +13,8 @@ public sealed  class CarSparePartListViewModel
     : ObservableRecipient, IDisposable
 {
     private readonly ICarSparePartService _carSparePartService;
-
+    public event EventHandler<ProductSelectedEventArgs> ProductSelected;
+    
     public CarSparePartListViewModel(ICarSparePartService carSparePartService)
     {
         _carSparePartService = carSparePartService;
@@ -62,11 +53,17 @@ public sealed  class CarSparePartListViewModel
         set
         {
             SetProperty(ref _selectedProduct, value);
+            OnProductSelected();
         }
     }
-    
+
+    private void OnProductSelected()
+    {
+        var handler = ProductSelected;
+        handler?.Invoke(this, new ProductSelectedEventArgs(SelectedProduct is null ? 0 : SelectedProduct.ProductId));
+    }
+
     public ObservableCollection<ProductWithItemsCount> ProductsWithItemsCount { get; private set; }
-    
 
     public void Dispose()
     {

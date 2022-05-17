@@ -212,36 +212,42 @@ public sealed  class CarSparePartViewModel
 
     private bool CanShowOrdersForProduct()
     {
-        var vm = Content as CarSparePartListViewModel;
-        if (vm is null)
-        {
-            return false;
-        }
-        return vm.SelectedProduct is not null;
+        return ListSelectedProductId > 0;
     }
 
     private void ShowOrdersForProduct()
     {
-        var carSparePartListViewModel = Content as CarSparePartListViewModel;
-        if (carSparePartListViewModel is null)
-        {
-            return;
-        }
         var vm = Ioc.Default.GetService<OrdersForProductViewModel>();
         if (vm is null)
         {
             return;
         }
-        vm.ProductId = carSparePartListViewModel.SelectedProduct.ProductId;
+        vm.ProductId = ListSelectedProductId;
         ShowView(vm);
     }
-    
+
+    public long ListSelectedProductId
+    {
+        get => _listSelectedProductId;
+        set
+        {
+            SetProperty(ref _listSelectedProductId, value);
+            OrdersForProductCommand.NotifyCanExecuteChanged();
+        }
+    }
+
     private void ShowDefaultView()
     {
         var vm = Ioc.Default.GetService<CarSparePartListViewModel>();
+        vm.ProductSelected += CarSparePartListProductSelected;
         ShowView(vm);
     }
-    
+
+    private void CarSparePartListProductSelected(object? sender, ProductSelectedEventArgs e)
+    {
+        ListSelectedProductId = e.ProductId;
+    }
+
     private void ShowView(ObservableRecipient content)
     {
         Content = content;
@@ -253,6 +259,7 @@ public sealed  class CarSparePartViewModel
     }
 
     private bool _isOrderCreationInProgress;
+    private long _listSelectedProductId;
 
     public bool IsOrderCreationInProgress
     {
