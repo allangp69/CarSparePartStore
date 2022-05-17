@@ -4,12 +4,10 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using CarSparePartService;
 using CarSparePartService.Interfaces;
 using CarSparePartService.Product;
-using CarSparePartStore.ExtensionMethods;
-using CarSparePartStore.Views;
+using CarSparePartStore.ViewModels.Notification;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
@@ -21,21 +19,16 @@ namespace CarSparePartStore.ViewModels;
 public sealed  class CarSparePartViewModel
     : ObservableRecipient, IDisposable
 {
-    private readonly IProductFetcher _productFetcher;
-    private readonly ICustomerService _customerService;
     private readonly IOnlineStoreEmulator _onlineStoreEmulator;
     private readonly ICarSparePartService _carSparePartService;
     private readonly NotificationHandler _notificationHandler;
 
-    public CarSparePartViewModel(ICarSparePartService carSparePartService, IProductFetcher productFetcher,
-        ICustomerService customerService, IOnlineStoreEmulator onlineStoreEmulator, NotificationHandler notificationHandler)
+    public CarSparePartViewModel(ICarSparePartService carSparePartService, IOnlineStoreEmulator onlineStoreEmulator, NotificationHandler notificationHandler)
     {
-        ActiveNotifications = new ObservableCollection<Notification>();
+        ActiveNotifications = new ObservableCollection<Notification.Notification>();
         _notificationHandler = notificationHandler;
         _notificationHandler.NotificationAdded += NotificationHandlerOnNotificationAdded;
         _notificationHandler.NotificationRemoved += NotificationHandlerOnNotificationRemoved;
-        _productFetcher = productFetcher;
-        _customerService = customerService;
         _onlineStoreEmulator = onlineStoreEmulator;
         _onlineStoreEmulator.IsRunningChanged += OnlineStoreEmulatorIsRunningChanged;
         _carSparePartService = carSparePartService;
@@ -43,12 +36,7 @@ public sealed  class CarSparePartViewModel
         _carSparePartService.RestoreBackupCompleted += CarSparePartServiceRestoreBackupCompleted;
         _carSparePartService.BackupCompleted += CarSparePartServiceBackupCompleted;
         ProductsWithItemsCount = new ObservableCollection<ProductWithItemsCount>();
-        OrdersForProduct = new ObservableCollection<Order>();
-        Notifications = new List<Notification>();
-        PeriodFromDate = DateTime.Today;
-        PeriodFromTime = "0000";
-        PeriodToDate = DateTime.Today.AddDays(1);
-        PeriodToTime = "0000";
+        Notifications = new List<Notification.Notification>();
     }
 
     private void NotificationHandlerOnNotificationAdded(object? sender, NotificationAddedEventArgs e)
@@ -61,7 +49,7 @@ public sealed  class CarSparePartViewModel
         RemoveActiveNotification(e.Notification);
     }
 
-    private void AddActiveNotification(Notification notification)
+    private void AddActiveNotification(Notification.Notification notification)
     {
         Application.Current?.Dispatcher?.Invoke(() =>
         {
@@ -70,7 +58,7 @@ public sealed  class CarSparePartViewModel
         });
     }
     
-    private void RemoveActiveNotification(Notification notification)
+    private void RemoveActiveNotification(Notification.Notification notification)
     {
         Application.Current?.Dispatcher?.Invoke(() =>
         {
@@ -84,10 +72,10 @@ public sealed  class CarSparePartViewModel
         ShowDefaultView();
         StartEmulator();
     }
-    private List<Notification> Notifications { get; }
+    private List<Notification.Notification> Notifications { get; }
 
-    private ObservableCollection<Notification> _activeNotifications; 
-    public ObservableCollection<Notification> ActiveNotifications 
+    private ObservableCollection<Notification.Notification> _activeNotifications; 
+    public ObservableCollection<Notification.Notification> ActiveNotifications 
     {
         get => _activeNotifications;
         set => SetProperty(ref _activeNotifications, value);
@@ -128,9 +116,19 @@ public sealed  class CarSparePartViewModel
         });
     }
 
+    private void UpdateProductsWithOrders()
+    {
+        var vm = Content as CarSparePartListViewModel;
+        if (vm is null)
+        {
+            return;
+        }
+        vm.UpdateProductsWithOrders();
+    }
+
     private void AddNotification(string notificationMessage)
     {
-        var notification = new Notification(notificationMessage);
+        var notification = new Notification.Notification(notificationMessage);
         Notifications.Add(notification);
         OnPropertyChanged(nameof(LatestNotification));
         _notificationHandler.AddNotification(notification);
@@ -149,37 +147,11 @@ public sealed  class CarSparePartViewModel
             UpdateProductsWithOrders();
         });
     }
-
-    public void UpdateProductsWithOrders()
-    {
-        var productsWithOrders = _carSparePartService.GetProductsWithItemsCount();
-        foreach (var productWithOrders in productsWithOrders)
-        {
-            var itemFromList = ProductsWithItemsCount.FirstOrDefault(p => p.ProductId == productWithOrders.ProductId); 
-            if (itemFromList is null)
-            {
-                itemFromList = productWithOrders;
-                ProductsWithItemsCount.Add(productWithOrders);
-            }
-            itemFromList.ItemsCount = productWithOrders.ItemsCount;
-        }
-    }
-
-    private ProductWithItemsCount _orderListSelectedProduct;
-    public ProductWithItemsCount OrderListSelectedProduct
-    {
-        get => _orderListSelectedProduct;
-        set
-        {
-            SetProperty(ref _orderListSelectedProduct, value); 
-            OrdersForProductCommand.NotifyCanExecuteChanged();   
-        }
-    }
     
-    public ObservableCollection<ProductWithItemsCount> ProductsWithItemsCount { get; private set; }
+    public ObservableCollection<ProductWithItemsCount> ProductsWithItemsCount { get; }
 
-    private UserControl _content;
-    public UserControl Content
+    private ObservableRecipient _content;
+    public ObservableRecipient Content
     {
         get => _content;
         private set => SetProperty(ref _content, value);
@@ -195,38 +167,13 @@ public sealed  class CarSparePartViewModel
             return _ordersForProductCommand ?? (_ordersForProductCommand = new RelayCommand(ShowOrdersForProduct, CanShowOrdersForProduct));
         }
     }
-    
-    private RelayCommand _closeOrdersForProductCommand;
-    public RelayCommand CloseOrdersForProductCommand
-    {
-        get
-        {
-            return _closeOrdersForProductCommand ?? (_closeOrdersForProductCommand = new RelayCommand(CloseOrdersForProduct, CanCloseOrdersForProduct));
-        }
-    }
-    
-    
 
     private RelayCommand _createOrderCommand;
     public RelayCommand CreateOrderCommand
     {
         get { return _createOrderCommand ?? (_createOrderCommand = new RelayCommand(CreateOrder, CanCreateOrder)); }
     }
-
-    private RelayCommand _placeNewOrderCommand;
-    public RelayCommand PlaceNewOrderCommand
-    {
-        get { return _placeNewOrderCommand ?? (_placeNewOrderCommand = new RelayCommand(PlaceOrder, CanPlaceOrder)); }
-    }
-
-    private RelayCommand _cancelNewOrderCommand;
-    public RelayCommand CancelNewOrderCommand
-    {
-        get
-        {
-            return _cancelNewOrderCommand ?? (_cancelNewOrderCommand = new RelayCommand(CancelOrder, CanCancelOrder));
-        }
-    }
+    
 
     private RelayCommand _backupOrdersCommand;
     public RelayCommand BackupOrdersCommand
@@ -265,47 +212,41 @@ public sealed  class CarSparePartViewModel
 
     private bool CanShowOrdersForProduct()
     {
-        return OrderListSelectedProduct is not null;
+        var vm = Content as CarSparePartListViewModel;
+        if (vm is null)
+        {
+            return false;
+        }
+        return vm.SelectedProduct is not null;
     }
 
     private void ShowOrdersForProduct()
     {
-        OrdersForProductSelectedProduct = GetProductByProductId(OrderListSelectedProduct.ProductId);
-        //Show the orders for product view
-        Content = new OrdersForProductView();
-    }
-
-    private Product GetProductByProductId(long productId)
-    {
-        return _productFetcher.FindProduct(productId);
-    }
-
-    private bool CanCloseOrdersForProduct()
-    {
-        return true;
+        var carSparePartListViewModel = Content as CarSparePartListViewModel;
+        if (carSparePartListViewModel is null)
+        {
+            return;
+        }
+        var vm = Ioc.Default.GetService<OrdersForProductViewModel>();
+        if (vm is null)
+        {
+            return;
+        }
+        vm.ProductId = carSparePartListViewModel.SelectedProduct.ProductId;
+        ShowView(vm);
     }
     
-    private void CloseOrdersForProduct()
-    {
-        ShowDefaultView();
-    }
-
     private void ShowDefaultView()
     {
-        Content = new CarSparePartListView();
+        var vm = Ioc.Default.GetService<CarSparePartListViewModel>();
+        ShowView(vm);
     }
-
-    private bool CanCancelOrder()
+    
+    private void ShowView(ObservableRecipient content)
     {
-        return true;
+        Content = content;
     }
-
-    private void CancelOrder()
-    {
-        IsOrderCreationInProgress = false;
-        ShowDefaultView();
-    }
-
+    
     private bool CanCreateOrder()
     {
         return !IsOrderCreationInProgress;
@@ -328,10 +269,13 @@ public sealed  class CarSparePartViewModel
         IsOrderCreationInProgress = true;
         try
         {
-            //Create the order instance
-            Order = Order.Create(0, new List<OrderItem>());
             //Show the create new order view
-            Content = new CarSparePartNewOrder();
+            var vm = Ioc.Default.GetService<CarSparePartNewOrderViewModel>();
+            if (vm is null)
+                return;
+            vm.NewOrderCancelled += CarSparePartNewOrderNewOrderCancelled;
+            vm.NewOrderClosed += CarSparePartNewOrderNewOrderClosed;
+            ShowView(vm);
         }
         catch
         {
@@ -339,29 +283,16 @@ public sealed  class CarSparePartViewModel
         }
     }
 
-    private bool CanPlaceOrder()
+    private void CarSparePartNewOrderNewOrderCancelled(object? sender, EventArgs e)
     {
-        if (SelectedCustomer is null || SelectedProduct is null)
-        {
-            return false;
-        }
-
-        return true;
+        IsOrderCreationInProgress = false;
+        ShowDefaultView();
     }
-
-    private void PlaceOrder()
+    
+    private void CarSparePartNewOrderNewOrderClosed(object? sender, EventArgs e)
     {
-        Order.CustomerId = SelectedCustomer.CustomerId;
-        Order.AddItem(new OrderItem {Product = SelectedProduct, NumberOfItems = NumberOfItems});
-        _carSparePartService.PlaceOrder(Order);
-        ClearSelections();
-    }
-
-    private void ClearSelections()
-    {
-        SelectedCustomer = null;
-        SelectedProduct = null;
-        NumberOfItems = 0;
+        IsOrderCreationInProgress = false;
+        ShowDefaultView();
     }
 
     private bool CanBackupOrders()
@@ -418,139 +349,10 @@ public sealed  class CarSparePartViewModel
     {
         return !IsOnlineStoreRunning;
     }
-    
-    public ObservableCollection<Customer> Customers
-    {
-        get { return new ObservableCollection<Customer>(_customerService.GetAllCustomers()); }
-    }
-
-    private Customer _selectedCustomer;
-
-    public Customer SelectedCustomer
-    {
-        get => _selectedCustomer;
-        set
-        {
-            SetProperty(ref _selectedCustomer, value);
-            PlaceNewOrderCommand.NotifyCanExecuteChanged();
-        }
-    }
-
-    public ObservableCollection<Product> Products
-    {
-        get { return new ObservableCollection<Product>(_productFetcher.GetAllProducts()); }
-    }
-
-    private Product _selectedProduct;
-    public Product SelectedProduct
-    {
-        get => _selectedProduct;
-        set
-        {
-            SetProperty(ref _selectedProduct, value);
-            PlaceNewOrderCommand.NotifyCanExecuteChanged();
-        }
-    }
-
-    private int _numberOfItems;
-
-    public int NumberOfItems
-    {
-        get => _numberOfItems;
-        set => SetProperty(ref _numberOfItems, value);
-    }
-
-    private Order _order;
-    public Order Order
-    {
-        get => _order;
-        set => SetProperty(ref _order, value);
-    }
 
     public string LatestNotification
     {
         get { return Notifications.Any() ? Notifications.Last().Message : string.Empty; }
-    }
-    
-    private DateTime _periodFromDate;
-    public DateTime PeriodFromDate
-    {
-        get => _periodFromDate;
-        set
-        {
-            SetProperty(ref _periodFromDate, value);
-            UpdateOrdersForProduct();
-        }
-    }
-
-    private string _periodFromTime;
-    public string PeriodFromTime
-    {
-        get => _periodFromTime;
-        set
-        {
-            SetProperty(ref _periodFromTime, value);
-            UpdateOrdersForProduct();
-        }
-    }
-
-    private DateTime _periodToDate;
-    public DateTime PeriodToDate
-    {
-        get => _periodToDate;
-        set
-        {
-            SetProperty(ref _periodToDate, value);
-            UpdateOrdersForProduct();
-        }
-    }
-
-    private string _periodToTime;
-    public string PeriodToTime
-    {
-        get => _periodToTime;
-        set
-        {
-            SetProperty(ref _periodToTime, value);
-            UpdateOrdersForProduct();
-        }
-    }
-
-    public Product _ordersForProductSelectedProduct;
-    public Product OrdersForProductSelectedProduct
-    {
-        get => _ordersForProductSelectedProduct;
-        set
-        {
-            SetProperty(ref _ordersForProductSelectedProduct, value);
-            UpdateOrdersForProduct();
-        }
-    }
-
-    private void UpdateOrdersForProduct()
-    {
-        OrdersForProduct.Clear();
-        var orders = _carSparePartService.GetOrdersForProduct(OrdersForProductSelectedProduct);
-        var fromDateTime = PeriodFromDate.AddTime(PeriodFromTime);
-        var toDateTime = PeriodToDate.AddTime(PeriodToTime);
-        foreach (var order in orders.Where(o => o.OrderDateTime >= fromDateTime && o.OrderDateTime <= toDateTime))
-        {
-            OrdersForProduct.Add(order);
-        }
-    }
-
-    private ObservableCollection<Order> _ordersForProduct;
-    public ObservableCollection<Order> OrdersForProduct
-    {
-        get => _ordersForProduct;
-        set => SetProperty(ref _ordersForProduct, value);
-    }
-    
-    private Order _ordersForProductSelectedOrder;
-    public Order OrdersForProductSelectedOrder
-    {
-        get => _ordersForProductSelectedOrder;
-        set => SetProperty(ref _ordersForProductSelectedOrder, value);
     }
 
     public bool HasActiveNotifications

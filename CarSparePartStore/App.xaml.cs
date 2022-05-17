@@ -6,6 +6,7 @@ using CarSparePartService.Backup;
 using CarSparePartService.Interfaces;
 using CarSparePartService.Product;
 using CarSparePartStore.ViewModels;
+using CarSparePartStore.ViewModels.Notification;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
@@ -92,6 +93,9 @@ namespace CarSparePartStore
                         .WriteTo.File(configuration.GetSection("Logging").GetValue<string>("LogFilePath"))
                         .CreateLogger())
                     .AddTransient<CarSparePartViewModel>()
+                    .AddTransient<CarSparePartListViewModel>()
+                    .AddTransient<CarSparePartNewOrderViewModel>()
+                    .AddTransient<OrdersForProductViewModel>()
                     .BuildServiceProvider());
         }
     }

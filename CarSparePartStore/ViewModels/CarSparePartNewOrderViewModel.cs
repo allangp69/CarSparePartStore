@@ -1,0 +1,148 @@
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using CarSparePartService;
+using CarSparePartService.Interfaces;
+using CarSparePartService.Product;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+
+namespace CarSparePartStore.ViewModels;
+
+public sealed  class CarSparePartNewOrderViewModel
+    : ObservableRecipient, IDisposable
+{
+    private readonly IProductFetcher _productFetcher;
+    private readonly ICustomerService _customerService;
+    private readonly ICarSparePartService _carSparePartService;
+
+    public event EventHandler NewOrderCancelled;
+    public event EventHandler NewOrderClosed;
+    
+    public CarSparePartNewOrderViewModel(ICarSparePartService carSparePartService, IProductFetcher productFetcher, ICustomerService customerService)
+    {
+        _productFetcher = productFetcher;
+        _customerService = customerService;
+        _carSparePartService = carSparePartService;
+        Order = Order.Create(0, new List<OrderItem>());
+    }
+    
+    #region Commands
+    
+    private RelayCommand _placeNewOrderCommand;
+    public RelayCommand PlaceNewOrderCommand
+    {
+        get { return _placeNewOrderCommand ?? (_placeNewOrderCommand = new RelayCommand(PlaceOrder, CanPlaceOrder)); }
+    }
+
+    private RelayCommand _cancelNewOrderCommand;
+    public RelayCommand CancelNewOrderCommand
+    {
+        get
+        {
+            return _cancelNewOrderCommand ?? (_cancelNewOrderCommand = new RelayCommand(CancelOrder, CanCancelOrder));
+        }
+    }
+    
+    #endregion Commands
+
+    private bool CanCancelOrder()
+    {
+        return true;
+    }
+
+    private void CancelOrder()
+    {
+        OnNewOrderCancelled();
+    }
+
+    private void OnNewOrderCancelled()
+    {
+        var handler = NewOrderCancelled;
+        handler?.Invoke(this, EventArgs.Empty);
+    }
+    
+    private void OnNewOrderClosed()
+    {
+        var handler = NewOrderClosed;
+        handler?.Invoke(this, EventArgs.Empty);
+    }
+
+    private bool CanPlaceOrder()
+    {
+        if (SelectedCustomer is null || SelectedProduct is null)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private void PlaceOrder()
+    {
+        Order.CustomerId = SelectedCustomer.CustomerId;
+        Order.AddItem(new OrderItem {Product = SelectedProduct, NumberOfItems = NumberOfItems});
+        _carSparePartService.PlaceOrder(Order);
+        ClearSelections();
+        OnNewOrderClosed();
+    }
+
+    private void ClearSelections()
+    {
+        SelectedCustomer = null;
+        SelectedProduct = null;
+        NumberOfItems = 0;
+    }
+    
+    public ObservableCollection<Customer> Customers
+    {
+        get { return new ObservableCollection<Customer>(_customerService.GetAllCustomers()); }
+    }
+
+    private Customer _selectedCustomer;
+    public Customer SelectedCustomer
+    {
+        get => _selectedCustomer;
+        set
+        {
+            SetProperty(ref _selectedCustomer, value);
+            PlaceNewOrderCommand.NotifyCanExecuteChanged();
+        }
+    }
+
+    public ObservableCollection<Product> Products
+    {
+        get { return new ObservableCollection<Product>(_productFetcher.GetAllProducts()); }
+    }
+
+    private Product _selectedProduct;
+    public Product SelectedProduct
+    {
+        get => _selectedProduct;
+        set
+        {
+            SetProperty(ref _selectedProduct, value);
+            PlaceNewOrderCommand.NotifyCanExecuteChanged();
+        }
+    }
+
+    private int _numberOfItems;
+
+    public int NumberOfItems
+    {
+        get => _numberOfItems;
+        set => SetProperty(ref _numberOfItems, value);
+    }
+
+    private Order _order;
+    public Order Order
+    {
+        get => _order;
+        set => SetProperty(ref _order, value);
+    }
+    
+    public void Dispose()
+    {
+        //Dispose
+    }
+}

@@ -5,7 +5,7 @@ using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 
-namespace CarSparePartStore.ViewModels;
+namespace CarSparePartStore.ViewModels.Notification;
 
 public class NotificationHandler
     : IDisposable
@@ -20,13 +20,13 @@ public class NotificationHandler
     public NotificationHandler()
     {
         _configuration = Ioc.Default.GetRequiredService<IConfiguration>();
-        Notifications = new List<Notification>();
+        Notifications = new List<ViewModels.Notification.Notification>();
         _cancellationTokenSource = new CancellationTokenSource();
         var thread = new Thread(() =>
         {
             while (!_cancellationTokenSource.IsCancellationRequested)
             {
-                var deleteList = new List<Notification>();
+                var deleteList = new List<ViewModels.Notification.Notification>();
                 lock (_listLockObject)
                 {
                     deleteList.AddRange(Notifications.Where(notification => notification.Created.Add(ShowNotificationInterval) < DateTime.Now));
@@ -40,7 +40,7 @@ public class NotificationHandler
         thread.Start();
     }
 
-    private void OnNotificationsRemoved(IEnumerable<Notification> removedNotifications)
+    private void OnNotificationsRemoved(IEnumerable<ViewModels.Notification.Notification> removedNotifications)
     {
         foreach (var notification in removedNotifications)
         {
@@ -50,7 +50,7 @@ public class NotificationHandler
 
     private TimeSpan ShowNotificationInterval => TimeSpan.FromSeconds(int.TryParse(_configuration.GetSection("ApplicationSettings").GetSection("ShowNotificationsSeconds").Value, out var period) ? period : _defaultPeriodSeconds);
 
-    public void AddNotification(Notification notification)
+    public void AddNotification(ViewModels.Notification.Notification notification)
     {
         lock (_listLockObject)
         {
@@ -59,26 +59,26 @@ public class NotificationHandler
         OnNotificationAdded(notification);
     }
 
-    private void OnNotificationAdded(Notification notification)
+    private void OnNotificationAdded(ViewModels.Notification.Notification notification)
     {
         var handler = NotificationAdded;
         handler?.Invoke(this,  new NotificationAddedEventArgs(notification));
     }
     
-    private void OnNotificationRemoved(Notification notification)
+    private void OnNotificationRemoved(ViewModels.Notification.Notification notification)
     {
         var handler = NotificationRemoved;
         handler?.Invoke(this,  new NotificationRemovedEventArgs(notification));
     }
     
-    private List<Notification> Notifications { get; }
+    private List<ViewModels.Notification.Notification> Notifications { get; }
 
     public void Dispose()
     {
         _cancellationTokenSource.Cancel();
     }
 
-    public List<Notification> GetActiveNotifications()
+    public List<ViewModels.Notification.Notification> GetActiveNotifications()
     {
         return Notifications.Where(n => n.IsActive).ToList();
     }

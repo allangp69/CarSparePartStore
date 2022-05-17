@@ -1,6 +1,6 @@
 using System;
 
-namespace CarSparePartStore.ViewModels;
+namespace CarSparePartStore.ViewModels.Notification;
 
 public class Notification
 {

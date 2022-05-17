@@ -5,9 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:CarSparePartStore.ViewModels"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             xmlns:carSparePartStore="clr-namespace:CarSparePartStore"
              xmlns:converters="clr-namespace:CarSparePartStore.Converters"
-             d:DataContext="{d:DesignInstance Type=viewModels:CarSparePartViewModel, IsDesignTimeCreatable=False}"
+             d:DataContext="{d:DesignInstance Type=viewModels:OrdersForProductViewModel, IsDesignTimeCreatable=False}"
              mc:Ignorable="d"
              d:DesignHeight="500" d:DesignWidth="300">
     <UserControl.Resources>

@@ -1,9 +1,18 @@
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+
 namespace CarSparePartService.Product;
 
 public class ProductWithItemsCount
+        : ObservableRecipient
 {
     private Product Product { get; }
-    public int ItemsCount { get; set; }
+
+    private int _itemsCount;
+    public int ItemsCount
+    {
+        get => _itemsCount;
+        set => SetProperty(ref _itemsCount,  value);
+    }
 
     public ProductWithItemsCount(Product product, int itemsCount)
     {
