@@ -223,7 +223,13 @@ public sealed  class CarSparePartViewModel
             return;
         }
         vm.ProductId = ListSelectedProductId;
+        vm.OrdersForProductClosed += OrdersForProductClosed;
         ShowView(vm);
+    }
+
+    private void OrdersForProductClosed(object? sender, EventArgs e)
+    {
+        ShowDefaultView();
     }
 
     public long ListSelectedProductId
@@ -250,7 +256,9 @@ public sealed  class CarSparePartViewModel
 
     private void ShowView(ObservableRecipient content)
     {
+        Content = null;
         Content = content;
+        content.IsActive = true;
     }
     
     private bool CanCreateOrder()
@@ -370,5 +378,11 @@ public sealed  class CarSparePartViewModel
     public void Dispose()
     {
         _notificationHandler.Dispose();
+        _notificationHandler.NotificationAdded -= NotificationHandlerOnNotificationAdded;
+        _notificationHandler.NotificationRemoved -= NotificationHandlerOnNotificationRemoved;
+        _onlineStoreEmulator.IsRunningChanged -= OnlineStoreEmulatorIsRunningChanged;
+        _carSparePartService.OrderAdded -= CarSparePartServiceOrderAdded;
+        _carSparePartService.RestoreBackupCompleted -= CarSparePartServiceRestoreBackupCompleted;
+        _carSparePartService.BackupCompleted -= CarSparePartServiceBackupCompleted;
     }
 }

@@ -12,8 +12,6 @@ namespace CarSparePartStore.ViewModels;
 public sealed  class CarSparePartNewOrderViewModel
     : ObservableRecipient, IDisposable
 {
-    private readonly IProductFetcher _productFetcher;
-    private readonly ICustomerService _customerService;
     private readonly ICarSparePartService _carSparePartService;
 
     public event EventHandler NewOrderCancelled;
@@ -21,10 +19,10 @@ public sealed  class CarSparePartNewOrderViewModel
     
     public CarSparePartNewOrderViewModel(ICarSparePartService carSparePartService, IProductFetcher productFetcher, ICustomerService customerService)
     {
-        _productFetcher = productFetcher;
-        _customerService = customerService;
         _carSparePartService = carSparePartService;
         Order = Order.Create(0, new List<OrderItem>());
+        Customers = new ObservableCollection<Customer>(customerService.GetAllCustomers());
+        Products = new ObservableCollection<Product>(productFetcher.GetAllProducts());
     }
     
     #region Commands
@@ -70,12 +68,7 @@ public sealed  class CarSparePartNewOrderViewModel
 
     private bool CanPlaceOrder()
     {
-        if (SelectedCustomer is null || SelectedProduct is null)
-        {
-            return false;
-        }
-
-        return true;
+        return SelectedCustomer is not null && SelectedProduct is not null && NumberOfItems > 0;
     }
 
     private void PlaceOrder()
@@ -93,10 +86,12 @@ public sealed  class CarSparePartNewOrderViewModel
         SelectedProduct = null;
         NumberOfItems = 0;
     }
-    
+
+    private ObservableCollection<Customer> _customers;
     public ObservableCollection<Customer> Customers
     {
-        get { return new ObservableCollection<Customer>(_customerService.GetAllCustomers()); }
+        get => _customers;
+        private set => _customers = value;
     }
 
     private Customer _selectedCustomer;
@@ -110,9 +105,11 @@ public sealed  class CarSparePartNewOrderViewModel
         }
     }
 
+    private ObservableCollection<Product> _products;
     public ObservableCollection<Product> Products
     {
-        get { return new ObservableCollection<Product>(_productFetcher.GetAllProducts()); }
+        get => _products;
+        private set => _products = value;
     }
 
     private Product _selectedProduct;
@@ -127,7 +124,6 @@ public sealed  class CarSparePartNewOrderViewModel
     }
 
     private int _numberOfItems;
-
     public int NumberOfItems
     {
         get => _numberOfItems;

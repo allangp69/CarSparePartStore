@@ -1,21 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
 using CarSparePartService;
 using CarSparePartService.Interfaces;
 using CarSparePartService.Product;
 using CarSparePartStore.ExtensionMethods;
-using CarSparePartStore.ViewModels.Notification;
-using CarSparePartStore.Views;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
-using OnlineStoreEmulator;
 
 namespace CarSparePartStore.ViewModels;
 
@@ -24,12 +15,15 @@ public sealed  class OrdersForProductViewModel
 {
     private readonly IProductFetcher _productFetcher;
     private readonly ICarSparePartService _carSparePartService;
+    
+    public event EventHandler OrdersForProductClosed;
 
     public OrdersForProductViewModel(ICarSparePartService carSparePartService, IProductFetcher productFetcher)
     {
         _productFetcher = productFetcher;
         _carSparePartService = carSparePartService;
         OrdersForProduct = new ObservableCollection<Order>();
+        Products = new ObservableCollection<Product>(productFetcher.GetAllProducts());
         PeriodFromDate = DateTime.Today;
         PeriodFromTime = "0000";
         PeriodToDate = DateTime.Today.AddDays(1);
@@ -62,7 +56,13 @@ public sealed  class OrdersForProductViewModel
     
     private void CloseOrdersForProduct()
     {
-        throw new Exception();
+        OnOrdersForProductClosed();
+    }
+    
+    private void OnOrdersForProductClosed()
+    {
+        var handler = OrdersForProductClosed;
+        handler?.Invoke(this, EventArgs.Empty);
     }
     
     private DateTime _periodFromDate;
@@ -107,6 +107,13 @@ public sealed  class OrdersForProductViewModel
             SetProperty(ref _periodToTime, value);
             UpdateOrdersForProduct();
         }
+    }
+
+    private ObservableCollection<Product> _products;
+    public ObservableCollection<Product> Products
+    {
+        get => _products;
+        private set => _products = value;
     }
 
     private Product _selectedProduct;

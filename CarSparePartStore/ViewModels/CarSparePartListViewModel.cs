@@ -67,6 +67,6 @@ public sealed  class CarSparePartListViewModel
 
     public void Dispose()
     {
-        //Dispose
+        _carSparePartService.OrderAdded -= CarSparePartServiceOrderAdded;
     }
 }
