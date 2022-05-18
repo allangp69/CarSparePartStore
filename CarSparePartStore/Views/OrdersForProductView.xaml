@@ -74,11 +74,13 @@
                         <GridViewColumn DisplayMemberBinding="{Binding Path=OrderId}"
                                         Header="OrderId" Width="200" />
                         <GridViewColumn DisplayMemberBinding="{Binding Path=OrderDateTime}"
-                                        Header="DateTime" Width="150" />
+                                        Header="Order created" Width="150" />
                         <GridViewColumn DisplayMemberBinding="{Binding Path=CustomerId}"
                                         Header="CustomerId" Width="80" />
                         <GridViewColumn DisplayMemberBinding="{Binding Path=OrderItems, Converter={StaticResource OrderItemsToStringConverter}}"
-                                        Header="OrderItems" Width="800" />
+                                        Header="Order items" Width="800" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=TotalPrice, ConverterCulture='dk-dk',StringFormat=c}"
+                                        Header="Total price" Width="150" />
                     </GridView>
                 </ListView.View>
             </ListView>

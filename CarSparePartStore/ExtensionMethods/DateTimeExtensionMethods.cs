@@ -11,15 +11,16 @@ public static class DateTimeExtensionMethods
         {
             return dateTime;
         }
-        if (time.Length != 4)
+        if (time.Length < 4 || time.Length > 5)
         {
-            throw new ArgumentException("Length of time must be exactly 4 characters");
+            throw new ArgumentException("Length of time must be exactly 4 characters (5 with time-divider)");
         }
         if (!int.TryParse(time.Substring(0,2), out var hours))
         {
             throw new ArgumentException("Invalid time argument - hours must be a number");
         }
-        if (!int.TryParse(time.Substring(2,2), out var minutes))
+        var minuteStartPos = time.Length == 5 ? 3 : 2;
+        if (!int.TryParse(time.Substring(minuteStartPos,2), out var minutes))
         {
             throw new ArgumentException("Invalid time argument - minutes must be a number");
         }

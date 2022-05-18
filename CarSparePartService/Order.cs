@@ -16,6 +16,14 @@ public class Order
         OrderItems.Add(item);
     }
 
+    public decimal TotalPrice 
+    {
+        get
+        {
+            return OrderItems.Sum(o => o.Product.Price * o.NumberOfItems);
+        }
+    }
+
     public static Order Create(int customerId, IEnumerable<OrderItem> orderItems)
     {
         return new Order { OrderId = Guid.NewGuid(), OrderDateTime = DateTime.Now, CustomerId = customerId, OrderItems = orderItems.ToList()};
