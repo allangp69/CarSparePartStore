@@ -88,6 +88,6 @@ public class OnlineStoreEmulator
         var customer = _randomCustomerGenerator.GenerateCustomer();
         var product = _randomProductGenerator.GenerateProduct();
         var orderItems = new List<OrderItem>{new OrderItem{Product = product, NumberOfItems = Random.Next(1, 11)}};
-        _carSparePartService.PlaceOrder(Order.Create(customer.CustomerId, orderItems));
+        _carSparePartService.PlaceOrder(new Order(customer.CustomerId, orderItems));
     }
 }

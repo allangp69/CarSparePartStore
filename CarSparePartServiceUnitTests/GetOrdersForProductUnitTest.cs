@@ -22,7 +22,7 @@ public class GetOrdersForProductUnitTest
         var carSparepartService = Ioc.Default.GetRequiredService<ICarSparePartService>();
         var productFetcher = Ioc.Default.GetRequiredService<IProductFetcher>();
         var product = productFetcher.GetAllProducts().First();
-        carSparepartService.PlaceOrder(Order.Create(0, new List<OrderItem>{ new OrderItem{NumberOfItems = 1, Product = product}}));
+        carSparepartService.PlaceOrder(new Order(0, new List<OrderItem>{ new OrderItem{NumberOfItems = 1, Product = product}}));
         var orders = carSparepartService.GetOrdersForProduct(product);
         Assert.IsTrue(orders.Any());
     }

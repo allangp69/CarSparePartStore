@@ -23,7 +23,7 @@ public class GetProductWithItemsCountUnitTest
         var numberOfItems = 4;
         var productFetcher = Ioc.Default.GetRequiredService<IProductFetcher>();
         var product = productFetcher.GetAllProducts().First();
-        carSparepartService.PlaceOrder(Order.Create(0, new List<OrderItem>{ new OrderItem{NumberOfItems = numberOfItems, Product = product}}));
+        carSparepartService.PlaceOrder(new Order(0, new List<OrderItem>{ new OrderItem{NumberOfItems = numberOfItems, Product = product}}));
         var productWithItemsCount = carSparepartService.GetProductsWithItemsCount().FirstOrDefault(p => p.ProductId == product.ProductId);
         Assert.IsTrue(productWithItemsCount.ItemsCount == numberOfItems);
     }

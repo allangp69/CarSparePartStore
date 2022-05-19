@@ -98,7 +98,7 @@ public class OrderDTOConverter
         {
             return null;
         }
-        return Order.Create(order.OrderId, order.OrderDateTime, order.CustomerId, ConvertFromDTO(order.OrderItems).ToList());
+        return new Order(order.OrderId, order.OrderDateTime, order.CustomerId, ConvertFromDTO(order.OrderItems).ToList());
     }
     
     private IEnumerable<OrderItem> ConvertFromDTO(IEnumerable<OrderItemDTO> orderItems)

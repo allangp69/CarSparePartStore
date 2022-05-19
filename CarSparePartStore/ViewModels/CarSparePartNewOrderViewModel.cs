@@ -20,7 +20,7 @@ public sealed  class CarSparePartNewOrderViewModel
     public CarSparePartNewOrderViewModel(ICarSparePartService carSparePartService, IProductFetcher productFetcher, ICustomerService customerService)
     {
         _carSparePartService = carSparePartService;
-        Order = Order.Create(0, new List<OrderItem>());
+        Order = new Order(0, new List<OrderItem>());
         Customers = new ObservableCollection<Customer>(customerService.GetAllCustomers());
         Products = new ObservableCollection<Product>(productFetcher.GetAllProducts());
     }

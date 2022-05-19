@@ -20,7 +20,7 @@ public class PlaceOrderUnitTest
     public void TestGetAllOrders()
     {
         var carSparepartService = Ioc.Default.GetRequiredService<ICarSparePartService>();
-        carSparepartService.PlaceOrder(Order.Create(0, new List<OrderItem>{ new OrderItem{NumberOfItems = 1, Product = new Product{ProductId = 1, 
+        carSparepartService.PlaceOrder(new Order(0, new List<OrderItem>{ new OrderItem{NumberOfItems = 1, Product = new Product{ProductId = 1, 
                                                                             Name = "Test Product", Description = "Test test test", Type = "Test type", Price = 1234.56m}}}));
         var allOrders = carSparepartService.GetAllOrders();
         Assert.IsTrue(allOrders.Any());
