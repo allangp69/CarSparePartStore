@@ -4,13 +4,13 @@ using System.Collections.ObjectModel;
 using CarSparePartService;
 using CarSparePartService.Interfaces;
 using CarSparePartService.Product;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+using CarSparePartStore.Controller;
 using Microsoft.Toolkit.Mvvm.Input;
 
 namespace CarSparePartStore.ViewModels;
 
 public sealed  class CarSparePartNewOrderViewModel
-    : ObservableRecipient, IDisposable
+    : CarSparePartViewContent, IDisposable
 {
     private readonly ICarSparePartService _carSparePartService;
 
@@ -57,13 +57,13 @@ public sealed  class CarSparePartNewOrderViewModel
     private void OnNewOrderCancelled()
     {
         var handler = NewOrderCancelled;
-        handler?.Invoke(this, EventArgs.Empty);
+        handler?.Invoke(this, System.EventArgs.Empty);
     }
     
     private void OnNewOrderClosed()
     {
         var handler = NewOrderClosed;
-        handler?.Invoke(this, EventArgs.Empty);
+        handler?.Invoke(this, System.EventArgs.Empty);
     }
 
     private bool CanPlaceOrder()

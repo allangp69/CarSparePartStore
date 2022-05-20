@@ -4,14 +4,14 @@ using System.Linq;
 using CarSparePartService;
 using CarSparePartService.Interfaces;
 using CarSparePartService.Product;
+using CarSparePartStore.Controller;
 using CarSparePartStore.ExtensionMethods;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 
 namespace CarSparePartStore.ViewModels;
 
 public sealed  class OrdersForProductViewModel
-    : ObservableRecipient, IDisposable
+    : CarSparePartViewContent, IDisposable
 {
     private readonly IProductFetcher _productFetcher;
     private readonly ICarSparePartService _carSparePartService;
@@ -62,7 +62,7 @@ public sealed  class OrdersForProductViewModel
     private void OnOrdersForProductClosed()
     {
         var handler = OrdersForProductClosed;
-        handler?.Invoke(this, EventArgs.Empty);
+        handler?.Invoke(this, System.EventArgs.Empty);
     }
     
     private DateTime _periodFromDate;

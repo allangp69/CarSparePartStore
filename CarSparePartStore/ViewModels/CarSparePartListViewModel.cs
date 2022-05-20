@@ -5,12 +5,13 @@ using System.Windows;
 using CarSparePartService;
 using CarSparePartService.Interfaces;
 using CarSparePartService.Product;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+using CarSparePartStore.Controller;
+using CarSparePartStore.ViewModels.EventArgs;
 
 namespace CarSparePartStore.ViewModels;
 
 public sealed  class CarSparePartListViewModel
-    : ObservableRecipient, IDisposable
+    : CarSparePartViewContent, IDisposable
 {
     private readonly ICarSparePartService _carSparePartService;
     public event EventHandler<ProductSelectedEventArgs> ProductSelected;

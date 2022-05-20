@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace CarSparePartStore.ViewModels;
+﻿namespace CarSparePartStore.ViewModels.EventArgs;
 
 public class ProductSelectedEventArgs 
-    : EventArgs
+    : System.EventArgs
 {
     public long ProductId { get; }
 

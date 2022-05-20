@@ -5,6 +5,7 @@ using CarSparePartService;
 using CarSparePartService.Backup;
 using CarSparePartService.Interfaces;
 using CarSparePartService.Product;
+using CarSparePartStore.Controller;
 using CarSparePartStore.ViewModels;
 using CarSparePartStore.ViewModels.Notification;
 using Microsoft.Extensions.Configuration;
@@ -87,6 +88,7 @@ namespace CarSparePartStore
                     .AddSingleton<IOrderBackupWriter, XmlOrderBackupWriter>()
                     .AddSingleton<IOrderBackupReader, XmlOrderBackupReader>()
                     .AddSingleton<NotificationHandler>()
+                    .AddSingleton<ICarSparePartViewController, CarSparePartViewController>()
                     .AddSingleton((ILogger)new LoggerConfiguration()
                         .MinimumLevel.Information()
                         .WriteTo.Console()

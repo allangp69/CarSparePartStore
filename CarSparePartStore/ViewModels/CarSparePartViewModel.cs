@@ -7,7 +7,10 @@ using System.Windows;
 using CarSparePartService;
 using CarSparePartService.Interfaces;
 using CarSparePartService.Product;
+using CarSparePartStore.Controller;
+using CarSparePartStore.ViewModels.EventArgs;
 using CarSparePartStore.ViewModels.Notification;
+using CarSparePartStore.ViewModels.Notification.EventArgs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
@@ -16,17 +19,19 @@ using OnlineStoreEmulator;
 
 namespace CarSparePartStore.ViewModels;
 
-public sealed  class CarSparePartViewModel
-    : ObservableRecipient, IDisposable
+public sealed class CarSparePartViewModel
+    : CarSparePartViewContent, IDisposable
 {
     private readonly IOnlineStoreEmulator _onlineStoreEmulator;
     private readonly ICarSparePartService _carSparePartService;
     private readonly NotificationHandler _notificationHandler;
+    private readonly ICarSparePartViewController _carSparePartViewController;
 
-    public CarSparePartViewModel(ICarSparePartService carSparePartService, IOnlineStoreEmulator onlineStoreEmulator, NotificationHandler notificationHandler)
+    public CarSparePartViewModel(ICarSparePartService carSparePartService, IOnlineStoreEmulator onlineStoreEmulator, NotificationHandler notificationHandler, ICarSparePartViewController carSparePartViewController)
     {
         ActiveNotifications = new ObservableCollection<Notification.Notification>();
         _notificationHandler = notificationHandler;
+        _carSparePartViewController = carSparePartViewController;
         _notificationHandler.NotificationAdded += NotificationHandlerOnNotificationAdded;
         _notificationHandler.NotificationRemoved += NotificationHandlerOnNotificationRemoved;
         _onlineStoreEmulator = onlineStoreEmulator;
@@ -134,12 +139,12 @@ public sealed  class CarSparePartViewModel
         _notificationHandler.AddNotification(notification);
     }
 
-    private void CarSparePartServiceBackupCompleted(object? sender, EventArgs e)
+    private void CarSparePartServiceBackupCompleted(object? sender, System.EventArgs e)
     {
         Application.Current?.Dispatcher?.Invoke(() => { AddNotification($"Backup of orders completed"); });
     }
 
-    private void CarSparePartServiceRestoreBackupCompleted(object? sender, EventArgs e)
+    private void CarSparePartServiceRestoreBackupCompleted(object? sender, System.EventArgs e)
     {
         Application.Current?.Dispatcher?.Invoke(() =>
         {
@@ -227,7 +232,7 @@ public sealed  class CarSparePartViewModel
         ShowView(vm);
     }
 
-    private void OrdersForProductClosed(object? sender, EventArgs e)
+    private void OrdersForProductClosed(object? sender, System.EventArgs e)
     {
         ShowDefaultView();
     }
@@ -298,13 +303,13 @@ public sealed  class CarSparePartViewModel
         }
     }
 
-    private void CarSparePartNewOrderNewOrderCancelled(object? sender, EventArgs e)
+    private void CarSparePartNewOrderNewOrderCancelled(object? sender, System.EventArgs e)
     {
         IsOrderCreationInProgress = false;
         ShowDefaultView();
     }
     
-    private void CarSparePartNewOrderNewOrderClosed(object? sender, EventArgs e)
+    private void CarSparePartNewOrderNewOrderClosed(object? sender, System.EventArgs e)
     {
         IsOrderCreationInProgress = false;
         ShowDefaultView();
