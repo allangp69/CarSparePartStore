@@ -1,11 +1,11 @@
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
-namespace CarSparePartService.Product;
+namespace CarSparePartStore.ViewModels.DTO;
 
 public class ProductWithItemsCount
         : ObservableRecipient
 {
-    private Product Product { get; }
+    private ProductDTO Product { get; }
 
     private int _itemsCount;
     public int ItemsCount
@@ -14,7 +14,7 @@ public class ProductWithItemsCount
         set => SetProperty(ref _itemsCount,  value);
     }
 
-    public ProductWithItemsCount(Product product, int itemsCount)
+    public ProductWithItemsCount(ProductDTO product, int itemsCount)
     {
         ItemsCount = itemsCount;
         Product = product;

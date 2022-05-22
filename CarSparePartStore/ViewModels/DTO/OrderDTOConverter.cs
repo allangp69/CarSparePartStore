@@ -1,6 +1,11 @@
-﻿namespace CarSparePartService.Backup;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CarSparePartService;
+using CarSparePartService.Product;
 
-internal class OrderDTOConverter
+namespace CarSparePartStore.ViewModels.DTO;
+
+public class OrderDTOConverter
 {
     public IEnumerable<OrderDTO> ConvertToDTO(IEnumerable<Order> orders)
     {
@@ -72,7 +77,20 @@ internal class OrderDTOConverter
         return retval;
     }
     
-    private ProductDTO ConvertToDTO(Product.Product product)
+    internal IEnumerable<ProductDTO> ConvertToDTO(IEnumerable<Product> products)
+    {
+        var retval = new List<ProductDTO>();
+        if (products is null || !products.Any())
+        {
+            return retval;
+        }
+
+        retval.AddRange(products.Select(product => ConvertToDTO(product)));
+
+        return retval;
+    }
+    
+    internal ProductDTO ConvertToDTO(Product product)
     {
         if (product is null)
         {
@@ -92,7 +110,7 @@ internal class OrderDTOConverter
     #endregion ConvertToDTO
     
     #region ConvertFromDTO
-    private Order ConvertFromDTO(OrderDTO order)
+    internal Order ConvertFromDTO(OrderDTO order)
     {
         if (order is null)
         {
@@ -128,13 +146,13 @@ internal class OrderDTOConverter
         return retval;
     }
     
-    private Product.Product ConvertFromDTO(ProductDTO product)
+    public Product ConvertFromDTO(ProductDTO product)
     {
         if (product is null)
         {
             return null;
         }
-        var retval = new Product.Product
+        var retval = new Product
         {
             ProductId = product.ProductId,
             Name = product.Name,

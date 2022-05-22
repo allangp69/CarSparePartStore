@@ -5,7 +5,9 @@ using CarSparePartService;
 using CarSparePartService.Backup;
 using CarSparePartService.Interfaces;
 using CarSparePartService.Product;
+using CarSparePartStore.Adapters;
 using CarSparePartStore.ViewModels;
+using CarSparePartStore.ViewModels.DTO;
 using CarSparePartStore.ViewModels.Notification;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +15,7 @@ using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using OnlineStoreEmulator;
 using Serilog;
 using TestServicesConfigurator;
+using OrderDTOConverter = CarSparePartStore.ViewModels.DTO.OrderDTOConverter;
 
 namespace CarSparePartStore
 {
@@ -86,6 +89,10 @@ namespace CarSparePartStore
                     .AddSingleton((IOrderBackupWriter)new XmlOrderBackupWriter(configuration.GetSection("ApplicationSettings").GetSection("OrdersBackup").Value, logger))
                     .AddSingleton((IOrderBackupReader)new XmlOrderBackupReader(configuration.GetSection("ApplicationSettings").GetSection("OrdersBackup").Value, logger))
                     .AddSingleton<NotificationHandler>()
+                    .AddSingleton<OrderDTOConverter>()
+                    .AddSingleton<IProductsAndOrdersAdapter, ProductsAndOrdersAdapter>()
+                    .AddSingleton<CustomerDTOConverter>()
+                    .AddSingleton<ICustomerAdapter, CustomerAdapter>()
                     .AddSingleton(logger)
                     .AddTransient<CarSparePartViewModel>()
                     .AddTransient<CarSparePartListViewModel>()

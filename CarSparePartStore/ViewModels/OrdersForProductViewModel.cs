@@ -1,10 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using CarSparePartService;
-using CarSparePartService.Interfaces;
-using CarSparePartService.Product;
+using CarSparePartStore.Adapters;
 using CarSparePartStore.ExtensionMethods;
+using CarSparePartStore.ViewModels.DTO;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 
@@ -13,17 +13,15 @@ namespace CarSparePartStore.ViewModels;
 public sealed  class OrdersForProductViewModel
     : ObservableRecipient, IDisposable
 {
-    private readonly IProductFetcher _productFetcher;
-    private readonly ICarSparePartService _carSparePartService;
-    
+    private readonly IProductsAndOrdersAdapter _productsAndOrdersAdapter;
+   
     public event EventHandler OrdersForProductClosed;
 
-    public OrdersForProductViewModel(ICarSparePartService carSparePartService, IProductFetcher productFetcher)
+    public OrdersForProductViewModel(IProductsAndOrdersAdapter productsAndOrdersAdapter)
     {
-        _productFetcher = productFetcher;
-        _carSparePartService = carSparePartService;
-        OrdersForProduct = new ObservableCollection<Order>();
-        Products = new ObservableCollection<Product>(productFetcher.GetAllProducts());
+        _productsAndOrdersAdapter = productsAndOrdersAdapter;
+        OrdersForProduct = new ObservableCollection<OrderDTO>();
+        Products = new ObservableCollection<ProductDTO>(_productsAndOrdersAdapter.GetAllProducts());
         PeriodFromDate = DateTime.Today;
         PeriodFromTime = "0000";
         PeriodToDate = DateTime.Today.AddDays(1);
@@ -32,7 +30,7 @@ public sealed  class OrdersForProductViewModel
 
     protected override void OnActivated()
     {
-        SelectedProduct = _productFetcher.FindProduct(ProductId);
+        SelectedProduct = _productsAndOrdersAdapter.FindProduct(ProductId);
         UpdateOrdersForProduct();
     }
     
@@ -109,15 +107,15 @@ public sealed  class OrdersForProductViewModel
         }
     }
 
-    private ObservableCollection<Product> _products;
-    public ObservableCollection<Product> Products
+    private ObservableCollection<ProductDTO> _products;
+    public ObservableCollection<ProductDTO> Products
     {
         get => _products;
         private set => _products = value;
     }
 
-    private Product _selectedProduct;
-    public Product SelectedProduct
+    private ProductDTO _selectedProduct;
+    public ProductDTO SelectedProduct
     {
         get => _selectedProduct;
         set
@@ -130,7 +128,7 @@ public sealed  class OrdersForProductViewModel
     private void UpdateOrdersForProduct()
     {
         OrdersForProduct.Clear();
-        var orders = _carSparePartService.GetOrdersForProduct(SelectedProduct);
+        var orders = GetOrdersForProduct(SelectedProduct);
         var fromDateTime = PeriodFromDate.AddTime(PeriodFromTime);
         var toDateTime = PeriodToDate.AddTime(PeriodToTime);
         foreach (var order in orders.Where(o => o.OrderDateTime >= fromDateTime && o.OrderDateTime <= toDateTime))
@@ -139,15 +137,20 @@ public sealed  class OrdersForProductViewModel
         }
     }
 
-    private ObservableCollection<Order> _ordersForProduct;
-    public ObservableCollection<Order> OrdersForProduct
+    private IEnumerable<OrderDTO> GetOrdersForProduct(ProductDTO product)
+    {
+        return _productsAndOrdersAdapter.GetOrdersForProduct(product);
+    }
+
+    private ObservableCollection<OrderDTO> _ordersForProduct;
+    public ObservableCollection<OrderDTO> OrdersForProduct
     {
         get => _ordersForProduct;
         set => SetProperty(ref _ordersForProduct, value);
     }
     
-    private Order _selectedOrder;
-    public Order SelectedOrder
+    private OrderDTO _selectedOrder;
+    public OrderDTO SelectedOrder
     {
         get => _selectedOrder;
         set => SetProperty(ref _selectedOrder, value);

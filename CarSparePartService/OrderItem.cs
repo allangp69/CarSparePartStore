@@ -1,6 +1,4 @@
-﻿using CarSparePartService.Interfaces;
-
-namespace CarSparePartService;
+﻿namespace CarSparePartService;
 
 public class OrderItem
 {

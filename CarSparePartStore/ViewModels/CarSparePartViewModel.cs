@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Windows;
 using CarSparePartService;
 using CarSparePartService.Interfaces;
-using CarSparePartService.Product;
+using CarSparePartStore.ViewModels.DTO;
 using CarSparePartStore.ViewModels.Notification;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;

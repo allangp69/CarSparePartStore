@@ -2,13 +2,12 @@
 using CarSparePartService.EqualityComparers;
 using CarSparePartService.ExtensionMethods;
 using CarSparePartService.Interfaces;
-using CarSparePartService.Product;
 using Serilog;
 
 namespace CarSparePartService;
 
 public class CarSparePartService
-        : ICarSparePartService
+    : ICarSparePartService
 {
     private readonly IOrderBackupManager _orderBackupManager;
     private readonly IProductFetcher _productFetcher;
@@ -16,7 +15,7 @@ public class CarSparePartService
     public event EventHandler<OrderAddedEventArgs> OrderAdded;
     public event EventHandler BackupCompleted;
     public event EventHandler RestoreBackupCompleted;
-    
+
     public CarSparePartService(IOrderBackupManager orderBackupManager, IProductFetcher productFetcher, ILogger logger)
     {
         _orderBackupManager = orderBackupManager;
@@ -24,15 +23,16 @@ public class CarSparePartService
         _logger = logger;
         Orders = new List<Order>();
     }
-    
+
     #region Orders
+
     protected virtual void OnOrderAdded(OrderAddedEventArgs e)
     {
         var handler = OrderAdded;
         handler?.Invoke(this, e);
     }
-    
-    
+
+
     public void PlaceOrder(Order order)
     {
         Orders.Add(order);
@@ -40,37 +40,15 @@ public class CarSparePartService
         OnOrderAdded(new OrderAddedEventArgs
         {
             CustomerId = order.CustomerId,
-            Products = order.ProductsList() 
+            Products = order.ProductsList()
         });
     }
 
     private List<Order> Orders { get; set; }
-    
+
     public IEnumerable<Order> GetAllOrders()
     {
         return Orders;
-    }
-    
-    public IEnumerable<ProductWithOrders> GetProductsWithOrders()
-    {
-        var retval = new List<ProductWithOrders>();
-        var products = _productFetcher.GetAllProducts(); 
-        foreach (var product in products)
-        {
-            retval.Add(new ProductWithOrders(product, GetOrdersIdsForProduct(product)));
-        }
-        return retval;
-    }
-
-    public IEnumerable<ProductWithItemsCount> GetProductsWithItemsCount()
-    {
-        var retval = new List<ProductWithItemsCount>();
-        var products = _productFetcher.GetAllProducts(); 
-        foreach (var product in products)
-        {
-            retval.Add(new ProductWithItemsCount(product, GetNumberOfItemsSoldForProduct(product)));
-        }
-        return retval;
     }
 
     public IEnumerable<Order> GetOrdersForProduct(Product.Product product)
@@ -80,15 +58,12 @@ public class CarSparePartService
         return retval;
     }
 
-    private IEnumerable<Guid> GetOrdersIdsForProduct(Product.Product product)
+    public IEnumerable<Product.Product> GetAllProducts()
     {
-        if (!Orders.Any())
-            return new List<Guid>();
-        var comparer = new UniqueProductComparer();
-        return Orders.Where(o => o.OrderItems.Any(i => comparer.Equals(i.Product, product))).Select(o => o.OrderId).ToList();
+        return _productFetcher.GetAllProducts();
     }
-    
-    private int GetNumberOfItemsSoldForProduct(Product.Product product)
+
+    public int GetNumberOfItemsSoldForProduct(Product.Product product)
     {
         var retval = 0;
         if (!Orders.Any())
@@ -98,17 +73,25 @@ public class CarSparePartService
         {
             retval += order.OrderItems.Where(o => comparer.Equals(o.Product, product)).Sum(o => o.NumberOfItems);
         }
+
         return retval;
     }
-    
+
+    public Product.Product FindProduct(long productId)
+    {
+        return _productFetcher.FindProduct(productId);
+    }
+
     #endregion Orders
-    
+
     #region Backup
+
     private void OnBackupCompleted(EventArgs e)
     {
         var handler = BackupCompleted;
         handler?.Invoke(this, e);
     }
+
     public void CreateBackup()
     {
         var converter = new OrderDTOConverter();
@@ -121,6 +104,7 @@ public class CarSparePartService
         var handler = RestoreBackupCompleted;
         handler?.Invoke(this, e);
     }
+
     public void RestoreBackup()
     {
         var converter = new OrderDTOConverter();

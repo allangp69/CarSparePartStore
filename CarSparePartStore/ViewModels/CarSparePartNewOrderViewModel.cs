@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using CarSparePartService;
-using CarSparePartService.Interfaces;
-using CarSparePartService.Product;
+using CarSparePartStore.Adapters;
+using CarSparePartStore.ViewModels.DTO;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 
@@ -12,17 +10,19 @@ namespace CarSparePartStore.ViewModels;
 public sealed  class CarSparePartNewOrderViewModel
     : ObservableRecipient, IDisposable
 {
-    private readonly ICarSparePartService _carSparePartService;
+    private readonly ProductsAndOrdersAdapter _productsAndOrdersAdapter;
+    private readonly ICustomerAdapter _customerAdapter;
 
     public event EventHandler NewOrderCancelled;
     public event EventHandler NewOrderClosed;
     
-    public CarSparePartNewOrderViewModel(ICarSparePartService carSparePartService, IProductFetcher productFetcher, ICustomerService customerService)
+    public CarSparePartNewOrderViewModel(ProductsAndOrdersAdapter productsAndOrdersAdapter, ICustomerAdapter customerAdapter)
     {
-        _carSparePartService = carSparePartService;
-        Order = new Order(0, new List<OrderItem>());
-        Customers = new ObservableCollection<Customer>(customerService.GetAllCustomers());
-        Products = new ObservableCollection<Product>(productFetcher.GetAllProducts());
+        _productsAndOrdersAdapter = productsAndOrdersAdapter;
+        _customerAdapter = customerAdapter;
+        Order = new OrderDTO();
+        Customers = new ObservableCollection<CustomerDTO>(_customerAdapter.GetAllCustomers());
+        Products = new ObservableCollection<ProductDTO>(_productsAndOrdersAdapter.GetAllProducts());
     }
     
     #region Commands
@@ -74,8 +74,8 @@ public sealed  class CarSparePartNewOrderViewModel
     private void PlaceOrder()
     {
         Order.CustomerId = SelectedCustomer.CustomerId;
-        Order.AddItem(new OrderItem {Product = SelectedProduct, NumberOfItems = NumberOfItems});
-        _carSparePartService.PlaceOrder(Order);
+        Order.OrderItems.Add(new OrderItemDTO {Product = SelectedProduct, NumberOfItems = NumberOfItems});
+        _productsAndOrdersAdapter.PlaceOrder(Order);
         ClearSelections();
         OnNewOrderClosed();
     }
@@ -87,15 +87,15 @@ public sealed  class CarSparePartNewOrderViewModel
         NumberOfItems = 0;
     }
 
-    private ObservableCollection<Customer> _customers;
-    public ObservableCollection<Customer> Customers
+    private ObservableCollection<CustomerDTO> _customers;
+    public ObservableCollection<CustomerDTO> Customers
     {
         get => _customers;
         private set => _customers = value;
     }
 
-    private Customer _selectedCustomer;
-    public Customer SelectedCustomer
+    private CustomerDTO _selectedCustomer;
+    public CustomerDTO SelectedCustomer
     {
         get => _selectedCustomer;
         set
@@ -105,15 +105,15 @@ public sealed  class CarSparePartNewOrderViewModel
         }
     }
 
-    private ObservableCollection<Product> _products;
-    public ObservableCollection<Product> Products
+    private ObservableCollection<ProductDTO> _products;
+    public ObservableCollection<ProductDTO> Products
     {
         get => _products;
         private set => _products = value;
     }
 
-    private Product _selectedProduct;
-    public Product SelectedProduct
+    private ProductDTO _selectedProduct;
+    public ProductDTO SelectedProduct
     {
         get => _selectedProduct;
         set
@@ -130,8 +130,8 @@ public sealed  class CarSparePartNewOrderViewModel
         set => SetProperty(ref _numberOfItems, value);
     }
 
-    private Order _order;
-    public Order Order
+    private OrderDTO _order;
+    public OrderDTO Order
     {
         get => _order;
         set => SetProperty(ref _order, value);

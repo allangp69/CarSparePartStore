@@ -1,7 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using CarSparePartService.Product;
-
-namespace CarSparePartService.Interfaces;
+﻿namespace CarSparePartService.Interfaces;
 
 public interface ICarSparePartService
 {
@@ -12,7 +9,8 @@ public interface ICarSparePartService
     public void RestoreBackup();
     public void PlaceOrder(Order order);
     IEnumerable<Order> GetAllOrders();
-    IEnumerable<ProductWithOrders> GetProductsWithOrders();
-    IEnumerable<ProductWithItemsCount> GetProductsWithItemsCount();
     IEnumerable<Order> GetOrdersForProduct(Product.Product product);
+    IEnumerable<Product.Product> GetAllProducts();
+    int GetNumberOfItemsSoldForProduct(Product.Product product);
+    Product.Product FindProduct(long productId);
 }

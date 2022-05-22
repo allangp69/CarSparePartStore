@@ -1,52 +1,60 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using CarSparePartService;
 using CarSparePartService.Interfaces;
-using CarSparePartService.Product;
+using CarSparePartStore.Adapters;
+using CarSparePartStore.ViewModels.DTO;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace CarSparePartStore.ViewModels;
 
-public sealed  class CarSparePartListViewModel
+public sealed class CarSparePartListViewModel
     : ObservableRecipient, IDisposable
 {
     private readonly ICarSparePartService _carSparePartService;
+    private readonly IProductsAndOrdersAdapter _productsAndOrdersAdapter;
     public event EventHandler<ProductSelectedEventArgs> ProductSelected;
-    
-    public CarSparePartListViewModel(ICarSparePartService carSparePartService)
+
+    public CarSparePartListViewModel(ICarSparePartService carSparePartService, IProductsAndOrdersAdapter productsAndOrdersAdapter)
     {
         _carSparePartService = carSparePartService;
+        _productsAndOrdersAdapter = productsAndOrdersAdapter;
         _carSparePartService.OrderAdded += CarSparePartServiceOrderAdded;
         ProductsWithItemsCount = new ObservableCollection<ProductWithItemsCount>();
         UpdateProductsWithOrders();
     }
-    
+
     private void CarSparePartServiceOrderAdded(object? sender, OrderAddedEventArgs e)
     {
-        Application.Current?.Dispatcher?.Invoke(() =>
-        {
-            UpdateProductsWithOrders();
-        });
+        Application.Current?.Dispatcher?.Invoke(() => { UpdateProductsWithOrders(); });
     }
 
     public void UpdateProductsWithOrders()
     {
-        var productsWithOrders = _carSparePartService.GetProductsWithItemsCount();
+        var productsWithOrders = GetProductsWithItemsCount();
         foreach (var productWithOrders in productsWithOrders)
         {
-            var itemFromList = ProductsWithItemsCount.FirstOrDefault(p => p.ProductId == productWithOrders.ProductId); 
+            var itemFromList = ProductsWithItemsCount.FirstOrDefault(p => p.ProductId == productWithOrders.ProductId);
             if (itemFromList is null)
             {
                 itemFromList = productWithOrders;
                 ProductsWithItemsCount.Add(productWithOrders);
             }
+
             itemFromList.ItemsCount = productWithOrders.ItemsCount;
         }
     }
 
+    private IEnumerable<ProductWithItemsCount> GetProductsWithItemsCount()
+    {
+        return _productsAndOrdersAdapter.GetProductsWithItemsCount();
+    }
+
     private ProductWithItemsCount _selectedProduct;
+
     public ProductWithItemsCount SelectedProduct
     {
         get => _selectedProduct;
@@ -63,7 +71,7 @@ public sealed  class CarSparePartListViewModel
         handler?.Invoke(this, new ProductSelectedEventArgs(SelectedProduct is null ? 0 : SelectedProduct.ProductId));
     }
 
-    public ObservableCollection<ProductWithItemsCount> ProductsWithItemsCount { get; private set; }
+    public ObservableCollection<ProductWithItemsCount> ProductsWithItemsCount { get; }
 
     public void Dispose()
     {
