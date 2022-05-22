@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Windows.Data;
-using CarSparePartService;
+using CarSparePartStore.ViewModels.DTO;
 
 namespace CarSparePartStore.Converters;
 
@@ -12,7 +12,7 @@ public class OrderItemsToStringConverter : IValueConverter
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         var retval = new StringBuilder();
-        var orderItems = value as IEnumerable<OrderItem>;
+        var orderItems = value as IEnumerable<OrderItemDTO>;
         if (orderItems is null)
         {
             return retval.ToString();

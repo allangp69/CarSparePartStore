@@ -11,6 +11,12 @@
              d:DesignHeight="500" d:DesignWidth="300">
     <UserControl.Resources>
         <converters:OrderItemsToStringConverter x:Key="OrderItemsToStringConverter" />
+        <Style TargetType="DatePicker">
+            <Setter Property="Margin" Value="10" />
+        </Style>
+        <Style TargetType="xctk:MaskedTextBox">
+            <Setter Property="Margin" Value="10" />
+        </Style>
     </UserControl.Resources>
     <Grid MaxHeight="500">
         <Grid.RowDefinitions>
