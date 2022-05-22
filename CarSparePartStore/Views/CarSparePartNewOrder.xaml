@@ -20,9 +20,6 @@
                 <Style TargetType="TextBlock">
                     <Setter Property="Margin" Value="10" />
                 </Style>
-                <Style TargetType="ComboBox">
-                    <Setter Property="Margin" Value="10" />
-                </Style>
                 <Style TargetType="TextBox">
                     <Setter Property="Margin" Value="10" />
                 </Style>

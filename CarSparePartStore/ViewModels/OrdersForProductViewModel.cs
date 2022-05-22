@@ -30,7 +30,7 @@ public sealed  class OrdersForProductViewModel
 
     protected override void OnActivated()
     {
-        SelectedProduct = _productsAndOrdersAdapter.FindProduct(ProductId);
+        SelectedProduct = Products.FirstOrDefault(p => p.ProductId == ProductId);
         UpdateOrdersForProduct();
     }
     
