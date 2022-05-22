@@ -318,9 +318,7 @@ public sealed  class CarSparePartViewModel
     private void BackupOrders()
     {
         StopEmulator();
-        var configuration = Ioc.Default.GetRequiredService<IConfiguration>();
-        var backupFilename = configuration.GetSection("ApplicationSettings").GetSection("OrdersBackup").Value;
-        _carSparePartService.CreateBackup(backupFilename);
+        _carSparePartService.CreateBackup();
         StartEmulator();
     }
 
@@ -332,15 +330,7 @@ public sealed  class CarSparePartViewModel
     private void RestoreOrdersFromBackup()
     {
         StopEmulator();
-        var configuration = Ioc.Default.GetRequiredService<IConfiguration>();
-        var backupFilename = configuration.GetSection("ApplicationSettings").GetSection("OrdersBackup").Value;
-        if (!File.Exists(backupFilename))
-        {
-            //Show message to user
-            return;
-        }
-
-        _carSparePartService.LoadBackup(backupFilename);
+        _carSparePartService.RestoreBackup();
         StartEmulator();
         UpdateProductsWithOrders();
     }

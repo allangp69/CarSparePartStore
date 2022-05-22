@@ -36,6 +36,10 @@ public class TestServicesConfigurator
 
             var configuration = ReadConfiguration();
 
+            var logger = (ILogger) new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .WriteTo.Console()
+                .CreateLogger();
             Ioc.Default.ConfigureServices(
                 new ServiceCollection()
                     .AddSingleton<IConfiguration>(configuration)
@@ -44,14 +48,11 @@ public class TestServicesConfigurator
                     .AddSingleton<ICarSparePartService, CarSparePartService.CarSparePartService>()
                     .AddSingleton<IProductFetcher, ProductFetcher>()
                     .AddSingleton<IRandomProductGenerator, RandomProductGenerator>()
-                    .AddSingleton<IOrderBackupWriter, XmlOrderBackupWriter>()
-                    .AddSingleton<IOrderBackupReader, XmlOrderBackupReader>()
+                    .AddSingleton((IOrderBackupWriter)new XmlOrderBackupWriter(configuration.GetSection("ApplicationSettings").GetSection("OrdersBackup").Value, logger))
+                    .AddSingleton((IOrderBackupReader)new XmlOrderBackupReader(configuration.GetSection("ApplicationSettings").GetSection("OrdersBackup").Value, logger))
                     .AddSingleton<IOrderBackupManager, OrderBackupManager>()
                     .AddSingleton<IOnlineStoreEmulator, OnlineStoreEmulator.OnlineStoreEmulator>()
-                    .AddSingleton((ILogger)new LoggerConfiguration()
-                        .MinimumLevel.Information()
-                        .WriteTo.Console()
-                        .CreateLogger())
+                    .AddSingleton(logger)
                     .AddTransient<CarSparePartViewModel>()
                     .BuildServiceProvider());
             var file = new FileInfo(@".\Resources\SpareParts.xml");

@@ -8,8 +8,8 @@ public interface ICarSparePartService
     event EventHandler<OrderAddedEventArgs> OrderAdded;
     event EventHandler BackupCompleted;
     event EventHandler RestoreBackupCompleted;
-    public void CreateBackup(string filePath);
-    public void LoadBackup(string filePath);
+    public void CreateBackup();
+    public void RestoreBackup();
     public void PlaceOrder(Order order);
     IEnumerable<Order> GetAllOrders();
     IEnumerable<ProductWithOrders> GetProductsWithOrders();

@@ -4,6 +4,6 @@ namespace CarSparePartService.Interfaces;
 
 public interface IOrderBackupManager
 {
-    void BackupToFile(IEnumerable<OrderDTO> orders, string backupFile);
-    IEnumerable<OrderDTO> LoadBackupFromFile(string backupFile);
+    void Backup(IEnumerable<OrderDTO> orders);
+    IEnumerable<OrderDTO> LoadBackup();
 }

@@ -14,13 +14,13 @@ public class OrderBackupManager
         _backupReader = backupReader;
     }
 
-    public void BackupToFile(IEnumerable<OrderDTO> orders, string backupFile)
+    public void Backup(IEnumerable<OrderDTO> orders)
     {
-        _backupWriter.WriteBackup(orders, backupFile);
+        _backupWriter.WriteBackup(orders);
     }
 
-    IEnumerable<OrderDTO> IOrderBackupManager.LoadBackupFromFile(string backupFile)
+    public IEnumerable<OrderDTO> LoadBackup()
     {
-        return _backupReader.ReadBackup(backupFile);
+        return _backupReader.ReadBackup();
     }
 }

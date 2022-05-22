@@ -109,14 +109,10 @@ public class CarSparePartService
         var handler = BackupCompleted;
         handler?.Invoke(this, e);
     }
-    public void CreateBackup(string filePath)
+    public void CreateBackup()
     {
-        if (string.IsNullOrEmpty(filePath))
-        {
-            return;
-        }
         var converter = new OrderDTOConverter();
-        _orderBackupManager.BackupToFile(converter.ConvertToDTO(GetAllOrders()), filePath);
+        _orderBackupManager.Backup(converter.ConvertToDTO(GetAllOrders()));
         OnBackupCompleted(EventArgs.Empty);
     }
 
@@ -125,15 +121,10 @@ public class CarSparePartService
         var handler = RestoreBackupCompleted;
         handler?.Invoke(this, e);
     }
-    public void LoadBackup(string filePath)
+    public void RestoreBackup()
     {
-        if (!File.Exists(filePath))
-        {
-            _logger.Error($"Could not restore from backup - file: {filePath} doesn't exist");
-            return;
-        }
         var converter = new OrderDTOConverter();
-        Orders = converter.ConvertFromDTO(_orderBackupManager.LoadBackupFromFile(filePath)).ToList();
+        Orders = converter.ConvertFromDTO(_orderBackupManager.LoadBackup()).ToList();
         OnRestoreBackupCompleted(EventArgs.Empty);
     }
 

@@ -28,19 +28,15 @@ namespace CarSparePartStore
             var productFetcher = Ioc.Default.GetRequiredService<IProductFetcher>();
             productFetcher.LoadProductsFromBackup();
 
-            LoadBackup(configuration);
+            LoadBackup();
             
             this.InitializeComponent();
         }
 
-        private void LoadBackup(IConfiguration configuration)
+        private void LoadBackup()
         {
             var carSparePartService = Ioc.Default.GetRequiredService<ICarSparePartService>();
-            var backupFilename = configuration.GetSection("ApplicationSettings").GetSection("OrdersBackup").Value;
-            if (File.Exists(backupFilename))
-            {
-                carSparePartService.LoadBackup(backupFilename);
-            }
+            carSparePartService?.RestoreBackup();
         }
 
         private IConfiguration ReadConfiguration()
@@ -62,10 +58,8 @@ namespace CarSparePartStore
         
         private void CreateBackup()
         {
-            var configuration = Ioc.Default.GetRequiredService<IConfiguration>();
             var carSparePartService = Ioc.Default.GetRequiredService<ICarSparePartService>();
-            var backupFilename = configuration.GetSection("ApplicationSettings").GetSection("OrdersBackup").Value;
-            carSparePartService.CreateBackup(backupFilename);
+            carSparePartService.CreateBackup();
         }
         
         // <summary>
@@ -74,6 +68,11 @@ namespace CarSparePartStore
         /// <param name="readConfiguration"></param>
         private void ConfigureServices(IConfiguration configuration)
         {
+            var logger = (ILogger) new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .WriteTo.Console()
+                .WriteTo.File(configuration.GetSection("Logging").GetValue<string>("LogFilePath"))
+                .CreateLogger();
             Ioc.Default.ConfigureServices(
                 new ServiceCollection()
                     .AddSingleton<IConfiguration>(configuration)
@@ -84,14 +83,10 @@ namespace CarSparePartStore
                     .AddSingleton<IRandomProductGenerator, RandomProductGenerator>()
                     .AddSingleton<IOnlineStoreEmulator, OnlineStoreEmulator.OnlineStoreEmulator>()
                     .AddSingleton<IOrderBackupManager, OrderBackupManager>()
-                    .AddSingleton<IOrderBackupWriter, XmlOrderBackupWriter>()
-                    .AddSingleton<IOrderBackupReader, XmlOrderBackupReader>()
+                    .AddSingleton((IOrderBackupWriter)new XmlOrderBackupWriter(configuration.GetSection("ApplicationSettings").GetSection("OrdersBackup").Value, logger))
+                    .AddSingleton((IOrderBackupReader)new XmlOrderBackupReader(configuration.GetSection("ApplicationSettings").GetSection("OrdersBackup").Value, logger))
                     .AddSingleton<NotificationHandler>()
-                    .AddSingleton((ILogger)new LoggerConfiguration()
-                        .MinimumLevel.Information()
-                        .WriteTo.Console()
-                        .WriteTo.File(configuration.GetSection("Logging").GetValue<string>("LogFilePath"))
-                        .CreateLogger())
+                    .AddSingleton(logger)
                     .AddTransient<CarSparePartViewModel>()
                     .AddTransient<CarSparePartListViewModel>()
                     .AddTransient<CarSparePartNewOrderViewModel>()
