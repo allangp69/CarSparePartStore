@@ -4,13 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:CarSparePartStore.ViewModels"
-             xmlns:converters="clr-namespace:CarSparePartStore.Converters"
              d:DataContext="{d:DesignInstance Type=viewModels:CarSparePartNewOrderViewModel, IsDesignTimeCreatable=False}"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
-    <UserControl.Resources>
-        <converters:LongToShortTextConverter x:Key="LongToShortTextConverter" />
-    </UserControl.Resources>
     <Grid MaxWidth="500" MaxHeight="400">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -19,7 +15,7 @@
         <StackPanel Grid.Row="0" Margin="10" HorizontalAlignment="Center">
             <TextBlock Text="Create new order" FontSize="24" />
         </StackPanel>
-        <Grid Grid.Row="1" Margin="10">
+        <Grid Grid.Row="1" Margin="10" >
             <Grid.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="Margin" Value="10" />
@@ -55,7 +51,7 @@
                       ItemsSource="{Binding Products}" 
                       SelectedItem="{Binding SelectedProduct}" />
             <TextBlock Grid.Row="2" Grid.Column="0" Text="Number of items" />
-            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding NumberOfItems}" />
+            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding NumberOfItems, UpdateSourceTrigger=PropertyChanged}" />
             <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center"
                         Orientation="Horizontal">
                 <Button Content="Ok" Width="75" Height="35" Command="{Binding PlaceNewOrderCommand}" />

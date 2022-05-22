@@ -10,18 +10,16 @@ namespace CarSparePartStore.ViewModels;
 public sealed  class CarSparePartNewOrderViewModel
     : ObservableRecipient, IDisposable
 {
-    private readonly ProductsAndOrdersAdapter _productsAndOrdersAdapter;
-    private readonly ICustomerAdapter _customerAdapter;
+    private readonly IProductsAndOrdersAdapter _productsAndOrdersAdapter;
 
     public event EventHandler NewOrderCancelled;
     public event EventHandler NewOrderClosed;
     
-    public CarSparePartNewOrderViewModel(ProductsAndOrdersAdapter productsAndOrdersAdapter, ICustomerAdapter customerAdapter)
+    public CarSparePartNewOrderViewModel(IProductsAndOrdersAdapter productsAndOrdersAdapter, ICustomerAdapter customerAdapter)
     {
         _productsAndOrdersAdapter = productsAndOrdersAdapter;
-        _customerAdapter = customerAdapter;
         Order = new OrderDTO();
-        Customers = new ObservableCollection<CustomerDTO>(_customerAdapter.GetAllCustomers());
+        Customers = new ObservableCollection<CustomerDTO>(customerAdapter.GetAllCustomers());
         Products = new ObservableCollection<ProductDTO>(_productsAndOrdersAdapter.GetAllProducts());
     }
     
@@ -127,7 +125,11 @@ public sealed  class CarSparePartNewOrderViewModel
     public int NumberOfItems
     {
         get => _numberOfItems;
-        set => SetProperty(ref _numberOfItems, value);
+        set
+        {
+            SetProperty(ref _numberOfItems, value);
+            PlaceNewOrderCommand.NotifyCanExecuteChanged();
+        }
     }
 
     private OrderDTO _order;

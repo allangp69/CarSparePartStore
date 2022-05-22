@@ -1,6 +1,6 @@
 ﻿namespace CarSparePartStore.ViewModels.DTO;
 
-public record ProductDTO
+public class ProductDTO
 {
     public long ProductId { get; set; }
     public string Name { get; set; }
