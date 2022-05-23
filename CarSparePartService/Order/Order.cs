@@ -1,4 +1,4 @@
-namespace CarSparePartService;
+namespace CarSparePartService.Order;
 
 public class Order
 {

@@ -1,5 +1,6 @@
 ﻿using CarSparePartService;
 using CarSparePartService.Interfaces;
+using CarSparePartService.Order;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 

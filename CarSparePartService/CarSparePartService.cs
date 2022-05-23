@@ -14,16 +14,18 @@ public class CarSparePartService
     private readonly IOrderBackupManager _orderBackupManager;
     private readonly ProductDataAdapter _productDataAdapter;
     private readonly ILogger _logger;
+    private static object _ordersLockObject = new object();
     public event EventHandler<OrderAddedEventArgs> OrderAdded;
     public event EventHandler BackupCompleted;
     public event EventHandler RestoreBackupCompleted;
 
-    public CarSparePartService(IOrderBackupManager orderBackupManager, ProductDataAdapter productDataAdapter, ILogger logger)
+    public CarSparePartService(IOrderBackupManager orderBackupManager, ProductDataAdapter productDataAdapter,
+        ILogger logger)
     {
         _orderBackupManager = orderBackupManager;
         _productDataAdapter = productDataAdapter;
         _logger = logger;
-        Orders = new List<Order>();
+        Orders = new List<Order.Order>();
     }
 
     #region Orders
@@ -35,9 +37,13 @@ public class CarSparePartService
     }
 
 
-    public void PlaceOrder(Order order)
+    public void PlaceOrder(Order.Order order)
     {
-        Orders.Add(order);
+        lock (_ordersLockObject)
+        {
+            Orders.Add(order);
+        }
+
         _logger.Information($"Order added - customerId: {order.CustomerId} - products: {order.ProductsList()}");
         OnOrderAdded(new OrderAddedEventArgs
         {
@@ -46,18 +52,23 @@ public class CarSparePartService
         });
     }
 
-    private List<Order> Orders { get; set; }
+    private List<Order.Order> Orders { get; set; }
 
-    public IEnumerable<Order> GetAllOrders()
+    public IEnumerable<Order.Order> GetAllOrders()
     {
-        return Orders;
+        lock (_ordersLockObject)
+        {
+            return Orders;
+        }
     }
 
-    public IEnumerable<Order> GetOrdersForProduct(Product.Product product)
+    public IEnumerable<Order.Order> GetOrdersForProduct(Product.Product product)
     {
         var comparer = new UniqueProductComparer();
-        var retval = Orders.Where(o => o.OrderItems.Any(i => comparer.Equals(i.Product, product)));
-        return retval;
+        lock (_ordersLockObject)
+        {
+            return Orders.Where(o => o.OrderItems.Any(i => comparer.Equals(i.Product, product)));
+        }
     }
 
     public IEnumerable<Product.Product> GetAllProducts()
@@ -68,12 +79,15 @@ public class CarSparePartService
     public int GetNumberOfItemsSoldForProduct(Product.Product product)
     {
         var retval = 0;
-        if (!Orders.Any())
-            return retval;
-        var comparer = new UniqueProductComparer();
-        foreach (var order in Orders.Where(o => o.OrderItems.Any(i => comparer.Equals(i.Product, product))))
+        lock (_ordersLockObject)
         {
-            retval += order.OrderItems.Where(o => comparer.Equals(o.Product, product)).Sum(o => o.NumberOfItems);
+            if (!Orders.Any())
+                return retval;
+            var comparer = new UniqueProductComparer();
+            foreach (var order in Orders.Where(o => o.OrderItems.Any(i => comparer.Equals(i.Product, product))))
+            {
+                retval += order.OrderItems.Where(o => comparer.Equals(o.Product, product)).Sum(o => o.NumberOfItems);
+            }
         }
 
         return retval;
@@ -96,8 +110,7 @@ public class CarSparePartService
 
     public void CreateBackup()
     {
-        var converter = new OrderDTOConverter();
-        _orderBackupManager.Backup(converter.ConvertToDTO(GetAllOrders()));
+        _orderBackupManager.Backup(GetAllOrders());
         OnBackupCompleted(EventArgs.Empty);
     }
 
@@ -109,8 +122,10 @@ public class CarSparePartService
 
     public void RestoreBackup()
     {
-        var converter = new OrderDTOConverter();
-        Orders = converter.ConvertFromDTO(_orderBackupManager.LoadBackup()).ToList();
+        lock (_ordersLockObject)
+        {
+            Orders = _orderBackupManager.LoadBackup().ToList();
+        }
         OnRestoreBackupCompleted(EventArgs.Empty);
     }
 

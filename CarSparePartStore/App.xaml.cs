@@ -7,6 +7,7 @@ using CarSparePartService;
 using CarSparePartService.Adapters;
 using CarSparePartService.Backup;
 using CarSparePartService.Interfaces;
+using CarSparePartService.Order;
 using CarSparePartService.Product;
 using CarSparePartStore.Adapters;
 using CarSparePartStore.ViewModels;
@@ -95,7 +96,7 @@ namespace CarSparePartStore
                     .AddSingleton<IProductRepository, ProductRepository>()
                     .AddSingleton(new ProductRepositoryConfig{BackupFilePath = configuration.GetSection("ApplicationSettings").GetSection("ProductsBackup").Value})
                     //Orders
-                    .AddSingleton<OrderDTOConverter>()
+                    .AddSingleton<CarSparePartService.Order.OrderDTOConverter>()
                     .AddSingleton<IProductsAndOrdersAdapter, ProductsAndOrdersAdapter>()
                     //CarSparePartService
                     .AddSingleton<ICarSparePartService, CarSparePartService.CarSparePartService>()
@@ -108,6 +109,7 @@ namespace CarSparePartStore
                     //NotificationHandler
                     .AddSingleton<NotificationHandler>()
                     //CarSparePartStore/ViewModels
+                    .AddSingleton<CarSparePartStore.ViewModels.DTO.OrderDTOConverter>()
                     .AddSingleton<ViewModels.DTO.CustomerDTOConverter>()
                     .AddSingleton<ICustomerAdapter, CustomerAdapter>()
                     .AddTransient<CarSparePartViewModel>()

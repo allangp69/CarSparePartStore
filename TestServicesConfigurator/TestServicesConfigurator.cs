@@ -7,6 +7,7 @@ using CarSparePartService.Adapters;
 using CarSparePartService.Backup;
 using CarSparePartService.Customer;
 using CarSparePartService.Interfaces;
+using CarSparePartService.Order;
 using CarSparePartService.Product;
 using CarSparePartStore.ViewModels;
 using Microsoft.Extensions.Configuration;
@@ -62,6 +63,8 @@ public class TestServicesConfigurator
                     .AddSingleton<ProductDTOConverter>()
                     .AddSingleton<IProductRepository, ProductRepository>()
                     .AddSingleton(new ProductRepositoryConfig{BackupFilePath = new FileInfo(@".\Resources\SpareParts.xml").FullName})
+                    //Orders
+                    .AddSingleton<OrderDTOConverter>()
                     //CarSparePartService
                     .AddSingleton<ICarSparePartService, CarSparePartService.CarSparePartService>()
                     //OnlineStoreEmulator

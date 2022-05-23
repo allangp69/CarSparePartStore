@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CarSparePartService;
+using CarSparePartService.Order;
 using CarSparePartService.Product;
 
 namespace CarSparePartStore.ViewModels.DTO;
