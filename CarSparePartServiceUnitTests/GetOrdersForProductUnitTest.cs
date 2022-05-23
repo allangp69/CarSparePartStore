@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using CarSparePartData.Interfaces;
 using CarSparePartService;
 using CarSparePartService.Interfaces;
 using CarSparePartService.Product;
@@ -20,8 +21,7 @@ public class GetOrdersForProductUnitTest
     public void TestGetOrdersForProduct()
     {
         var carSparepartService = Ioc.Default.GetRequiredService<ICarSparePartService>();
-        var productFetcher = Ioc.Default.GetRequiredService<IProductFetcher>();
-        var product = productFetcher.GetAllProducts().First();
+        var product = carSparepartService.GetAllProducts().First();
         carSparepartService.PlaceOrder(new Order(0, new List<OrderItem>{ new OrderItem{NumberOfItems = 1, Product = product}}));
         var orders = carSparepartService.GetOrdersForProduct(product);
         Assert.IsTrue(orders.Any());

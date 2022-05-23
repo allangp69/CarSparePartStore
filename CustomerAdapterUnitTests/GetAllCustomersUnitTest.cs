@@ -21,7 +21,7 @@ public class Tests
     [Test]
     public void TestGetAllCustomers()
     {
-        var service = Ioc.Default.GetRequiredService<ICustomerService>();
+        var service = Ioc.Default.GetRequiredService<CustomerDataAdapter>();
         var allCustomers = service.GetAllCustomers();
         Assert.IsTrue(allCustomers.Count() > 0);
     }
@@ -33,7 +33,6 @@ public class Tests
     {
         Ioc.Default.ConfigureServices(
             new ServiceCollection()
-                .AddSingleton<ICustomerService, CustomerService>()
                 .AddSingleton<CustomerDataAdapter>()
                 .AddSingleton<ICustomerRepository, CustomerRepository>()
                 .AddSingleton<CustomerDTOConverter>()

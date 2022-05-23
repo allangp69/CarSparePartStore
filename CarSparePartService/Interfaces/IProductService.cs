@@ -1,9 +1,7 @@
 ﻿namespace CarSparePartService.Interfaces;
 
-public interface IProductFetcher
+public interface IProductService
 {
     IEnumerable<Product.Product> GetAllProducts();
-    Product.Product FindProduct(long productId);
-    void LoadProducts(string fileName);
     void LoadProductsFromBackup();
 }

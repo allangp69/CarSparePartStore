@@ -1,24 +1,22 @@
-﻿using CarSparePartService;
-using CarSparePartService.Interfaces;
+﻿using CarSparePartService.Interfaces;
 using CarSparePartService.Product;
-using OnlineStoreEmulator;
 
-namespace TestServicesConfigurator;
+namespace OnlineStoreEmulator;
 
 public class RandomProductGenerator
     : IRandomProductGenerator
 {
     private static readonly Random _random = new Random();
-    private readonly IProductFetcher _productFetcher;
+    private readonly IProductService _productService;
 
-    public RandomProductGenerator(IProductFetcher productFetcher)
+    public RandomProductGenerator(IProductService productService)
     {
-        _productFetcher = productFetcher;
+        _productService = productService;
     }
     public Product GenerateProduct()
     {
-        var allCProducts = _productFetcher.GetAllProducts().ToList();
-        var i = _random.Next(0, allCProducts.Count());
-        return allCProducts[i];
+        var allProducts = _productService.GetAllProducts().ToList();
+        var i = _random.Next(0, allProducts.Count());
+        return allProducts[i];
     }
 }

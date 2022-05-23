@@ -1,4 +1,4 @@
-﻿namespace CarSparePartService;
+﻿namespace CarSparePartService.Customer;
 
 public class Customer
 {

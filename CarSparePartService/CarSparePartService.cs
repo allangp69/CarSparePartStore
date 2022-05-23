@@ -1,4 +1,6 @@
-﻿using CarSparePartService.Backup;
+﻿using CarSparePartData.Interfaces;
+using CarSparePartService.Adapters;
+using CarSparePartService.Backup;
 using CarSparePartService.EqualityComparers;
 using CarSparePartService.ExtensionMethods;
 using CarSparePartService.Interfaces;
@@ -10,16 +12,16 @@ public class CarSparePartService
     : ICarSparePartService
 {
     private readonly IOrderBackupManager _orderBackupManager;
-    private readonly IProductFetcher _productFetcher;
+    private readonly ProductDataAdapter _productDataAdapter;
     private readonly ILogger _logger;
     public event EventHandler<OrderAddedEventArgs> OrderAdded;
     public event EventHandler BackupCompleted;
     public event EventHandler RestoreBackupCompleted;
 
-    public CarSparePartService(IOrderBackupManager orderBackupManager, IProductFetcher productFetcher, ILogger logger)
+    public CarSparePartService(IOrderBackupManager orderBackupManager, ProductDataAdapter productDataAdapter, ILogger logger)
     {
         _orderBackupManager = orderBackupManager;
-        _productFetcher = productFetcher;
+        _productDataAdapter = productDataAdapter;
         _logger = logger;
         Orders = new List<Order>();
     }
@@ -60,7 +62,7 @@ public class CarSparePartService
 
     public IEnumerable<Product.Product> GetAllProducts()
     {
-        return _productFetcher.GetAllProducts();
+        return _productDataAdapter.GetAllProducts();
     }
 
     public int GetNumberOfItemsSoldForProduct(Product.Product product)
@@ -79,7 +81,7 @@ public class CarSparePartService
 
     public Product.Product FindProduct(long productId)
     {
-        return _productFetcher.FindProduct(productId);
+        return _productDataAdapter.FindProduct(productId);
     }
 
     #endregion Orders

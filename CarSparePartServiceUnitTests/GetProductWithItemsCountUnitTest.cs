@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using CarSparePartData.Interfaces;
 using CarSparePartService;
 using CarSparePartService.Interfaces;
 using CarSparePartService.Product;
@@ -21,8 +22,7 @@ public class GetProductWithItemsCountUnitTest
     {
         var carSparepartService = Ioc.Default.GetRequiredService<ICarSparePartService>();
         var numberOfItems = 4;
-        var productFetcher = Ioc.Default.GetRequiredService<IProductFetcher>();
-        var product = productFetcher.GetAllProducts().First();
+        var product = new Product{ProductId = 12345, Name = "Test product", Description = "Test test test test test test", Price = 1234.67m, Type = "Product type"};
         carSparepartService.PlaceOrder(new Order(0, new List<OrderItem>{ new OrderItem{NumberOfItems = numberOfItems, Product = product}}));
         var itemsCount = carSparepartService.GetNumberOfItemsSoldForProduct(product);
         Assert.IsTrue(itemsCount == numberOfItems);

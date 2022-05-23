@@ -1,5 +1,11 @@
-﻿using CarSparePartService;
+﻿using CarSparePartData;
+using CarSparePartData.Customer;
+using CarSparePartData.Interfaces;
+using CarSparePartData.Product;
+using CarSparePartService;
+using CarSparePartService.Adapters;
 using CarSparePartService.Backup;
+using CarSparePartService.Customer;
 using CarSparePartService.Interfaces;
 using CarSparePartService.Product;
 using CarSparePartStore.ViewModels;
@@ -43,21 +49,34 @@ public class TestServicesConfigurator
             Ioc.Default.ConfigureServices(
                 new ServiceCollection()
                     .AddSingleton<IConfiguration>(configuration)
+                    //Customers
                     .AddSingleton<ICustomerService, CustomerService>()
                     .AddSingleton<IRandomCustomerGenerator, RandomCustomerGenerator>()
-                    .AddSingleton<ICarSparePartService, CarSparePartService.CarSparePartService>()
-                    .AddSingleton<IProductFetcher, ProductFetcher>()
+                    .AddSingleton<CustomerDataAdapter>()
+                    .AddSingleton<CarSparePartService.Customer.CustomerDTOConverter>()
+                    .AddSingleton<ICustomerRepository, CustomerRepository>()
+                    //Products
+                    .AddSingleton<IProductService, ProductService>()
                     .AddSingleton<IRandomProductGenerator, RandomProductGenerator>()
+                    .AddSingleton<ProductDataAdapter>()
+                    .AddSingleton<ProductDTOConverter>()
+                    .AddSingleton<IProductRepository, ProductRepository>()
+                    .AddSingleton(new ProductRepositoryConfig{BackupFilePath = new FileInfo(@".\Resources\SpareParts.xml").FullName})
+                    //CarSparePartService
+                    .AddSingleton<ICarSparePartService, CarSparePartService.CarSparePartService>()
+                    //OnlineStoreEmulator
+                    .AddSingleton<IOnlineStoreEmulator, OnlineStoreEmulator.OnlineStoreEmulator>()
+                    //Backup
+                    .AddSingleton<IOrderBackupManager, OrderBackupManager>()
                     .AddSingleton((IOrderBackupWriter)new XmlOrderBackupWriter(configuration.GetSection("ApplicationSettings").GetSection("OrdersBackup").Value, logger))
                     .AddSingleton((IOrderBackupReader)new XmlOrderBackupReader(configuration.GetSection("ApplicationSettings").GetSection("OrdersBackup").Value, logger))
-                    .AddSingleton<IOrderBackupManager, OrderBackupManager>()
-                    .AddSingleton<IOnlineStoreEmulator, OnlineStoreEmulator.OnlineStoreEmulator>()
+                    //CarSparePartStore/ViewModels
+                    //.AddTransient<CarSparePartViewModel>()
+                    //Logger
                     .AddSingleton(logger)
-                    .AddTransient<CarSparePartViewModel>()
                     .BuildServiceProvider());
-            var file = new FileInfo(@".\Resources\SpareParts.xml");
-            var productFetcher = Ioc.Default.GetRequiredService<IProductFetcher>();
-            productFetcher.LoadProducts(file.FullName);
+            var productRepository = Ioc.Default.GetRequiredService<IProductRepository>();
+            productRepository.LoadProductsFromBackup();
             HaveServicesBeenSetup = true;
         }
     }

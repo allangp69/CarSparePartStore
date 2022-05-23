@@ -1,4 +1,6 @@
-﻿namespace CarSparePartService.Backup;
+﻿using CarSparePartData.Product;
+
+namespace CarSparePartService.Backup;
 
 public record OrderItemDTO
 {

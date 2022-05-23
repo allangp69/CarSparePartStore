@@ -1,13 +1,15 @@
-﻿using System.Configuration;
-using System.IO;
+﻿using System.IO;
 using System.Windows;
+using CarSparePartData.Customer;
+using CarSparePartData.Interfaces;
+using CarSparePartData.Product;
 using CarSparePartService;
+using CarSparePartService.Adapters;
 using CarSparePartService.Backup;
 using CarSparePartService.Interfaces;
 using CarSparePartService.Product;
 using CarSparePartStore.Adapters;
 using CarSparePartStore.ViewModels;
-using CarSparePartStore.ViewModels.DTO;
 using CarSparePartStore.ViewModels.Notification;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,8 +30,8 @@ namespace CarSparePartStore
         {
             var configuration = ReadConfiguration();
             ConfigureServices(configuration);
-            var productFetcher = Ioc.Default.GetRequiredService<IProductFetcher>();
-            productFetcher.LoadProductsFromBackup();
+            var productService = Ioc.Default.GetRequiredService<IProductService>();
+            productService.LoadProductsFromBackup();
 
             LoadBackup();
             
@@ -68,7 +70,7 @@ namespace CarSparePartStore
         // <summary>
         /// Configures the services for the application.
         /// </summary>
-        /// <param name="readConfiguration"></param>
+        /// <param name="ConfigureServices"></param>
         private void ConfigureServices(IConfiguration configuration)
         {
             var logger = (ILogger) new LoggerConfiguration()
@@ -78,26 +80,42 @@ namespace CarSparePartStore
                 .CreateLogger();
             Ioc.Default.ConfigureServices(
                 new ServiceCollection()
-                    .AddSingleton<IConfiguration>(configuration)
+                    .AddSingleton(configuration)
+                    //Customers
                     .AddSingleton<ICustomerService, CustomerService>()
                     .AddSingleton<IRandomCustomerGenerator, RandomCustomerGenerator>()
-                    .AddSingleton<ICarSparePartService, CarSparePartService.CarSparePartService>()
-                    .AddSingleton<IProductFetcher, ProductFetcher>()
+                    .AddSingleton<CustomerDataAdapter>()
+                    .AddSingleton<CarSparePartService.Customer.CustomerDTOConverter>()
+                    .AddSingleton<ICustomerRepository, CustomerRepository>()
+                    //Products
+                    .AddSingleton<IProductService, ProductService>()
                     .AddSingleton<IRandomProductGenerator, RandomProductGenerator>()
+                    .AddSingleton<ProductDataAdapter>()
+                    .AddSingleton<ProductDTOConverter>()
+                    .AddSingleton<IProductRepository, ProductRepository>()
+                    .AddSingleton(new ProductRepositoryConfig{BackupFilePath = configuration.GetSection("ApplicationSettings").GetSection("ProductsBackup").Value})
+                    //Orders
+                    .AddSingleton<OrderDTOConverter>()
+                    .AddSingleton<IProductsAndOrdersAdapter, ProductsAndOrdersAdapter>()
+                    //CarSparePartService
+                    .AddSingleton<ICarSparePartService, CarSparePartService.CarSparePartService>()
+                    //OnlineStoreEmulator
                     .AddSingleton<IOnlineStoreEmulator, OnlineStoreEmulator.OnlineStoreEmulator>()
+                    //Backup
                     .AddSingleton<IOrderBackupManager, OrderBackupManager>()
                     .AddSingleton((IOrderBackupWriter)new XmlOrderBackupWriter(configuration.GetSection("ApplicationSettings").GetSection("OrdersBackup").Value, logger))
                     .AddSingleton((IOrderBackupReader)new XmlOrderBackupReader(configuration.GetSection("ApplicationSettings").GetSection("OrdersBackup").Value, logger))
+                    //NotificationHandler
                     .AddSingleton<NotificationHandler>()
-                    .AddSingleton<OrderDTOConverter>()
-                    .AddSingleton<IProductsAndOrdersAdapter, ProductsAndOrdersAdapter>()
-                    .AddSingleton<CustomerDTOConverter>()
+                    //CarSparePartStore/ViewModels
+                    .AddSingleton<ViewModels.DTO.CustomerDTOConverter>()
                     .AddSingleton<ICustomerAdapter, CustomerAdapter>()
-                    .AddSingleton(logger)
                     .AddTransient<CarSparePartViewModel>()
                     .AddTransient<CarSparePartListViewModel>()
                     .AddTransient<CarSparePartNewOrderViewModel>()
                     .AddTransient<OrdersForProductViewModel>()
+                    //Logger
+                    .AddSingleton(logger)
                     .BuildServiceProvider());
         }
     }

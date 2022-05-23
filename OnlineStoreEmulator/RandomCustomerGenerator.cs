@@ -1,4 +1,5 @@
 ﻿using CarSparePartService;
+using CarSparePartService.Customer;
 using CarSparePartService.Interfaces;
 using OnlineStoreEmulator;
 

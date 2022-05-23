@@ -1,6 +1,6 @@
-﻿namespace CarSparePartService.Interfaces;
+namespace CarSparePartService.Interfaces;
 
 public interface ICustomerService
 {
-    IEnumerable<Customer> GetAllCustomers();
+    IEnumerable<Customer.Customer> GetAllCustomers();
 }
