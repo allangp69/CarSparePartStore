@@ -70,7 +70,6 @@ public class OnlineStoreEmulator
             {
                 Console.WriteLine("Creating order");
                 CreateOrder();
-                //Thread.Sleep(TimeSpan.FromSeconds(_intervalSeconds));
                 _cts.Token.WaitHandle.WaitOne(TimeSpan.FromSeconds(_intervalSeconds));
             }
         });

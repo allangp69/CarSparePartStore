@@ -6,6 +6,8 @@ public class Order
     {
         CustomerId = customerId;
         OrderItems = orderItems;
+        OrderDateTime = DateTime.Now;
+        OrderId = Guid.NewGuid();
     }
     
     public Order(Guid orderId, DateTime orderDateTime, int customerId, List<OrderItem> orderItems)
