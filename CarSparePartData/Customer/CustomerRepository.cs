@@ -115,7 +115,7 @@ public class CustomerRepository : ICustomerRepository
 
     public CustomerRepository()
     {
-        Customers = new List<CustomerDTO>();
+        Customers = new List<CustomerRecord>();
         GenerateCustomers();
     }
 
@@ -123,7 +123,7 @@ public class CustomerRepository : ICustomerRepository
     {
         for (var i = 0; i < 1000; i++)
         {
-            var customer = new CustomerDTO
+            var customer = new CustomerRecord
             {
                 FirstName = GetRandomStringFromList(FirstNames),
                 LastName = GetRandomStringFromList(LastNames),
@@ -133,7 +133,7 @@ public class CustomerRepository : ICustomerRepository
         }
     }
 
-    private List<CustomerDTO> Customers { get; set; }
+    private List<CustomerRecord> Customers { get; set; }
 
     private string GetRandomStringFromList(List<string> stringList)
     {
@@ -141,7 +141,7 @@ public class CustomerRepository : ICustomerRepository
         return stringList[i];
     }
 
-    public IEnumerable<CustomerDTO> GetAllCustomers()
+    public IEnumerable<CustomerRecord> GetAllCustomers()
     {
         return Customers;
     }

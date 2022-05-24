@@ -6,16 +6,16 @@ namespace CarSparePartService.Adapters;
 public class CustomerDataAdapter
 {
     private readonly ICustomerRepository _customerRepository;
-    private readonly CustomerDTOConverter _customerDtoConverter;
+    private readonly CustomerRecordConverter _customerRecordConverter;
 
-    public CustomerDataAdapter(ICustomerRepository customerRepository, CustomerDTOConverter customerDtoConverter)
+    public CustomerDataAdapter(ICustomerRepository customerRepository, CustomerRecordConverter customerRecordConverter)
     {
         _customerRepository = customerRepository;
-        _customerDtoConverter = customerDtoConverter;
+        _customerRecordConverter = customerRecordConverter;
     }
 
     public IEnumerable<Customer.Customer> GetAllCustomers()
     {
-        return _customerDtoConverter.ConvertFromDTO(_customerRepository.GetAllCustomers());
+        return _customerRecordConverter.ConvertFromRecord(_customerRepository.GetAllCustomers());
     }
 }

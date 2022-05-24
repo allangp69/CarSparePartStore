@@ -1,5 +1,4 @@
 ﻿using System.Xml.Serialization;
-using CarSparePartService.Backup;
 using CarSparePartService.Interfaces;
 using Serilog;
 
@@ -17,14 +16,14 @@ public class XmlOrderBackupWriter
         _logger = logger;
     }
     
-    public bool WriteBackup(IEnumerable<OrderDTO> orders)
+    public bool WriteBackup(IEnumerable<OrderRecord> orders)
     {
         if (string.IsNullOrEmpty(_backupFile))
         {
             _logger.Error($"Could not create backup - filename: {_backupFile} is invalid");
             return false;
         }
-        var serializer = new XmlSerializer(typeof(List<OrderDTO>));
+        var serializer = new XmlSerializer(typeof(List<OrderRecord>));
         using (var fileStream = File.Create(_backupFile))
         {
             { 

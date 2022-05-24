@@ -4,7 +4,7 @@ namespace CarSparePartData.Interfaces;
 
 public interface IProductRepository
 {
-    IEnumerable<ProductDTO> GetAllProducts();
-    ProductDTO FindProduct(long productId);
+    IEnumerable<ProductRecord> GetAllProducts();
+    ProductRecord FindProduct(long productId);
     void LoadProductsFromBackup();
 }

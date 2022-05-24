@@ -18,18 +18,18 @@ public class ProductRepository
         Products = ReadProductsFromXML(_productRepositoryConfig.BackupFilePath);
     }
 
-    private IEnumerable<ProductDTO> Products { get;  set; }
+    private IEnumerable<ProductRecord> Products { get;  set; }
 
-    private IEnumerable<ProductDTO> ReadProductsFromXML(string fileName)
+    private IEnumerable<ProductRecord> ReadProductsFromXML(string fileName)
     {
         var file = new FileInfo(fileName);
         var dataset = new DataSet();
         dataset.ReadXml(file.FullName);
-        var retval = new List<ProductDTO>();
+        var retval = new List<ProductRecord>();
         var productsTable = dataset.Tables[2];
         foreach (DataRow row in productsTable.Rows)
         {
-            var product = new ProductDTO
+            var product = new ProductRecord
             {
                 Name = row[0].ToString(),
                 Type = row[1].ToString(),
@@ -42,12 +42,12 @@ public class ProductRepository
         return retval;
     }
 
-    public IEnumerable<ProductDTO> GetAllProducts()
+    public IEnumerable<ProductRecord> GetAllProducts()
     {
         return Products;
     }
 
-    public ProductDTO FindProduct(long productId)
+    public ProductRecord FindProduct(long productId)
     {
         return Products.FirstOrDefault(p => p.ProductId == productId);
     }

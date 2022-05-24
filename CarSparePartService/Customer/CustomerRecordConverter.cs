@@ -2,9 +2,9 @@
 
 namespace CarSparePartService.Customer;
 
-public class CustomerDTOConverter
+public class CustomerRecordConverter
 {
-    public IEnumerable<Customer> ConvertFromDTO(IEnumerable<CustomerDTO> customers)
+    public IEnumerable<Customer> ConvertFromRecord(IEnumerable<CustomerRecord> customers)
     {
         var retval = new List<Customer>();
         if (customers is null || !customers.Any())
@@ -12,13 +12,13 @@ public class CustomerDTOConverter
             return retval;
         }
 
-        retval.AddRange(customers.Select(customer => ConvertFromDTO(customer)));
+        retval.AddRange(customers.Select(customer => ConvertFromRecord(customer)));
 
         return retval;
     }
 
-    #region ConvertFromDTO
-    private Customer ConvertFromDTO(CustomerDTO customer)
+    #region ConvertFromRecord
+    private Customer ConvertFromRecord(CustomerRecord customer)
     {
         if (customer is null)
         {
@@ -32,5 +32,5 @@ public class CustomerDTOConverter
         };
         return retval;
     }
-    #endregion ConvertFromDTO
+    #endregion ConvertFromRecord
 }

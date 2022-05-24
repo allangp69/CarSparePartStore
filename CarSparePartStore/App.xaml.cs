@@ -86,17 +86,17 @@ namespace CarSparePartStore
                     .AddSingleton<ICustomerService, CustomerService>()
                     .AddSingleton<IRandomCustomerGenerator, RandomCustomerGenerator>()
                     .AddSingleton<CustomerDataAdapter>()
-                    .AddSingleton<CarSparePartService.Customer.CustomerDTOConverter>()
+                    .AddSingleton<CarSparePartService.Customer.CustomerRecordConverter>()
                     .AddSingleton<ICustomerRepository, CustomerRepository>()
                     //Products
                     .AddSingleton<IProductService, ProductService>()
                     .AddSingleton<IRandomProductGenerator, RandomProductGenerator>()
                     .AddSingleton<ProductDataAdapter>()
-                    .AddSingleton<ProductDTOConverter>()
+                    .AddSingleton<ProductRecordConverter>()
                     .AddSingleton<IProductRepository, ProductRepository>()
                     .AddSingleton(new ProductRepositoryConfig{BackupFilePath = configuration.GetSection("ApplicationSettings").GetSection("ProductsBackup").Value})
                     //Orders
-                    .AddSingleton<CarSparePartService.Order.OrderDTOConverter>()
+                    .AddSingleton<CarSparePartService.Order.OrderRecordConverter>()
                     .AddSingleton<IProductsAndOrdersAdapter, ProductsAndOrdersAdapter>()
                     //CarSparePartService
                     .AddSingleton<ICarSparePartService, CarSparePartService.CarSparePartService>()

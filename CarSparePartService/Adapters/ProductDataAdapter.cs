@@ -6,20 +6,20 @@ namespace CarSparePartService.Adapters;
 public class ProductDataAdapter
 {
     private readonly IProductRepository _productRepository;
-    private readonly ProductDTOConverter _productDtoConverter;
+    private readonly ProductRecordConverter _productRecordConverter;
 
-    public ProductDataAdapter(IProductRepository productRepository, ProductDTOConverter productDtoConverter)
+    public ProductDataAdapter(IProductRepository productRepository, ProductRecordConverter productRecordConverter)
     {
         _productRepository = productRepository;
-        _productDtoConverter = productDtoConverter;
+        _productRecordConverter = productRecordConverter;
     }
     public IEnumerable<Product.Product> GetAllProducts()
     {
-        return _productDtoConverter.ConvertFromDTO(_productRepository.GetAllProducts());
+        return _productRecordConverter.ConvertFromRecord(_productRepository.GetAllProducts());
     }
 
     public Product.Product FindProduct(long productId)
     {
-        return _productDtoConverter.ConvertFromDTO(_productRepository.FindProduct(productId));
+        return _productRecordConverter.ConvertFromRecord(_productRepository.FindProduct(productId));
     }
 }

@@ -1,9 +1,9 @@
-﻿namespace CarSparePartService.Backup;
+﻿namespace CarSparePartData.Order;
 
-public record OrderDTO
+public record OrderRecord
 {
     public Guid OrderId { get; set; }
     public DateTime OrderDateTime { get; set; }
     public int CustomerId { get; set; }
-    public List<OrderItemDTO> OrderItems { get; set; }
+    public List<OrderItemRecord> OrderItems { get; set; }
 }

@@ -1,6 +1,6 @@
 ﻿namespace CarSparePartData.Customer;
 
-public class CustomerDTO
+public record CustomerRecord
 {
     public int CustomerId { get; set; }
     public string FirstName { get; set; }

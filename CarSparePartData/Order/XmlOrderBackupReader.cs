@@ -1,5 +1,4 @@
 ﻿using System.Xml.Serialization;
-using CarSparePartService.Backup;
 using CarSparePartService.Interfaces;
 using Serilog;
 
@@ -16,17 +15,17 @@ public class XmlOrderBackupReader
         _backupFile = backupFile;
         _logger = logger;
     }
-    public IEnumerable<OrderDTO> ReadBackup()
+    public IEnumerable<OrderRecord> ReadBackup()
     {
         if (!File.Exists(_backupFile))
         {
             _logger.Error($"Could not restore from backup - file: {_backupFile} doesn't exist");
-            return new List<OrderDTO>();
+            return new List<OrderRecord>();
         }
-        var serializer = new XmlSerializer(typeof(List<OrderDTO>));
+        var serializer = new XmlSerializer(typeof(List<OrderRecord>));
         using (Stream reader = new FileStream(_backupFile, FileMode.Open))
         {
-            return (List<OrderDTO>)serializer.Deserialize(reader);
+            return (List<OrderRecord>)serializer.Deserialize(reader);
         }
     }
 }

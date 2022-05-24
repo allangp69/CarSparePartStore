@@ -35,7 +35,7 @@ public class Tests
             new ServiceCollection()
                 .AddSingleton<CustomerDataAdapter>()
                 .AddSingleton<ICustomerRepository, CustomerRepository>()
-                .AddSingleton<CustomerDTOConverter>()
+                .AddSingleton<CustomerRecordConverter>()
                 .BuildServiceProvider());
     }
 }

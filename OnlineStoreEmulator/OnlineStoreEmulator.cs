@@ -42,7 +42,7 @@ public class OnlineStoreEmulator
         SetOrderIntervalFromConfiguration();
     }
 
-    public event EventHandler<IsRunningEventArgs>? IsRunningChanged;
+    public event EventHandler<IsRunningEventArgs> IsRunningChanged;
     
     private void SetOrderIntervalFromConfiguration()
     {

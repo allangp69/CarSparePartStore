@@ -51,17 +51,17 @@ public class TestServicesConfigurator
                     .AddSingleton<ICustomerService, CustomerService>()
                     .AddSingleton<IRandomCustomerGenerator, RandomCustomerGenerator>()
                     .AddSingleton<CustomerDataAdapter>()
-                    .AddSingleton<CarSparePartService.Customer.CustomerDTOConverter>()
+                    .AddSingleton<CarSparePartService.Customer.CustomerRecordConverter>()
                     .AddSingleton<ICustomerRepository, CustomerRepository>()
                     //Products
                     .AddSingleton<IProductService, ProductService>()
                     .AddSingleton<IRandomProductGenerator, RandomProductGenerator>()
                     .AddSingleton<ProductDataAdapter>()
-                    .AddSingleton<ProductDTOConverter>()
+                    .AddSingleton<ProductRecordConverter>()
                     .AddSingleton<IProductRepository, ProductRepository>()
                     .AddSingleton(new ProductRepositoryConfig{BackupFilePath = new FileInfo(@".\Resources\SpareParts.xml").FullName})
                     //Orders
-                    .AddSingleton<OrderDTOConverter>()
+                    .AddSingleton<OrderRecordConverter>()
                     //CarSparePartService
                     .AddSingleton<ICarSparePartService, CarSparePartService.CarSparePartService>()
                     //OnlineStoreEmulator

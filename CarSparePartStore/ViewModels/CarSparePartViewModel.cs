@@ -38,12 +38,12 @@ public sealed  class CarSparePartViewModel
         Notifications = new List<Notification.Notification>();
     }
 
-    private void NotificationHandlerOnNotificationAdded(object? sender, NotificationAddedEventArgs e)
+    private void NotificationHandlerOnNotificationAdded(object sender, NotificationAddedEventArgs e)
     {
         AddActiveNotification(e.Notification);
     }
     
-    private void NotificationHandlerOnNotificationRemoved(object? sender, NotificationRemovedEventArgs e)
+    private void NotificationHandlerOnNotificationRemoved(object sender, NotificationRemovedEventArgs e)
     {
         RemoveActiveNotification(e.Notification);
     }
@@ -80,7 +80,7 @@ public sealed  class CarSparePartViewModel
         set => SetProperty(ref _activeNotifications, value);
     }
 
-    private void OnlineStoreEmulatorIsRunningChanged(object? sender, IsRunningEventArgs e)
+    private void OnlineStoreEmulatorIsRunningChanged(object sender, IsRunningEventArgs e)
     {
         IsOnlineStoreRunning = e.IsRunning;
     }
@@ -106,7 +106,7 @@ public sealed  class CarSparePartViewModel
             return $"The OnlineStoreEmulator is {notOrEmptyString} running.";
         }
     }
-    private void CarSparePartServiceOrderAdded(object? sender, OrderAddedEventArgs e)
+    private void CarSparePartServiceOrderAdded(object sender, OrderAddedEventArgs e)
     {
         Application.Current?.Dispatcher?.Invoke(() =>
         {
@@ -133,12 +133,12 @@ public sealed  class CarSparePartViewModel
         _notificationHandler.AddNotification(notification);
     }
 
-    private void CarSparePartServiceBackupCompleted(object? sender, EventArgs e)
+    private void CarSparePartServiceBackupCompleted(object sender, EventArgs e)
     {
         Application.Current?.Dispatcher?.Invoke(() => { AddNotification($"Backup of orders completed"); });
     }
 
-    private void CarSparePartServiceRestoreBackupCompleted(object? sender, EventArgs e)
+    private void CarSparePartServiceRestoreBackupCompleted(object sender, EventArgs e)
     {
         Application.Current?.Dispatcher?.Invoke(() =>
         {
@@ -226,7 +226,7 @@ public sealed  class CarSparePartViewModel
         ShowView(vm);
     }
 
-    private void OrdersForProductClosed(object? sender, EventArgs e)
+    private void OrdersForProductClosed(object sender, EventArgs e)
     {
         ShowDefaultView();
     }
@@ -248,7 +248,7 @@ public sealed  class CarSparePartViewModel
         ShowView(vm);
     }
 
-    private void CarSparePartListProductSelected(object? sender, ProductSelectedEventArgs e)
+    private void CarSparePartListProductSelected(object sender, ProductSelectedEventArgs e)
     {
         ListSelectedProductId = e.ProductId;
     }
@@ -297,13 +297,13 @@ public sealed  class CarSparePartViewModel
         }
     }
 
-    private void CarSparePartNewOrderNewOrderCancelled(object? sender, EventArgs e)
+    private void CarSparePartNewOrderNewOrderCancelled(object sender, EventArgs e)
     {
         IsOrderCreationInProgress = false;
         ShowDefaultView();
     }
     
-    private void CarSparePartNewOrderNewOrderClosed(object? sender, EventArgs e)
+    private void CarSparePartNewOrderNewOrderClosed(object sender, EventArgs e)
     {
         IsOrderCreationInProgress = false;
         ShowDefaultView();

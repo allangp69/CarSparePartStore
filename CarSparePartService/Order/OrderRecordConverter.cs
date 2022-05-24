@@ -1,87 +1,87 @@
-﻿using CarSparePartData.Product;
-using CarSparePartService.Backup;
+﻿using CarSparePartData.Order;
+using CarSparePartData.Product;
 
 namespace CarSparePartService.Order;
 
-public class OrderDTOConverter
+public class OrderRecordConverter
 {
-    public IEnumerable<OrderDTO> ConvertToDTO(IEnumerable<global::CarSparePartService.Order.Order> orders)
+    public IEnumerable<OrderRecord> ConvertToRecord(IEnumerable<global::CarSparePartService.Order.Order> orders)
     {
-        var retval = new List<OrderDTO>();
+        var retval = new List<OrderRecord>();
         if (orders is null || !orders.Any())
         {
             return retval;
         }
 
-        retval.AddRange(orders.Select(order => ConvertToDTO(order)));
+        retval.AddRange(orders.Select(order => ConvertToRecord(order)));
 
         return retval;
     }
 
-    public IEnumerable<global::CarSparePartService.Order.Order> ConvertFromDTO(IEnumerable<OrderDTO> dtoOrders)
+    public IEnumerable<Order> ConvertFromRecord(IEnumerable<OrderRecord> orderRecords)
     {
         var retval = new List<global::CarSparePartService.Order.Order>();
-        if (dtoOrders is null || !dtoOrders.Any())
+        if (orderRecords is null || !orderRecords.Any())
         {
             return retval;
         }
 
-        retval.AddRange(dtoOrders.Select(dtoOrder => ConvertFromDTO(dtoOrder)));
+        retval.AddRange(orderRecords.Select(orderRecord => ConvertFromRecord(orderRecord)));
 
         return retval;
     }
     
-    #region ConvertToDTO
-    private OrderDTO ConvertToDTO(global::CarSparePartService.Order.Order order)
+    #region ConvertToRecord
+    private OrderRecord ConvertToRecord(Order order)
     {
         if (order is null)
         {
             return null;
         }
-        var retval = new OrderDTO
+        var retval = new OrderRecord
         {
             OrderId = order.OrderId,
             OrderDateTime = order.OrderDateTime,
             CustomerId = order.CustomerId,
-            OrderItems = ConvertToDTO(order.OrderItems).ToList()
+            OrderItems = ConvertToRecord(order.OrderItems).ToList()
         };
         return retval;
     }
     
-    private IEnumerable<OrderItemDTO> ConvertToDTO(IEnumerable<OrderItem> orderItems)
+    private IEnumerable<OrderItemRecord> ConvertToRecord(IEnumerable<OrderItem> orderItems)
     {
-        var retval = new List<OrderItemDTO>();
+        var retval = new List<OrderItemRecord>();
         if (orderItems is null || !orderItems.Any())
         {
             return retval;
         }
 
-        retval.AddRange(orderItems.Select(orderItem => ConvertToDTO(orderItem)));
+        retval.AddRange(orderItems.Select(orderItem => ConvertToRecord(orderItem)));
 
         return retval;
     }
     
-    private OrderItemDTO ConvertToDTO(OrderItem orderItem)
+    private OrderItemRecord ConvertToRecord(OrderItem orderItem)
     {
         if (orderItem is null)
         {
             return null;
         }
-        var retval = new OrderItemDTO
+        var retval = new OrderItemRecord
         {
             NumberOfItems = orderItem.NumberOfItems,
-            Product = ConvertToDTO(orderItem.Product)
+            Product = ConvertToRecord(orderItem.Product)
         };
         return retval;
     }
     
-    private ProductDTO ConvertToDTO(Product.Product product)
+    private ProductRecord ConvertToRecord(Product.Product product)
     {
         if (product is null)
         {
             return null;
         }
-        var retval = new ProductDTO
+        var retval = new ProductRecord
         {
             ProductId = product.ProductId,
             Name = product.Name,
@@ -92,19 +92,19 @@ public class OrderDTOConverter
 
         return retval;
     }
-    #endregion ConvertToDTO
+    #endregion ConvertToRecord
     
-    #region ConvertFromDTO
-    private global::CarSparePartService.Order.Order ConvertFromDTO(OrderDTO order)
+    #region ConvertFromRecord
+    private Order ConvertFromRecord(OrderRecord order)
     {
         if (order is null)
         {
             return null;
         }
-        return new global::CarSparePartService.Order.Order(order.OrderId, order.OrderDateTime, order.CustomerId, ConvertFromDTO(order.OrderItems).ToList());
+        return new Order(order.OrderId, order.OrderDateTime, order.CustomerId, ConvertFromRecord(order.OrderItems).ToList());
     }
     
-    private IEnumerable<OrderItem> ConvertFromDTO(IEnumerable<OrderItemDTO> orderItems)
+    private IEnumerable<OrderItem> ConvertFromRecord(IEnumerable<OrderItemRecord> orderItems)
     {
         var retval = new List<OrderItem>();
         if (orderItems is null || !orderItems.Any())
@@ -112,12 +112,12 @@ public class OrderDTOConverter
             return retval;
         }
 
-        retval.AddRange(orderItems.Select(orderItem => ConvertFromDTO(orderItem)));
+        retval.AddRange(orderItems.Select(orderItem => ConvertFromRecord(orderItem)));
 
         return retval;
     }
     
-    private OrderItem ConvertFromDTO(OrderItemDTO orderItem)
+    private OrderItem ConvertFromRecord(OrderItemRecord orderItem)
     {
         if (orderItem is null)
         {
@@ -126,12 +126,12 @@ public class OrderDTOConverter
         var retval = new OrderItem
         {
             NumberOfItems = orderItem.NumberOfItems,
-            Product = ConvertFromDTO(orderItem.Product)
+            Product = ConvertFromRecord(orderItem.Product)
         };
         return retval;
     }
     
-    private Product.Product ConvertFromDTO(ProductDTO product)
+    private Product.Product ConvertFromRecord(ProductRecord product)
     {
         if (product is null)
         {
@@ -148,5 +148,5 @@ public class OrderDTOConverter
 
         return retval;
     }
-    #endregion ConvertFromDTO
+    #endregion ConvertFromRecord
 }
