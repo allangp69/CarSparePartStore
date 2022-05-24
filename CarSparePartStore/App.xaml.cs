@@ -2,10 +2,10 @@
 using System.Windows;
 using CarSparePartData.Customer;
 using CarSparePartData.Interfaces;
+using CarSparePartData.Order;
 using CarSparePartData.Product;
 using CarSparePartService;
 using CarSparePartService.Adapters;
-using CarSparePartService.Backup;
 using CarSparePartService.Interfaces;
 using CarSparePartService.Order;
 using CarSparePartService.Product;
@@ -67,11 +67,11 @@ namespace CarSparePartStore
             var carSparePartService = Ioc.Default.GetRequiredService<ICarSparePartService>();
             carSparePartService.CreateBackup();
         }
-        
-        // <summary>
+
+        /// <summary>
         /// Configures the services for the application.
         /// </summary>
-        /// <param name="ConfigureServices"></param>
+        /// <param name="configuration"></param>
         private void ConfigureServices(IConfiguration configuration)
         {
             var logger = (ILogger) new LoggerConfiguration()

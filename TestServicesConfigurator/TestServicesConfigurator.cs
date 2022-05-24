@@ -1,15 +1,12 @@
-﻿using CarSparePartData;
-using CarSparePartData.Customer;
+﻿using CarSparePartData.Customer;
 using CarSparePartData.Interfaces;
+using CarSparePartData.Order;
 using CarSparePartData.Product;
 using CarSparePartService;
 using CarSparePartService.Adapters;
-using CarSparePartService.Backup;
-using CarSparePartService.Customer;
 using CarSparePartService.Interfaces;
 using CarSparePartService.Order;
 using CarSparePartService.Product;
-using CarSparePartStore.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
