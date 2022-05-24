@@ -1,9 +1,8 @@
-﻿using CarSparePartData.Interfaces;
-using CarSparePartService.Adapters;
-using CarSparePartService.Backup;
+﻿using CarSparePartService.Adapters;
 using CarSparePartService.EqualityComparers;
 using CarSparePartService.ExtensionMethods;
 using CarSparePartService.Interfaces;
+using CarSparePartService.Order;
 using Serilog;
 
 namespace CarSparePartService;
@@ -44,12 +43,8 @@ public class CarSparePartService
             Orders.Add(order);
         }
 
-        _logger.Information($"Order added - customerId: {order.CustomerId} - products: {order.ProductsList()}");
-        OnOrderAdded(new OrderAddedEventArgs
-        {
-            CustomerId = order.CustomerId,
-            Products = order.ProductsList()
-        });
+        _logger.Information($"Order added - customerId: {order.CustomerId} - products: {order.ProductsDescription()}");
+        OnOrderAdded(new OrderAddedEventArgs(order.CustomerId, order.ProductsDescription()));
     }
 
     private List<Order.Order> Orders { get; set; }

@@ -1,4 +1,6 @@
-﻿namespace CarSparePartService.Interfaces;
+﻿using CarSparePartService.Order;
+
+namespace CarSparePartService.Interfaces;
 
 public interface ICarSparePartService
 {

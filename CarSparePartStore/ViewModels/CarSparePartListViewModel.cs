@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using CarSparePartService;
 using CarSparePartService.Interfaces;
+using CarSparePartService.Order;
 using CarSparePartStore.Adapters;
 using CarSparePartStore.ViewModels.DTO;
 using Microsoft.Toolkit.Mvvm.ComponentModel;

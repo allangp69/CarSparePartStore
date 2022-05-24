@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using CarSparePartService;
 using CarSparePartService.Interfaces;
+using CarSparePartService.Order;
 using CarSparePartStore.ViewModels.DTO;
 using CarSparePartStore.ViewModels.Notification;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -110,7 +111,7 @@ public sealed  class CarSparePartViewModel
         Application.Current?.Dispatcher?.Invoke(() =>
         {
             UpdateProductsWithOrders();
-            AddNotification($"Order added - customerId: {e.CustomerId} - products: {e.Products}");
+            AddNotification($"Order added - customerId: {e.CustomerId} - products: {e.ProductsDescription}");
         });
     }
 
