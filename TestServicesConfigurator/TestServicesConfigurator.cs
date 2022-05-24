@@ -70,8 +70,6 @@ public class TestServicesConfigurator
                     .AddSingleton<IOrderBackupManager, OrderBackupManager>()
                     .AddSingleton((IOrderBackupWriter)new XmlOrderBackupWriter(configuration.GetSection("ApplicationSettings").GetSection("OrdersBackup").Value, logger))
                     .AddSingleton((IOrderBackupReader)new XmlOrderBackupReader(configuration.GetSection("ApplicationSettings").GetSection("OrdersBackup").Value, logger))
-                    //CarSparePartStore/ViewModels
-                    //.AddTransient<CarSparePartViewModel>()
                     //Logger
                     .AddSingleton(logger)
                     .BuildServiceProvider());

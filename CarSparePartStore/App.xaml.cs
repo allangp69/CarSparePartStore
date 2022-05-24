@@ -96,7 +96,7 @@ namespace CarSparePartStore
                     .AddSingleton<IProductRepository, ProductRepository>()
                     .AddSingleton(new ProductRepositoryConfig{BackupFilePath = configuration.GetSection("ApplicationSettings").GetSection("ProductsBackup").Value})
                     //Orders
-                    .AddSingleton<CarSparePartService.Order.OrderRecordConverter>()
+                    .AddSingleton<OrderRecordConverter>()
                     .AddSingleton<IProductsAndOrdersAdapter, ProductsAndOrdersAdapter>()
                     //CarSparePartService
                     .AddSingleton<ICarSparePartService, CarSparePartService.CarSparePartService>()
@@ -109,7 +109,7 @@ namespace CarSparePartStore
                     //NotificationHandler
                     .AddSingleton<NotificationHandler>()
                     //CarSparePartStore/ViewModels
-                    .AddSingleton<CarSparePartStore.ViewModels.DTO.OrderDTOConverter>()
+                    .AddSingleton<OrderDTOConverter>()
                     .AddSingleton<ViewModels.DTO.CustomerDTOConverter>()
                     .AddSingleton<ICustomerAdapter, CustomerAdapter>()
                     .AddTransient<CarSparePartViewModel>()
