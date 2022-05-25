@@ -79,6 +79,8 @@ namespace CarSparePartStore
                 .WriteTo.Console()
                 .WriteTo.File(configuration.GetSection("Logging").GetValue<string>("LogFilePath"))
                 .CreateLogger();
+            var backupConfig =
+                new OrderBackupConfig(configuration.GetSection("ApplicationSettings").GetSection("OrdersBackup").Value);
             Ioc.Default.ConfigureServices(
                 new ServiceCollection()
                     .AddSingleton(configuration)
@@ -104,8 +106,8 @@ namespace CarSparePartStore
                     .AddSingleton<IOnlineStoreEmulator, OnlineStoreEmulator.OnlineStoreEmulator>()
                     //Backup
                     .AddSingleton<IOrderBackupManager, OrderBackupManager>()
-                    .AddSingleton((IOrderBackupWriter)new XmlOrderBackupWriter(configuration.GetSection("ApplicationSettings").GetSection("OrdersBackup").Value, logger))
-                    .AddSingleton((IOrderBackupReader)new XmlOrderBackupReader(configuration.GetSection("ApplicationSettings").GetSection("OrdersBackup").Value, logger))
+                    .AddSingleton((IOrderBackupWriter)new XmlOrderBackupWriter(backupConfig, logger))
+                    .AddSingleton((IOrderBackupReader)new XmlOrderBackupReader(backupConfig, logger))
                     //NotificationHandler
                     .AddSingleton<NotificationHandler>()
                     //CarSparePartStore/ViewModels

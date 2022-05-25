@@ -44,6 +44,8 @@ public class TestServicesConfigurator
                 .MinimumLevel.Information()
                 .WriteTo.Console()
                 .CreateLogger();
+            var backupConfig =
+                new OrderBackupConfig(configuration.GetSection("ApplicationSettings").GetSection("OrdersBackup").Value);
             Ioc.Default.ConfigureServices(
                 new ServiceCollection()
                     .AddSingleton<IConfiguration>(configuration)
@@ -68,8 +70,8 @@ public class TestServicesConfigurator
                     .AddSingleton<IOnlineStoreEmulator, OnlineStoreEmulator.OnlineStoreEmulator>()
                     //Backup
                     .AddSingleton<IOrderBackupManager, OrderBackupManager>()
-                    .AddSingleton((IOrderBackupWriter)new XmlOrderBackupWriter(configuration.GetSection("ApplicationSettings").GetSection("OrdersBackup").Value, logger))
-                    .AddSingleton((IOrderBackupReader)new XmlOrderBackupReader(configuration.GetSection("ApplicationSettings").GetSection("OrdersBackup").Value, logger))
+                    .AddSingleton((IOrderBackupWriter)new XmlOrderBackupWriter(backupConfig, logger))
+                    .AddSingleton((IOrderBackupReader)new XmlOrderBackupReader(backupConfig, logger))
                     //Logger
                     .AddSingleton(logger)
                     .BuildServiceProvider());
