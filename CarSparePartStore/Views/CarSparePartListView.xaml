@@ -21,10 +21,11 @@
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <Setter Property="VerticalContentAlignment" Value="Stretch"/>
                 </Style>
-                <Style TargetType="{x:Type TextBlock}">
-                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.Description }"></Setter>
-                    <Setter Property="HorizontalAlignment" Value="Left"></Setter>
-                    <Setter Property="Height" Value="35"></Setter>
+                <Style TargetType="{x:Type TextBlock}" x:Key="GridColumnTextBlockStyle">
+                    <Setter Property="ToolTip" Value="{Binding Description }" />
+                    <Setter Property="HorizontalAlignment" Value="Left" />
+                    <Setter Property="VerticalAlignment" Value="Top" />
+                    <Setter Property="Height" Value="35" />
                 </Style>
             </ListView.Resources>
             <ListView.View>
@@ -33,42 +34,42 @@
                     <GridViewColumn Header="Name" Width="150">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding ProductName}" VerticalAlignment="Top" />
+                                <TextBlock Text="{Binding ProductName}" Style="{StaticResource GridColumnTextBlockStyle}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="Type" Width="80">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding ProductType}" VerticalAlignment="Top" />
+                                <TextBlock Text="{Binding ProductType}" Style="{StaticResource GridColumnTextBlockStyle}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="Description" Width="400">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding ShortDescription}" VerticalAlignment="Top" />
+                                <TextBlock Text="{Binding ShortDescription}" Style="{StaticResource GridColumnTextBlockStyle}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="Price" Width="150">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Price, ConverterCulture='dk-dk',StringFormat=c}" VerticalAlignment="Top" HorizontalAlignment="Right" />
+                                <TextBlock Text="{Binding Price, ConverterCulture='dk-dk',StringFormat=c}" HorizontalAlignment="Right" Style="{StaticResource GridColumnTextBlockStyle}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="Items Sold" Width="80">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding ItemsCount}" VerticalAlignment="Top" HorizontalAlignment="Right" />
+                                <TextBlock Text="{Binding ItemsCount}" HorizontalAlignment="Right" Style="{StaticResource GridColumnTextBlockStyle}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="Total price" Width="150">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding TotalPrice, ConverterCulture='dk-dk', StringFormat=c}" VerticalAlignment="Top" HorizontalAlignment="Right" />
+                                <TextBlock Text="{Binding TotalPrice, ConverterCulture='dk-dk', StringFormat=c}" HorizontalAlignment="Right" Style="{StaticResource GridColumnTextBlockStyle}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
